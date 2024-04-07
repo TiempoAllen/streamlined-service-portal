@@ -1,0 +1,54 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0 16px 0;
+}
+
+/* .header ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 1rem;
+} */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo img {
+    height: 4rem;
+    width: auto;
+}
+
+.logo p {
+    font-size: 20px;
+}
+
+
+.buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.header button {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btnSignIn {
+    background-color: #F9F1F2;
+}
+
+.btnSignUp {
+    background-color: #89343B;
+    color: #e6e6e6
+}

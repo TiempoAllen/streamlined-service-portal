@@ -1,0 +1,11 @@
+.main {
+    padding: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main img {
+    height: 400px;
+    width: auto;
+}

@@ -28,6 +28,7 @@
 
 .logo p {
     font-size: 20px;
+    color: #424242;
 }
 
 
@@ -46,6 +47,7 @@
 
 .btnSignIn {
     background-color: #F9F1F2;
+    color: #424242;
 }
 
 .btnSignUp {

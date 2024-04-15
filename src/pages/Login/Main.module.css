@@ -2,10 +2,57 @@
     padding: 6rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+
 }
 
 .main img {
     height: 400px;
     width: auto;
+}
+
+.main h1 {
+    color: #424242;
+    font-size: 48px;
+    text-align: center;
+    margin: 0 0 30px 0;
+}
+
+.main form {
+    min-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.main form input {
+    padding: 8px 14px;
+    font-size: 24px;
+    border-radius: 5px;
+    border: 1px solid #424242;
+    background-color: inherit;
+    color: #424242;
+
+}
+
+.main form button {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 24px;
+    background-color: #89343B;
+    color: #e6e6e6;
+    border-radius: 5px;
+    border: 1px solid #e6e6e6;
+    cursor: pointer;
+}
+
+.main form p {
+    color: #424242;
+    font-size: 18px;
+    text-align: center;
+}
+
+.main form span {
+    color: #4460F3;
+    cursor: pointer;
 }

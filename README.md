@@ -1,8 +1,13 @@
-# React + Vite
+# CITU Connect: Streamlined Service Portal
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Download Dependencies
+npm install
 
-Currently, two official plugins are available:
+# To run the project follow these steps:
+  - Add two terminals. One for the server and one for the app.
+  - In the first terminal run the server using this command:
+    nodemon server.js
+  - In the last terminal run the app using this command:
+    npm run dev
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Welcome!!

@@ -1,5 +1,5 @@
 .main {
-    padding: 6rem;
+    padding: 4rem;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -7,7 +7,14 @@
 }
 
 .main img {
-    height: 400px;
+    width: 500px;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 40px;
+}
+
+.registerImage {
+    height: 300px;
     width: auto;
 }
 
@@ -22,17 +29,28 @@
     min-width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
-.main form input {
+.main form label {
+    color: #848484;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.main form input,
+select {
     padding: 8px 14px;
-    font-size: 24px;
+    font-size: 1rem;
     border-radius: 5px;
-    border: 1px solid #424242;
+    border: 1px solid #848484;
     background-color: inherit;
     color: #424242;
 
+}
+
+.main form option {
+    color: #424242;
 }
 
 .main form button {

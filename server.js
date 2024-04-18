@@ -46,10 +46,13 @@ app.post("/user", async (req, res) => {
   //const { username, password } = req.body;
   const username = req.body.username;
   const password = req.body.password;
+  const employee_id = req.body.employee_id;
+  const email = req.body.email;
+  const department = req.body.department;
   try {
     const result = await db.query(
-      "INSERT INTO users (username, password) VALUES ($1, $2)",
-      [username, password]
+      "INSERT INTO users (username, password, employee_id, email, department) VALUES ($1, $2, $3, $4, $5)",
+      [username, password, employee_id, email, department]
     );
     console.log(result.rows);
     res.status(200).json({ message: "User registered succesfully." });

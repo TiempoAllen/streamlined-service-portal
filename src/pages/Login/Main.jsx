@@ -28,12 +28,14 @@ const Main = () => {
       <div>
         <h1>Welcome!</h1>
         <form onSubmit={handleSubmit}>
+          <label>Username</label>
           <input
             type="text"
             placeholder="Username"
             value={username}
             onChange={handleUsernameChange}
           />
+          <label>Password</label>
           <input
             type="password"
             placeholder="Password"

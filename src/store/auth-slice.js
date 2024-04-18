@@ -4,6 +4,9 @@ import axios from "axios";
 const initialState = {
   username: "",
   password: "",
+  employee_id: "",
+  email: "",
+  department: "",
   message: "",
 };
 
@@ -17,6 +20,16 @@ const authSlice = createSlice({
     setPassword(state, action) {
       state.password = action.payload;
     },
+    setEmplyeeID(state, action) {
+      state.employee_id = action.payload;
+    },
+    setEmail(state, action) {
+      state.email = action.payload;
+    },
+    setDepartment(state, action) {
+      state.department = action.payload;
+    },
+
     setMessage(state, action) {
       state.message = action.payload;
     },
@@ -45,6 +58,31 @@ export const loginUser = ({ username, password }) => {
         dispatch(authActions.setMessage("An error occurred while logging in."));
       }
       console.error("Login error: ", error);
+    }
+  };
+};
+
+export const registerUser = ({
+  username,
+  password,
+  employee_id,
+  email,
+  department,
+}) => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.post("http://localhost:5000/user", {
+        username: username,
+        password: password,
+        employee_id: employee_id,
+        email: email,
+        department: department,
+      });
+      console.log(response.data);
+      dispatch(authActions.setMessage(response.data.message));
+      alert("User created.");
+    } catch (error) {
+      console.error("Registration error: ", error);
     }
   };
 };

@@ -3,8 +3,10 @@ import loginImage from "../../assets/login-image.png";
 import classes from "./Main.module.css";
 import { authActions, loginUser } from "../../store/auth-slice";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const username = useSelector((state) => state.auth.username);
   const password = useSelector((state) => state.auth.password);
@@ -45,7 +47,14 @@ const Main = () => {
 
           <button type="submit">Login</button>
           <p>
-            Don't have an account? <span>Sign up</span>
+            Don't have an account?{" "}
+            <span
+              onClick={() => {
+                navigate("/register");
+              }}
+            >
+              Sign up
+            </span>
           </p>
         </form>
       </div>

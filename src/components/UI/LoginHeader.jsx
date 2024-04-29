@@ -1,10 +1,9 @@
 import React from "react";
 import classes from "./LoginHeader.module.css";
 import cituLogo from "../../assets/citu-logo.png";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const LoginHeader = () => {
-  const navigate = useNavigate();
   return (
     <header className={classes.header}>
       <div className={classes.logo}>
@@ -12,15 +11,12 @@ const LoginHeader = () => {
         <p>Streamlined Service Portal</p>
       </div>
       <div className={classes.buttons}>
-        <button className={classes.btnSignIn} onClick={() => navigate("/")}>
-          Sign in
-        </button>
-        <button
-          className={classes.btnSignUp}
-          onClick={() => navigate("/register")}
-        >
-          Sign up
-        </button>
+        <Link to="/login">
+          <button>Sign in</button>
+        </Link>
+        <Link to="/register">
+          <button className={classes.btnSignUp}>Sign up</button>
+        </Link>
       </div>
     </header>
   );

@@ -11,7 +11,7 @@ const LoginHeader = () => {
         <p>Streamlined Service Portal</p>
       </div>
       <div className={classes.buttons}>
-        <Link to="/login">
+        <Link to="/">
           <button>Sign in</button>
         </Link>
         <Link to="/register">

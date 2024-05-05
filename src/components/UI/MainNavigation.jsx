@@ -1,9 +1,10 @@
 import React from "react";
 import classes from "./LoginHeader.module.css";
+import profileImage from "../../assets/profile-image.svg";
 import cituLogo from "../../assets/citu-logo.png";
-import { Link } from "react-router-dom";
+import inboxImage from "../../assets/inbox-image.svg";
 
-const LoginHeader = () => {
+const MainNavigation = () => {
   return (
     <header className={classes.header}>
       <div className={classes.logo}>
@@ -11,15 +12,11 @@ const LoginHeader = () => {
         <p>Streamlined Service Portal</p>
       </div>
       <div className={classes.buttons}>
-        <Link to="/">
-          <button>Sign in</button>
-        </Link>
-        <Link to="/register">
-          <button className={classes.btnSignUp}>Sign up</button>
-        </Link>
+        <img src={inboxImage} alt="inbox" />
+        <img src={profileImage} alt="profile" />
       </div>
     </header>
   );
 };
 
-export default LoginHeader;
+export default MainNavigation;

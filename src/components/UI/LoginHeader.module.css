@@ -34,7 +34,13 @@
 
 .buttons {
     display: flex;
-    gap: 10px;
+    gap: 1rem;
+}
+
+.buttons img {
+    height: 2rem;
+    width: auto;
+    cursor: pointer;
 }
 
 .header button {

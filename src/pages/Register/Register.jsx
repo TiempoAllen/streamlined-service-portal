@@ -22,7 +22,7 @@ const Register = () => {
   return (
     <section className={classes.main}>
       <img src={registerImage} alt="register-image" />
-      <div>
+      <div className={classes.login_div}>
         <h1>Create an account</h1>
         <form onSubmit={handelSubmit}>
           <label>Username</label>

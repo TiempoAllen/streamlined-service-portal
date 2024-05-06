@@ -14,6 +14,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(loginUser({ username, password }));
+    navigate("/home");
   };
 
   const handleUsernameChange = (e) => {
@@ -27,7 +28,7 @@ const Login = () => {
   return (
     <section className={classes.main}>
       <img src={loginImage} alt="login-image" />
-      <div>
+      <div className={classes.login_div}>
         <h1>Welcome!</h1>
         <form onSubmit={handleSubmit}>
           <label>Username</label>

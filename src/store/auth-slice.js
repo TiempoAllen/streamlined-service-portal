@@ -50,7 +50,6 @@ export const loginUser = ({ username, password }) => {
       );
       console.log(requestData);
       dispatch(authActions.setMessage(response.data.message));
-      alert("Login Successful!");
     } catch (error) {
       if (error.response) {
         dispatch(authActions.setMessage(error.response.data.message));

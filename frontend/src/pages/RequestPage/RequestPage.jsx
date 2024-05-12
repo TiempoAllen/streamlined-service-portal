@@ -10,7 +10,7 @@ const RequestPage = () => {
           <label>For:</label>
           <input type="text" placeholder="e.g. Janitor" />
           <label>Location</label>
-          <input type="text" placeholder="e.g. TSG Office" />
+          <input type="text" placeholder="e.g. CCS Faculty Room" />
           <div>
             <div className={classes.time}>
               <label>Time</label>

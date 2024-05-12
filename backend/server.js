@@ -28,6 +28,18 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
+app.get("/user/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  try {
+    const result = await db.query("SELECT * FROM users WHERE id = $1", [id]);
+    res.json(result.rows);
+  } catch (error) {
+    console.error("Error getting user: ", error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
 //delete a user
 app.delete("/user/:id", async (req, res) => {
   const id = parseInt(req.params.id);

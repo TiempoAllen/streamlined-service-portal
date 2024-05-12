@@ -48,7 +48,6 @@ export const loginUser = ({ username, password }) => {
         "http://localhost:5000/login",
         requestData
       );
-      console.log(requestData);
       dispatch(authActions.setMessage(response.data.message));
     } catch (error) {
       if (error.response) {

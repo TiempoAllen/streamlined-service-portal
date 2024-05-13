@@ -7,6 +7,8 @@ import LoginLayout from "./components/Layout/LoginLayout";
 import HomeLayout from "./components/Layout/HomeLayout";
 import RequestPage from "./pages/RequestPage/RequestPage";
 import Error from "./pages/Error/Error";
+import { action as logoutAction } from "./pages/Login/Logout";
+import { checkAuthLoader } from "./util/auth";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,7 @@ const router = createBrowserRouter([
   {
     path: "/home",
     element: <HomeLayout />,
+    loader: checkAuthLoader,
     errorElement: <Error />,
     children: [
       {
@@ -31,6 +34,11 @@ const router = createBrowserRouter([
       {
         path: "request",
         element: <RequestPage />,
+        loader: checkAuthLoader,
+      },
+      {
+        path: "logout",
+        action: logoutAction,
       },
     ],
   },

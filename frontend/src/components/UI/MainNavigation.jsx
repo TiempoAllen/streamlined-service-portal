@@ -3,7 +3,7 @@ import classes from "./LoginHeader.module.css";
 import profileImage from "../../assets/profile-image.svg";
 import cituLogo from "../../assets/citu-logo.png";
 import inboxImage from "../../assets/inbox-image.svg";
-import { Link } from "react-router-dom";
+import { Form, Link } from "react-router-dom";
 
 const MainNavigation = () => {
   return (
@@ -16,6 +16,9 @@ const MainNavigation = () => {
         <Link to="/home/request">
           <button className={classes.btnSignUp}>Request</button>
         </Link>
+        <Form action="logout" method="post">
+          <button className={classes.btnSignUp}>Logout</button>
+        </Form>
         <img src={inboxImage} alt="inbox" />
         <img src={profileImage} alt="profile" />
       </div>

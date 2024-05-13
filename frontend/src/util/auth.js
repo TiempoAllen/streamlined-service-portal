@@ -1,7 +1,7 @@
 import { json, redirect } from "react-router-dom";
 
 export const getAuthToken = () => {
-  localStorage.getItem("token");
+  const token = localStorage.getItem("token");
   return token;
 };
 

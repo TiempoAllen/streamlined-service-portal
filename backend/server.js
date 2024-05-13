@@ -108,7 +108,6 @@ app.post("/login", async (req, res) => {
     //if user is valid
     const user = result.rows[0]; //gets the first data in the row from the database
     const isPasswordMatch = password === user.password;
-    // const isPasswordMatch = await bcrypt.compare(password, user.password);
 
     if (!isPasswordMatch) {
       return res.status(400).json({ message: "Invalid username or password" });

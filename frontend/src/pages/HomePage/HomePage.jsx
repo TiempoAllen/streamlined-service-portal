@@ -2,10 +2,10 @@ import React from "react";
 import homepageImage from "../../assets/homepage-image.png";
 import classes from "./HomePage.module.css";
 import axios from "axios";
-import { json, useLoaderData } from "react-router-dom";
+import { json, useRouteLoaderData } from "react-router-dom";
 
 const HomePage = () => {
-  const user = useLoaderData();
+  const user = useRouteLoaderData("home");
   return (
     <section className={classes.home}>
       <div>

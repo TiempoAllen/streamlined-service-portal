@@ -36,7 +36,18 @@
     min-width: 360px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 0.7rem;
+}
+
+.main .row {
+    display: flex;
+    gap: 2rem;
+}
+
+.main .row div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
 }
 
 .main form label {

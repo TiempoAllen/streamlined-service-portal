@@ -13,7 +13,7 @@ const MainNavigation = () => {
         <p>Streamlined Service Portal</p>
       </div>
       <div className={classes.buttons}>
-        <Link to="/home/request">
+        <Link to="/home/:userId/request">
           <button className={classes.btnSignUp}>Request</button>
         </Link>
         <img src={inboxImage} alt="inbox" />

@@ -5,13 +5,11 @@ import axios from "axios";
 import { json, useLoaderData } from "react-router-dom";
 
 const HomePage = () => {
-  const data = useLoaderData();
-  // const user = data.username;
-  console.log("User:", data);
+  const user = useLoaderData();
   return (
     <section className={classes.home}>
       <div>
-        {/* <h1>Welcome {user}</h1> */}
+        <h1>Welcome {user.username}</h1>
         <p>
           Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut
           enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
@@ -25,13 +23,29 @@ const HomePage = () => {
 
 export default HomePage;
 
-export async function loader(request, params) {
-  const id = params.id;
+export async function loader({ request, params }) {
+  const userId = params.userId;
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw new Error("No token found");
+  }
 
   try {
-    const response = await axios.get("http://localhost:5000/user/" + id);
-    return response;
+    const response = await axios.get(`http://localhost:5000/user/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const user = response.data[0];
+    console.log("User: ", user);
+    if (!user) {
+      throw json({ message: "User not found" }, { status: 500 });
+    }
+
+    return user;
   } catch (error) {
-    throw json({ message: "Could not fetch user." }, { status: 500 });
+    throw new Error(`Error fetching user details: ${error.message}`);
   }
 }

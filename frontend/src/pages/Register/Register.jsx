@@ -43,24 +43,30 @@ const Register = () => {
               dispatch(authActions.setPassword(e.target.value));
             }}
           />
-          <label>Employee ID</label>
-          <input
-            type="text"
-            placeholder="Employee ID"
-            value={employee_id}
-            onChange={(e) => {
-              dispatch(authActions.setEmplyeeID(e.target.value));
-            }}
-          />
-          <label>Email</label>
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => {
-              dispatch(authActions.setEmail(e.target.value));
-            }}
-          />
+          <div className={classes.row}>
+            <div>
+              <label>Employee ID</label>
+              <input
+                type="text"
+                placeholder="Employee ID"
+                value={employee_id}
+                onChange={(e) => {
+                  dispatch(authActions.setEmplyeeID(e.target.value));
+                }}
+              />
+            </div>
+            <div>
+              <label>Email</label>
+              <input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => {
+                  dispatch(authActions.setEmail(e.target.value));
+                }}
+              />
+            </div>
+          </div>
           <label>Department</label>
           <select
             value={department}

@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import pg from "pg";
+import jwt from "jsonwebtoken";
 
 const app = express();
 const port = 5000;
@@ -16,19 +17,33 @@ const db = new pg.Client({
 
 db.connect();
 
+const KEY = "secret_key";
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) return res.sendStatus(401); // No token provided
+
+  jwt.verify(token, KEY, (err, user) => {
+    if (err) return res.sendStatus(403); // Token not valid
+    req.user = user;
+    next();
+  });
+};
+
 //get all users
-app.get("/users", async (req, res) => {
+app.get("/users", authenticateToken, async (req, res) => {
   const result = await db.query("SELECT * FROM users");
   const users = result.rows;
 
   res.json(users);
 });
 
-app.get("/user/:id", async (req, res) => {
+app.get("/user/:id", authenticateToken, async (req, res) => {
   const id = parseInt(req.params.id);
 
   try {
@@ -41,7 +56,7 @@ app.get("/user/:id", async (req, res) => {
 });
 
 //delete a user
-app.delete("/user/:id", async (req, res) => {
+app.delete("/user/:id", authenticateToken, async (req, res) => {
   const id = parseInt(req.params.id);
 
   try {
@@ -99,7 +114,14 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
-    return res.json({ message: "Login successful" });
+    //generate token
+    const token = jwt.sign({ userId: user.id }, KEY, { expiresIn: "1h" });
+
+    return res.json({
+      message: "Login successful",
+      token: token,
+      userId: user.id,
+    });
   } catch (error) {
     console.error("Error during login: ", error);
     res.status(500).json({ message: "Internal server error" });

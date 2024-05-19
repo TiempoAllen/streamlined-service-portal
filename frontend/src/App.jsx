@@ -1,11 +1,13 @@
 import React from "react";
 import Login, { action as loginAction } from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
+import Register, { action as registerAction } from "./pages/Register/Register";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage, { loader as homeLoader } from "./pages/HomePage/HomePage";
 import LoginLayout from "./components/Layout/LoginLayout";
 import HomeLayout from "./components/Layout/HomeLayout";
-import RequestPage from "./pages/RequestPage/RequestPage";
+import RequestPage, {
+  action as requestAction,
+} from "./pages/RequestPage/RequestPage";
 import Error from "./pages/Error/Error";
 import { action as logoutAction } from "./pages/Login/Logout";
 import { checkAuthLoader } from "./util/auth";
@@ -16,25 +18,26 @@ const router = createBrowserRouter([
     element: <LoginLayout />,
     children: [
       { index: true, element: <Login />, action: loginAction },
-      { path: "register", element: <Register /> },
+      { path: "register", element: <Register />, action: registerAction },
     ],
   },
   {
-    path: "/home",
+    path: "/home/:userId",
     element: <HomeLayout />,
-    loader: checkAuthLoader,
+    id: "home",
+    loader: homeLoader,
     errorElement: <Error />,
     children: [
       {
-        path: ":userId",
+        index: true,
         element: <HomePage />,
-        id: "home",
-        loader: homeLoader,
+        loader: checkAuthLoader,
       },
       {
         path: "request",
         element: <RequestPage />,
         loader: checkAuthLoader,
+        action: requestAction,
       },
       {
         path: "logout",

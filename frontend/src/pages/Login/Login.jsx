@@ -1,30 +1,11 @@
 import React from "react";
 import loginImage from "../../assets/login-image.png";
 import classes from "./Login.module.css";
-import { authActions, loginUser } from "../../store/auth-slice";
-import { useDispatch, useSelector } from "react-redux";
 import { Form, json, redirect, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const username = useSelector((state) => state.auth.username);
-  const password = useSelector((state) => state.auth.password);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(loginUser({ username, password }));
-    navigate("/home");
-  };
-
-  const handleUsernameChange = (e) => {
-    dispatch(authActions.setUsername(e.target.value));
-  };
-
-  const handlePasswordChange = (e) => {
-    dispatch(authActions.setPassword(e.target.value));
-  };
 
   return (
     <section className={classes.main}>
@@ -33,22 +14,13 @@ const Login = () => {
         <h1>Welcome!</h1>
         <Form method="post">
           <label>Username</label>
-          <input
-            type="text"
-            placeholder="Username"
-            name="username"
-            required
-            // value={username}
-            // onChange={handleUsernameChange}
-          />
+          <input type="text" placeholder="Username" name="username" required />
           <label>Password</label>
           <input
             type="password"
             placeholder="Password"
             name="password"
             required
-            // value={password}
-            // onChange={handlePasswordChange}
           />
 
           <button>Login</button>

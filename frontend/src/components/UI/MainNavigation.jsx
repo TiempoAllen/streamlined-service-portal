@@ -5,7 +5,7 @@ import cituLogo from "../../assets/citu-logo.png";
 import inboxImage from "../../assets/inbox-image.svg";
 import { Form, Link } from "react-router-dom";
 
-const MainNavigation = () => {
+const MainNavigation = ({ user }) => {
   return (
     <header className={classes.header}>
       <div className={classes.logo}>
@@ -13,7 +13,7 @@ const MainNavigation = () => {
         <p>Streamlined Service Portal</p>
       </div>
       <div className={classes.buttons}>
-        <Link to="/home/request">
+        <Link to={`/home/${user.user_id}/request`}>
           <button className={classes.btnSignUp}>Request</button>
         </Link>
         <Form action="logout" method="post">

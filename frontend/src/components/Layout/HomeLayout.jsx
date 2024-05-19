@@ -1,11 +1,12 @@
 import React from "react";
 import MainNavigation from "../../components/UI/MainNavigation";
-import { Outlet } from "react-router-dom";
+import { Outlet, useRouteLoaderData } from "react-router-dom";
 
 const HomeLayout = () => {
+  const user = useRouteLoaderData("home");
   return (
     <>
-      <MainNavigation />
+      <MainNavigation user={user} />
       <main>
         <Outlet />
       </main>

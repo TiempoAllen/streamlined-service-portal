@@ -47,7 +47,9 @@ app.get("/user/:id", authenticateToken, async (req, res) => {
   const id = parseInt(req.params.id);
 
   try {
-    const result = await db.query("SELECT * FROM users WHERE id = $1", [id]);
+    const result = await db.query("SELECT * FROM users WHERE user_id = $1", [
+      id,
+    ]);
     res.json(result.rows);
   } catch (error) {
     console.error("Error getting user: ", error);
@@ -60,7 +62,7 @@ app.delete("/user/:id", authenticateToken, async (req, res) => {
   const id = parseInt(req.params.id);
 
   try {
-    const result = await db.query("DELETE FROM users WHERE id = $1", [id]);
+    const result = await db.query("DELETE FROM users WHERE user_id = $1", [id]);
     res.status(200).json({ message: "User deleted successfully." });
   } catch (error) {
     console.error("Error deleting user: ", error);
@@ -114,16 +116,43 @@ app.post("/login", async (req, res) => {
     }
 
     //generate token
-    const token = jwt.sign({ userId: user.id }, KEY, { expiresIn: "1h" });
+    const token = jwt.sign({ userId: user.user_id }, KEY, { expiresIn: "1h" });
 
     return res.json({
       message: "Login successful",
       token: token,
-      userId: user.id,
+      userId: user.user_id,
     });
   } catch (error) {
     console.error("Error during login: ", error);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+app.post("/request", async (req, res) => {
+  const { purpose, datetime, request_location, user_id } = req.body;
+  const status = "pending";
+
+  try {
+    const userResult = await db.query(
+      "SELECT department FROM users WHERE user_id = $1",
+      [user_id]
+    );
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const department = userResult.rows[0].department;
+
+    const result = await db.query(
+      "INSERT INTO request (purpose, datetime, status, request_location, department, user_id) VALUES ($1, $2, $3, $4, $5, $6)",
+      [purpose, datetime, status, request_location, department, user_id]
+    );
+    console.log(result.rows);
+    res.status(200).json({ message: "Request created succesfully." });
+  } catch (error) {
+    console.error("Error during request: ", error);
+    res.status(500).json({ message: "Internal server error." });
   }
 });
 

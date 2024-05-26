@@ -8,7 +8,7 @@ import axios from "axios";
 const Register = () => {
   return (
     <section className={classes.main}>
-      <img src={registerImage} alt="register-image" />
+      <img src={registerImage} alt="register" />
       <div className={classes.login_div}>
         <h1>Create an account</h1>
         <Form method="post">

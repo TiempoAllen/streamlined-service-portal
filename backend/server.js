@@ -129,6 +129,13 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get("/request/all", authenticateToken, async (req, res) => {
+  const result = await db.query("SELECT * FROM request");
+  const requests = result.rows;
+
+  res.json(requests);
+});
+
 app.post("/request", async (req, res) => {
   const { purpose, datetime, request_location, user_id } = req.body;
   const status = "pending";

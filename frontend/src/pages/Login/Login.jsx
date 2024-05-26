@@ -9,7 +9,7 @@ const Login = () => {
 
   return (
     <section className={classes.main}>
-      <img src={loginImage} alt="login-image" />
+      <img src={loginImage} alt="login" />
       <div className={classes.login_div}>
         <h1>Welcome!</h1>
         <Form method="post">

@@ -16,7 +16,7 @@ const HomePage = () => {
           ut aliquip ex ea commodo consequat.
         </p>
       </div>
-      <img src={homepageImage} alt="homepage-image" />
+      <img src={homepageImage} alt="homepage" />
     </section>
   );
 };

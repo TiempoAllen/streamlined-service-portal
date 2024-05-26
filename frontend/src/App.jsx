@@ -11,6 +11,7 @@ import RequestPage, {
 import Error from "./pages/Error/Error";
 import { action as logoutAction } from "./pages/Login/Logout";
 import { checkAuthLoader } from "./util/auth";
+import Approval from "./pages/Approval/Approval";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,12 @@ const router = createBrowserRouter([
       {
         path: "request",
         element: <RequestPage />,
+        loader: checkAuthLoader,
+        action: requestAction,
+      },
+      {
+        path: "approval",
+        element: <Approval />,
         loader: checkAuthLoader,
         action: requestAction,
       },

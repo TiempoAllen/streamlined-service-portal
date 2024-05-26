@@ -13,9 +13,15 @@ const MainNavigation = ({ user }) => {
         <p>Streamlined Service Portal</p>
       </div>
       <div className={classes.buttons}>
-        <Link to={`/home/${user.user_id}/request`}>
-          <button className={classes.btnSignUp}>Request</button>
-        </Link>
+        {user.isadmin === true ? (
+          <Link to={`/home/${user.user_id}/approval`}>
+            <button className={classes.btnSignUp}>Approval</button>
+          </Link>
+        ) : (
+          <Link to={`/home/${user.user_id}/request`}>
+            <button className={classes.btnSignUp}>Request</button>
+          </Link>
+        )}
         <Form action="logout" method="post">
           <button className={classes.btnSignUp}>Logout</button>
         </Form>

@@ -8,6 +8,6 @@ npm install
   - In the first terminal run the server using this command:
     nodemon server.js
   - In the last terminal run the app using this command:
-    npm run dev
+    npm start
 
 Welcome!!

@@ -4,11 +4,13 @@ import classes from "./Approval.module.css";
 import { getAuthToken } from "../../util/auth";
 import axios from "axios";
 import { useRouteLoaderData } from "react-router-dom";
+import SelectArea from "../../components/UI/SelectArea";
 
 const Approval = () => {
   const { requests } = useRouteLoaderData("approval");
   return (
     <section className={classes.approval}>
+      <SelectArea />
       <Table requests={requests} />
     </section>
   );

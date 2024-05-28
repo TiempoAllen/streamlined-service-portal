@@ -3,7 +3,7 @@ import classes from "./LoginHeader.module.css";
 import profileImage from "../../assets/profile-image.svg";
 import cituLogo from "../../assets/citu-logo.png";
 import inboxImage from "../../assets/inbox-image.svg";
-import { Form, Link } from "react-router-dom";
+import { Form, NavLink } from "react-router-dom";
 
 const MainNavigation = ({ user = {} }) => {
   const isAdmin = user && user.isadmin;
@@ -18,18 +18,51 @@ const MainNavigation = ({ user = {} }) => {
           <img src={cituLogo} alt="citu-logo" />
           <p>Streamlined Service Portal</p>
         </div>
-        <ul>
-          <li>Home</li>
+        <ul className={classes.list}>
+          <li>
+            <NavLink
+              to={`/home/${userId}`}
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+              end
+            >
+              Home
+            </NavLink>
+          </li>
           {!isAdmin ? (
-            <Link to={`/home/${userId}/request`}>
-              <li>Request</li>
-            </Link>
+            <li>
+              <NavLink
+                to={`/home/${userId}/request`}
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                Request
+              </NavLink>
+            </li>
           ) : (
             <>
-              <Link to={`/home/${userId}/approval`}>
-                <li>Approval</li>
-              </Link>
-              <li>Record</li>
+              <li>
+                <NavLink
+                  to={`/home/${userId}/approval`}
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
+                  Approval
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to={`/home/${userId}/record`}
+                  className={({ isActive }) =>
+                    isActive ? classes.active : undefined
+                  }
+                >
+                  Record
+                </NavLink>
+              </li>
             </>
           )}
         </ul>

@@ -5,17 +5,9 @@
     padding: 0.5rem 2rem;
     background-color: #631C21;
     border-bottom: solid 0.25rem #F0953B;
+    /* position: fixed;
+    width: 100vw; */
 }
-
-/* .header ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    font-size: 1rem;
-} */
 
 .logo {
     display: flex;
@@ -34,22 +26,29 @@ li {
     color: #e6e6e6;
 }
 
-ul {
+.list {
+    margin: 0;
+    padding: 0;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
-li {
+.list li {
     list-style: none;
     cursor: pointer;
 }
 
-a {
+.list a {
     text-decoration: none;
+    color: #e6e6e6;
+    padding: 0.25rem 0.75rem;
 }
 
+.list a:hover,
+.list a.active {
+    border-radius: 15px;
+    background-color: #9C3338;
+}
 
 .buttons {
     display: flex;
@@ -66,18 +65,18 @@ a {
 .header button {
     padding: 10px;
     font-size: 1rem;
-    border: 1px solid #2e2e2e;
+    border: 0.5px solid #9C3338;
     border-radius: 5px;
     cursor: pointer;
 
 }
 
 .btnSignIn {
-    background-color: #F9F1F2;
-    color: #424242;
+    background-color: #9C3338;
+    color: #e6e6e6;
 }
 
 .btnSignUp {
-    background-color: rgb(231, 231, 231);
-    color: #2e2e2e
+    background-color: #9C3338;
+    color: #e6e6e6
 }

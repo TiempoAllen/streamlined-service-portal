@@ -1,8 +1,8 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import userRoutes from './routes/userRoutes.js';
-import requestRoutes from './routes/requestRoutes.js';
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
+import userRoutes from "./routes/userRoutes.js";
+import requestRoutes from "./routes/requestRoutes.js";
 
 class App {
   constructor() {
@@ -18,8 +18,8 @@ class App {
   }
 
   initializeRoutes() {
-    this.app.use('/api', userRoutes);
-    this.app.use('/api', requestRoutes);
+    this.app.use("/", userRoutes);
+    this.app.use("/", requestRoutes);
   }
 
   listen(port) {

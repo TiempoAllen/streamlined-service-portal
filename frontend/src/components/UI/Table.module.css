@@ -19,14 +19,31 @@ tr td:last-child {
 td {
     /* border-top: 0.25px solid #424242;
     border-bottom: 0.25px solid #424242; */
-    padding: 1rem 3rem;
+    padding: 1rem 2rem;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.assign {
+    display: flex;
+    gap: 1rem;
+}
+
 .assign p {
     padding: 0.5rem 1rem;
-    border-radius: 15px;
+    border-radius: 20px;
     background-color: #9C3338;
     color: #e6e6e6;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.assign .buttons {
+    padding: 0.5rem;
+    background-color: #cacaca;
+    color: #6b6b6b;
 }

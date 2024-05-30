@@ -12,6 +12,16 @@ const Register = () => {
       <div className={classes.login_div}>
         <h1>Create an account</h1>
         <Form method="post">
+          <div className={classes.row}>
+            <div>
+              <label>First Name</label>
+              <input type="text" placeholder="First Name" name="firstname" />
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input type="text" placeholder="Last Name" name="lastname" />
+            </div>
+          </div>
           <label>Username</label>
           <input type="text" placeholder="Username" name="username" />
           <label>Password</label>
@@ -49,6 +59,8 @@ export const action = async ({ request }) => {
   const data = await request.formData();
 
   const registerData = {
+    firstname: data.get("firstname"),
+    lastname: data.get("lastname"),
     username: data.get("username"),
     password: data.get("password"),
     employee_id: data.get("employee_id"),

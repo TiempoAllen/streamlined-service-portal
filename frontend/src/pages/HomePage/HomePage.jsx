@@ -9,7 +9,7 @@ const HomePage = () => {
   return (
     <section className={classes.home}>
       <div>
-        <h1>Welcome {user.username}</h1>
+        <h1>Welcome {user.firstname}</h1>
         <p>
           Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut
           enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi

@@ -8,6 +8,7 @@ const initialState = {
   email: "",
   department: "",
   message: "",
+  token: "",
 };
 
 const authSlice = createSlice({
@@ -29,16 +30,26 @@ const authSlice = createSlice({
     setDepartment(state, action) {
       state.department = action.payload;
     },
-
     setMessage(state, action) {
       state.message = action.payload;
+    },
+    setToken(state, action) {
+      state.token = action.payload;
     },
   },
 });
 
+export const getAuthToken = () => {
+  return (dispatch) => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      dispatch(authActions.setToken(token));
+    }
+  };
+};
+
 export const loginUser = ({ username, password }) => {
   return async (dispatch) => {
-    console.log("Inside loginUser: ", username, password);
     try {
       const requestData = {
         username: username,

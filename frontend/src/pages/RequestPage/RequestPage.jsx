@@ -1,33 +1,74 @@
 import React from "react";
 import classes from "./RequestPage.module.css";
+import { Form, json, redirect, useRouteLoaderData } from "react-router-dom";
+import axios from "axios";
 
 const RequestPage = () => {
+  const user = useRouteLoaderData("home");
   return (
     <section className={classes.request}>
       <div className={classes.main}>
         <h1>Request</h1>
-        <form>
-          <label>For:</label>
-          <input type="text" placeholder="e.g. Janitor" />
-          <label>Location</label>
-          <input type="text" placeholder="e.g. CCS Faculty Room" />
+        <Form method="post">
           <div>
             <div className={classes.time}>
-              <label>Time</label>
-              <input type="text" placeholder="e.g. 9:00 AM" />
+              <label>For:</label>
+              <input type="text" defaultValue="Janitor" disabled />
             </div>
             <div className={classes.time}>
-              <label>Date</label>
-              <input type="date" placeholder="e.g. Janitor" />
+              <label>Location</label>
+              <input
+                type="text"
+                name="location"
+                placeholder="e.g. CCS Faculty Room"
+              />
             </div>
           </div>
+          <label>Department</label>
+          <input type="text" defaultValue={user.department} disabled />
+          <label>Date and Time</label>
+          <input type="datetime-local" name="datetime" />
           <label>Purpose</label>
-          <input type="text" placeholder="e.g. Clean the room." />
+          <input
+            type="text"
+            name="purpose"
+            placeholder="e.g. Clean the room."
+          />
           <button type="submit">Submit</button>
-        </form>
+        </Form>
       </div>
     </section>
   );
 };
 
 export default RequestPage;
+
+export const action = async ({ request, params }) => {
+  const userId = params.userId;
+  const data = await request.formData();
+
+  const requestData = {
+    request_location: data.get("location"),
+    datetime: data.get("datetime"),
+    purpose: data.get("purpose"),
+    user_id: userId,
+  };
+
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/request",
+      requestData
+    );
+
+    if (response.status !== 200) {
+      throw json({ message: "Could not create request." }, { status: 500 });
+    }
+
+    const resData = response.data;
+    console.log(resData);
+
+    return redirect(`/home/${userId}`);
+  } catch (error) {
+    console.error(error);
+  }
+};

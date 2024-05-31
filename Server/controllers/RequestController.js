@@ -28,7 +28,8 @@ class RequestController {
   }
 
   async createRequest(req, res) {
-    const { purpose, datetime, request_location, user_id } = req.body;
+    const { purpose, datetime, request_location, user_id, technician } =
+      req.body;
     const status = "pending";
 
     try {
@@ -43,7 +44,7 @@ class RequestController {
       const { department, user_firstname, user_lastname } = userResult.rows[0];
 
       const result = await this.db.query(
-        "INSERT INTO request (purpose, datetime, status, request_location, department, user_id, user_firstname, user_lastname) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+        "INSERT INTO request (purpose, datetime, status, request_location, department, user_id, user_firstname, user_lastname, technician) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
         [
           purpose,
           datetime,
@@ -53,6 +54,7 @@ class RequestController {
           user_id,
           user_firstname,
           user_lastname,
+          technician,
         ]
       );
 

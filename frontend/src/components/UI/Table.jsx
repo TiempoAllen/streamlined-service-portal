@@ -25,6 +25,7 @@ const Table = ({ requests }) => {
               <td>
                 {request.user_firstname} {request.user_lastname}
               </td>
+              <td>{request.technician}</td>
               <td>{request.purpose}</td>
               <td>{request.datetime}</td>
               <td>{request.request_location}</td>

@@ -24,7 +24,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/home/:userId",
+    path: "/home/:user_id",
     element: <HomeLayout />,
     id: "home",
     loader: homeLoader,

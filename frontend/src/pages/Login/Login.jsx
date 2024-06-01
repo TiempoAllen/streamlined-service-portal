@@ -13,8 +13,8 @@ const Login = () => {
       <div className={classes.login_div}>
         <h1>Welcome!</h1>
         <Form method="post">
-          <label>Username</label>
-          <input type="text" placeholder="Username" name="username" required />
+          <label>Email</label>
+          <input type="text" placeholder="Email" name="email" required />
           <label>Password</label>
           <input
             type="password"
@@ -45,12 +45,15 @@ export default Login;
 export async function action({ request }) {
   const data = await request.formData();
   const authData = {
-    username: data.get("username"),
+    email: data.get("email"),
     password: data.get("password"),
   };
 
   try {
-    const response = await axios.post("http://localhost:5000/login", authData);
+    const response = await axios.post(
+      "http://localhost:8080/user/login",
+      authData
+    );
 
     if (response.status !== 200) {
       throw json({ message: "Could not authenticate user." }, { status: 500 });
@@ -59,14 +62,14 @@ export async function action({ request }) {
     const resData = response.data;
     console.log(resData);
     const token = resData.token;
-    const userId = resData.userId;
+    const user_id = resData.user_id;
 
     localStorage.setItem("token", token);
 
     // const resData = await response.data;
     // const token = resData.token;
-    return redirect(`/home/${userId}`);
+    return redirect(`/home/${user_id}`);
   } catch (error) {
-    console.error(error);
+    console.error("Error: ", error);
   }
 }

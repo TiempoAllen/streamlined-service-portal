@@ -26,10 +26,10 @@ export const loader = async ({ params }) => {
   }
 
   try {
-    const response = await axios.get("http://localhost:5000/request/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await axios.get("http://localhost:8080/request/all", {
+      // headers: {
+      //   Authorization: `Bearer ${token}`,
+      // },
     });
 
     const requests = response.data;

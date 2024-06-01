@@ -49,20 +49,20 @@ const RequestPage = () => {
 export default RequestPage;
 
 export const action = async ({ request, params }) => {
-  const userId = params.userId;
+  const user_id = params.user_id;
   const data = await request.formData();
 
   const requestData = {
     request_location: data.get("location"),
     datetime: data.get("datetime"),
     purpose: data.get("purpose"),
-    user_id: userId,
+    user_id: user_id,
     technician: data.get("technician"),
   };
 
   try {
     const response = await axios.post(
-      "http://localhost:5000/request",
+      "http://localhost:8080/request/add",
       requestData
     );
 
@@ -73,7 +73,7 @@ export const action = async ({ request, params }) => {
     const resData = response.data;
     console.log(resData);
 
-    return redirect(`/home/${userId}`);
+    return redirect(`/home/${user_id}`);
   } catch (error) {
     console.error(error);
   }

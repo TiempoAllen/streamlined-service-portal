@@ -12,8 +12,13 @@ const RequestPage = () => {
         <Form method="post">
           <div>
             <div className={classes.time}>
-              <label>For:</label>
-              <input type="text" defaultValue="Janitor" disabled />
+              <label>Technician</label>
+              <select name="technician">
+                <option value="Janitor">Janitor</option>
+                <option value="Electrician">Electrician</option>
+                <option value="Plumber">Plumber</option>
+              </select>
+              {/* <input type="text" defaultValue="Janitor" /> */}
             </div>
             <div className={classes.time}>
               <label>Location</label>
@@ -52,6 +57,7 @@ export const action = async ({ request, params }) => {
     datetime: data.get("datetime"),
     purpose: data.get("purpose"),
     user_id: userId,
+    technician: data.get("technician"),
   };
 
   try {

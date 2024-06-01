@@ -9,12 +9,28 @@ class RequestController {
   }
 
   initializeRoutes() {
+    this.router.delete(
+      "/request/:id",
+      Auth.authenticateToken,
+      this.deleteRequestById.bind(this)
+    );
     this.router.get(
       "/request/all",
       Auth.authenticateToken,
       this.getAllRequests.bind(this)
     );
     this.router.post("/request", this.createRequest.bind(this));
+  }
+
+  async deleteRequestById(req, res) {
+    const id = parseInt(req.params.id);
+    try {
+      await this.db.query("DELETE FROM request WHERE requestid = $1", [id]);
+      res.status(200).json({ message: "Request deleted successfully." });
+    } catch (error) {
+      console.error("Error deleting request: ", error);
+      res.status(500).json({ message: "Internal server error." });
+    }
   }
 
   async getAllRequests(req, res) {

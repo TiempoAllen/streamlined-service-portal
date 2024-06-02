@@ -9,11 +9,10 @@ const HomePage = () => {
   return (
     <section className={classes.home}>
       <div>
-        <h1>Welcome {user.firstname}</h1>
+        <h1>Welcome, {user.firstname}!</h1>
         <p>
-          Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Ut
-          enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-          ut aliquip ex ea commodo consequat.
+        Enjoy effortless campus maintenance with our streamlined service, 
+        offering swift and professional janitorial, plumbing, and electrical support via an intuitive online portal.
         </p>
       </div>
       <img src={homepageImage} alt="homepage" />

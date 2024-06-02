@@ -17,6 +17,9 @@ const RequestPage = () => {
                 <option value="Janitor">Janitor</option>
                 <option value="Electrician">Electrician</option>
                 <option value="Plumber">Plumber</option>
+                <option value="Carpentry">Carpentry</option>
+                <option value="Masonry">Masonry</option>
+                <option value="Maintenance">Maintenance</option>
               </select>
               {/* <input type="text" defaultValue="Janitor" /> */}
             </div>
@@ -39,6 +42,8 @@ const RequestPage = () => {
             name="purpose"
             placeholder="e.g. Clean the room."
           />
+          <label>Attach File</label>
+          <input type="file" name="attachment" />
           <button type="submit">Submit</button>
         </Form>
       </div>

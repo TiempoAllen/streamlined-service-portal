@@ -24,7 +24,7 @@ const HomePage = () => {
 export default HomePage;
 
 export async function loader({ request, params }) {
-  const userId = params.userId;
+  const user_id = params.user_id;
   const token = localStorage.getItem("token");
 
   if (!token) {
@@ -32,13 +32,13 @@ export async function loader({ request, params }) {
   }
 
   try {
-    const response = await axios.get(`http://localhost:5000/user/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const response = await axios.get(`http://localhost:8080/user/${user_id}`, {
+      // headers: {
+      //   Authorization: `Bearer ${token}`,
+      // },
     });
 
-    const user = response.data[0];
+    const user = response.data;
     console.log("User: ", user);
     if (!user) {
       throw json({ message: "User not found" }, { status: 500 });

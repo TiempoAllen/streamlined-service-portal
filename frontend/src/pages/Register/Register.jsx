@@ -2,10 +2,11 @@ import React from "react";
 import registerImage from "../../assets/registration-image.png";
 import classes from "../Login/Login.module.css";
 import { DEPT_DATA } from "./department-data";
-import { Form, json, redirect } from "react-router-dom";
+import { Form, json, redirect, useActionData } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
+  const errorMessage = useActionData();
   return (
     <section className={classes.main}>
       <img src={registerImage} alt="register" />
@@ -34,13 +35,26 @@ const Register = () => {
           </div>
           <label id="usernameLabel">Username</label>
           <input type="text" placeholder="Username" name="username" required />
-          <label id="passwordLabel">Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            required
-          />
+          <div className={classes.row}>
+            <div>
+              <label id="passwordLabel">Password</label>
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                required
+              />
+            </div>
+            <div>
+              <label id="confirmPasswordLabel">Confirm Password</label>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                name="confirmPassword"
+                required
+              />
+            </div>
+          </div>
           <div className={classes.row}>
             <div>
               <label id="employeeIdLabel">Employee ID</label>
@@ -65,7 +79,7 @@ const Register = () => {
               </option>
             ))}
           </select>
-
+          {errorMessage && <p className={classes.error}>{errorMessage}</p>}
           <button type="submit" id="registerButton">
             Create
           </button>
@@ -79,6 +93,42 @@ export default Register;
 
 export const action = async ({ request }) => {
   const data = await request.formData();
+
+  const password = data.get("password");
+  const confirmPassword = data.get("confirmPassword");
+  const email = data.get("email");
+
+  if (password.length < 8) {
+    return json("Your password must be at least 8 characters long.", {
+      status: 400,
+    });
+  }
+  if (!/[A-Z]/.test(password)) {
+    return json("Your password must include at least one uppercase letter.", {
+      status: 400,
+    });
+  }
+  if (!/[a-z]/.test(password)) {
+    return json("Your password must include at least one lowercase letter.", {
+      status: 400,
+    });
+  }
+  if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+    return json(
+      "Your password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).",
+      { status: 400 }
+    );
+  }
+
+  if (!email.endsWith("@cit.edu")) {
+    return json("Email must end with '@cit.edu'.", { status: 400 });
+  }
+
+  if (password !== confirmPassword) {
+    return json("Password and Confirm Password do not match.", {
+      status: 400,
+    });
+  }
 
   const registerData = {
     firstname: data.get("firstname"),
@@ -105,6 +155,10 @@ export const action = async ({ request }) => {
 
     return redirect("/");
   } catch (error) {
-    console.error(error);
+    console.error("Error: ", error.response.data);
+    if (error.response && error.response.data === "Email already exists") {
+      return json("Email already exists", { status: 401 });
+    }
+    return json("Could not register user.", { status: 500 });
   }
 };

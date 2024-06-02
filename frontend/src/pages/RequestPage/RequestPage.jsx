@@ -34,7 +34,10 @@ const RequestPage = () => {
             name="purpose"
             placeholder="e.g. Clean the room."
           />
+          <label>Attach File</label>
+          <input type="file" name="attachment" />
           <button type="submit">Submit</button>
+          
         </Form>
       </div>
     </section>

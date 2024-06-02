@@ -92,3 +92,10 @@ select {
     color: #4460F3;
     cursor: pointer;
 }
+
+.main .error {
+    margin: 0;
+    color: #ff0015;
+    text-align: start;
+    font-size: 1rem;
+}

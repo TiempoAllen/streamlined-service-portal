@@ -14,30 +14,50 @@ const Register = () => {
         <Form method="post">
           <div className={classes.row}>
             <div>
-              <label>First Name</label>
-              <input type="text" placeholder="First Name" name="firstname" />
+              <label id="firstNameLabel">First Name</label>
+              <input
+                type="text"
+                placeholder="First Name"
+                name="firstname"
+                required
+              />
             </div>
             <div>
-              <label>Last Name</label>
-              <input type="text" placeholder="Last Name" name="lastname" />
+              <label id="lastNameLabel">Last Name</label>
+              <input
+                type="text"
+                placeholder="Last Name"
+                name="lastname"
+                required
+              />
             </div>
           </div>
-          <label>Username</label>
-          <input type="text" placeholder="Username" name="username" />
-          <label>Password</label>
-          <input type="password" placeholder="Password" name="password" />
+          <label id="usernameLabel">Username</label>
+          <input type="text" placeholder="Username" name="username" required />
+          <label id="passwordLabel">Password</label>
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            required
+          />
           <div className={classes.row}>
             <div>
-              <label>Employee ID</label>
-              <input type="text" placeholder="Employee ID" name="employee_id" />
+              <label id="employeeIdLabel">Employee ID</label>
+              <input
+                type="text"
+                placeholder="Employee ID"
+                name="employee_id"
+                required
+              />
             </div>
             <div>
-              <label>Email</label>
-              <input type="text" placeholder="Email" name="email" />
+              <label id="emailLabel">Email</label>
+              <input type="text" placeholder="Email" name="email" required />
             </div>
           </div>
-          <label>Department</label>
-          <select name="department">
+          <label id="departmentLabel">Department</label>
+          <select name="department" required>
             <option value="">Choose</option>
             {DEPT_DATA.map((dept, index) => (
               <option key={index} value={dept.name}>
@@ -46,7 +66,9 @@ const Register = () => {
             ))}
           </select>
 
-          <button type="submit">Create</button>
+          <button type="submit" id="registerButton">
+            Create
+          </button>
         </Form>
       </div>
     </section>

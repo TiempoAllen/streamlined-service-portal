@@ -59,6 +59,10 @@ li {
 .buttons img {
     height: 2rem;
     width: auto;
+}
+
+.buttons p {
+    margin: 0;
     cursor: pointer;
 }
 

@@ -4,6 +4,8 @@ import profileImage from "../../assets/profile-image.svg";
 import cituLogo from "../../assets/citu-logo.png";
 import inboxImage from "../../assets/inbox-image.svg";
 import { Form, NavLink } from "react-router-dom";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 const MainNavigation = ({ user = {} }) => {
   const isAdmin = user && user.isadmin;
@@ -71,7 +73,16 @@ const MainNavigation = ({ user = {} }) => {
             <button className={classes.btnSignUp}>Logout</button>
           </Form>
           <img src={inboxImage} alt="inbox" />
-          <img src={profileImage} alt="profile" />
+
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+              <p>
+                <img src={profileImage} alt="profile" />
+                <ArrowDropDownIcon style={{ color: "white" }} />
+              </p>
+            </DropdownMenu.Trigger>
+            {/* <DropdownPortal /> */}
+          </DropdownMenu.Root>
         </div>
       </header>
     </>

@@ -21,14 +21,28 @@ tr td:last-child {
 td {
     /* border-top: 0.25px solid #424242;
     border-bottom: 0.25px solid #424242; */
-    padding: 1rem 2rem;
+    font-size: 1rem;
+    padding: 1rem 1rem;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.assign {
+.attachment p {
+    margin: 0;
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    background-color: #6b6b6b;
+    color: #e6e6e6;
     display: flex;
-    gap: 1rem;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 100%;
+}
+
+.assign {
+    /* display: flex;
+    gap: 1rem; */
 }
 
 .assign p {

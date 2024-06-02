@@ -70,7 +70,7 @@ export const action = async ({ request }) => {
 
   try {
     const response = await axios.post(
-      "http://localhost:5000/user",
+      "http://localhost:8080/user/add",
       registerData
     );
 

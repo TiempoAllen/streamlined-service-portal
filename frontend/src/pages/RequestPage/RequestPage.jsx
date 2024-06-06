@@ -43,8 +43,8 @@ const RequestPage = () => {
             placeholder="e.g. Clean the room."
             required
           />
-          <label id="attachFileLabel">Attach File</label>
-          <input type="file" name="attachment" required />
+          <label id="attachFileLabel">Attach File *Optional</label>
+          <input type="file" name="attachment" />
           <button type="submit" id="submitButton">
             Submit
           </button>

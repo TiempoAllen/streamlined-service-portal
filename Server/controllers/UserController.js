@@ -116,7 +116,7 @@ class UserController {
       const token = Auth.generateToken(user.user_id);
       res.json({ message: "Login successful", token, userId: user.user_id });
     } catch (error) {
-      console.error("Error during login: ", error);
+      console.error("Error during login: ", error.data.message);
       res.status(500).json({ message: "Internal server error" });
     }
   }

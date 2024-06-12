@@ -4,7 +4,7 @@
     justify-content: center;
     gap: 2rem;
     height: 80vh;
-    padding: 0 2rem;
+    padding: 0 6rem;
 }
 
 .home img {
@@ -14,5 +14,9 @@
 }
 
 .home div h1 {
-    font-size: 2rem;
+    font-size: 3rem;
+}
+
+.home div p {
+    font-size: 1.5rem;
 }

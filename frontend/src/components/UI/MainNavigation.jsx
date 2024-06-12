@@ -4,12 +4,14 @@ import profileImage from "../../assets/profile-image.svg";
 import cituLogo from "../../assets/citu-logo.png";
 import inboxImage from "../../assets/inbox-image.svg";
 import { Form, NavLink } from "react-router-dom";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
 const MainNavigation = ({ user = {} }) => {
   const isAdmin = user && user.isadmin;
-  const userId = user && user.user_id;
+  const user_id = user && user.user_id;
 
-  console.log(isAdmin, userId);
+  console.log(isAdmin, user_id);
 
   return (
     <>
@@ -21,7 +23,7 @@ const MainNavigation = ({ user = {} }) => {
         <ul className={classes.list}>
           <li>
             <NavLink
-              to={`/home/${userId}`}
+              to={`/home/${user_id}`}
               className={({ isActive }) =>
                 isActive ? classes.active : undefined
               }
@@ -33,7 +35,7 @@ const MainNavigation = ({ user = {} }) => {
           {!isAdmin ? (
             <li>
               <NavLink
-                to={`/home/${userId}/request`}
+                to={`/home/${user_id}/request`}
                 className={({ isActive }) =>
                   isActive ? classes.active : undefined
                 }
@@ -45,7 +47,7 @@ const MainNavigation = ({ user = {} }) => {
             <>
               <li>
                 <NavLink
-                  to={`/home/${userId}/approval`}
+                  to={`/home/${user_id}/approval`}
                   className={({ isActive }) =>
                     isActive ? classes.active : undefined
                   }
@@ -55,7 +57,7 @@ const MainNavigation = ({ user = {} }) => {
               </li>
               <li>
                 <NavLink
-                  to={`/home/${userId}/record`}
+                  to={`/home/${user_id}/record`}
                   className={({ isActive }) =>
                     isActive ? classes.active : undefined
                   }
@@ -71,7 +73,16 @@ const MainNavigation = ({ user = {} }) => {
             <button className={classes.btnSignUp}>Logout</button>
           </Form>
           <img src={inboxImage} alt="inbox" />
-          <img src={profileImage} alt="profile" />
+
+          <DropdownMenu.Root>
+            <DropdownMenu.Trigger asChild>
+              <p>
+                <img src={profileImage} alt="profile" />
+                <ArrowDropDownIcon style={{ color: "white" }} />
+              </p>
+            </DropdownMenu.Trigger>
+            {/* <DropdownPortal /> */}
+          </DropdownMenu.Root>
         </div>
       </header>
     </>

@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    height: 70vh;
+    height: 60vh;
 }
 
 .main .login_div {
@@ -11,6 +11,7 @@
     background-color: white;
     padding: 2rem;
     border-radius: 10px;
+    max-width: 30rem;
 }
 
 .main img {
@@ -27,7 +28,7 @@
 
 .main h1 {
     color: #424242;
-    font-size: 48px;
+    font-size: 2rem;
     text-align: center;
     margin: 0 0 30px 0;
 }
@@ -91,4 +92,11 @@ select {
 .main form span {
     color: #4460F3;
     cursor: pointer;
+}
+
+.main .error {
+    margin: 0;
+    color: #ff0015;
+    text-align: start;
+    font-size: 0.75rem;
 }

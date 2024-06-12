@@ -9,12 +9,28 @@ class RequestController {
   }
 
   initializeRoutes() {
+    this.router.delete(
+      "/request/:id",
+      Auth.authenticateToken,
+      this.deleteRequestById.bind(this)
+    );
     this.router.get(
       "/request/all",
       Auth.authenticateToken,
       this.getAllRequests.bind(this)
     );
     this.router.post("/request", this.createRequest.bind(this));
+  }
+
+  async deleteRequestById(req, res) {
+    const id = parseInt(req.params.id);
+    try {
+      await this.db.query("DELETE FROM request WHERE requestid = $1", [id]);
+      res.status(200).json({ message: "Request deleted successfully." });
+    } catch (error) {
+      console.error("Error deleting request: ", error);
+      res.status(500).json({ message: "Internal server error." });
+    }
   }
 
   async getAllRequests(req, res) {
@@ -28,7 +44,8 @@ class RequestController {
   }
 
   async createRequest(req, res) {
-    const { purpose, datetime, request_location, user_id } = req.body;
+    const { purpose, datetime, request_location, user_id, technician } =
+      req.body;
     const status = "pending";
 
     try {
@@ -43,7 +60,7 @@ class RequestController {
       const { department, user_firstname, user_lastname } = userResult.rows[0];
 
       const result = await this.db.query(
-        "INSERT INTO request (purpose, datetime, status, request_location, department, user_id, user_firstname, user_lastname) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *",
+        "INSERT INTO request (purpose, datetime, status, request_location, department, user_id, user_firstname, user_lastname, technician) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
         [
           purpose,
           datetime,
@@ -53,6 +70,7 @@ class RequestController {
           user_id,
           user_firstname,
           user_lastname,
+          technician,
         ]
       );
 

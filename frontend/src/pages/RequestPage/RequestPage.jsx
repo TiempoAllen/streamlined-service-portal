@@ -9,32 +9,45 @@ const RequestPage = () => {
     <section className={classes.request}>
       <div className={classes.main}>
         <h1>Request</h1>
-        <Form method="post">
+        <Form method="post" encType="multipart/form-data">
           <div>
             <div className={classes.time}>
-              <label>For:</label>
-              <input type="text" defaultValue="Janitor" disabled />
+              <label id="technicianLabel">Technician</label>
+              <select name="technician" required>
+                <option value="Janitor">Janitor</option>
+                <option value="Electrician">Electrician</option>
+                <option value="Plumber">Plumber</option>
+                <option value="Carpentry">Carpentry</option>
+                <option value="Masonry">Masonry</option>
+                <option value="Maintenance">Maintenance</option>
+              </select>
             </div>
             <div className={classes.time}>
-              <label>Location</label>
+              <label id="locationLabel">Location</label>
               <input
                 type="text"
-                name="location"
+                name="request_location"
                 placeholder="e.g. CCS Faculty Room"
+                required
               />
             </div>
           </div>
-          <label>Department</label>
-          <input type="text" defaultValue={user.department} disabled />
-          <label>Date and Time</label>
-          <input type="datetime-local" name="datetime" />
-          <label>Purpose</label>
+          <label id="departmentLabel">Department</label>
+          <input type="text" defaultValue={user.department} disabled required />
+          <label id="datetimeLabel">Date and Time</label>
+          <input type="datetime-local" name="datetime" required />
+          <label id="purposeLabel">Purpose</label>
           <input
             type="text"
             name="purpose"
             placeholder="e.g. Clean the room."
+            required
           />
-          <button type="submit">Submit</button>
+          <label id="attachFileLabel">Attach File *Optional</label>
+          <input type="file" name="attachment" />
+          <button type="submit" id="submitButton">
+            Submit
+          </button>
         </Form>
       </div>
     </section>
@@ -44,20 +57,33 @@ const RequestPage = () => {
 export default RequestPage;
 
 export const action = async ({ request, params }) => {
-  const userId = params.userId;
+  const user_id = params.user_id;
   const data = await request.formData();
 
-  const requestData = {
-    request_location: data.get("location"),
-    datetime: data.get("datetime"),
-    purpose: data.get("purpose"),
-    user_id: userId,
-  };
+  const rawDatetime = data.get("datetime");
+  const formattedDatetime = new Date(rawDatetime).toISOString();
+
+  const requestData = new FormData();
+  requestData.append("request_location", data.get("request_location"));
+  requestData.append("datetime", formattedDatetime);
+  requestData.append("purpose", data.get("purpose"));
+  requestData.append("user_id", user_id);
+  requestData.append("technician", data.get("technician"));
+  requestData.append("attachment", data.get("attachment"));
+
+  for (let [key, value] of requestData.entries()) {
+    console.log(`${key}: ${value}`);
+  }
 
   try {
     const response = await axios.post(
-      "http://localhost:5000/request",
-      requestData
+      "http://localhost:8080/request/add",
+      requestData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
 
     if (response.status !== 200) {
@@ -67,8 +93,8 @@ export const action = async ({ request, params }) => {
     const resData = response.data;
     console.log(resData);
 
-    return redirect(`/home/${userId}`);
+    return redirect(`/home/${user_id}`);
   } catch (error) {
-    console.error(error);
+    console.error(error.response);
   }
 };

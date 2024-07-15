@@ -5,6 +5,7 @@
     padding: 0.5rem 2rem;
     background-color: #631C21;
     border-bottom: solid 0.25rem #F0953B;
+    box-sizing: border-box;
     /* position: fixed;
     width: 100vw; */
 }

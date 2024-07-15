@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "../Login/Login.module.css";
+import { DEPT_DATA } from "./department-data";
 
 const RegisterFirstTab = ({ errorMessage, handleNextTab }) => {
   return (
@@ -19,28 +20,32 @@ const RegisterFirstTab = ({ errorMessage, handleNextTab }) => {
           <input type="text" placeholder="Last Name" name="lastname" required />
         </div>
       </div>
-      <label id="usernameLabel">Username</label>
-      <input type="text" placeholder="Username" name="username" required />
       <div className={classes.row}>
         <div>
-          <label id="passwordLabel">Password</label>
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            required
-          />
+          <label id="usernameLabel">Username</label>
+          <input type="text" placeholder="Username" name="username" required />
         </div>
+
         <div>
-          <label id="confirmPasswordLabel">Confirm Password</label>
+          <label id="employeeIdLabel">Employee ID</label>
           <input
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
+            type="text"
+            placeholder="Employee ID"
+            name="employee_id"
             required
           />
         </div>
       </div>
+      <label id="departmentLabel">Department</label>
+      <select name="department" required>
+        <option value="">Choose</option>
+        {DEPT_DATA.map((dept, index) => (
+          <option key={index} value={dept.name}>
+            {dept.name}
+          </option>
+        ))}
+      </select>
+
       {errorMessage && <p className={classes.error}>{errorMessage}</p>}
       <button id="nextButton" onClick={handleNextTab}>
         Next

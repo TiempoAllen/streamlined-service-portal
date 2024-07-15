@@ -1,6 +1,6 @@
 import React from "react";
 import Login, { action as loginAction } from "./pages/Login/Login";
-import Register, { action as registerAction } from "./pages/Register/Register";
+import Register from "./pages/Register/Register";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomePage, { loader as homeLoader } from "./pages/HomePage/HomePage";
 import LoginLayout from "./components/Layout/LoginLayout";
@@ -20,7 +20,7 @@ const router = createBrowserRouter([
     element: <LoginLayout />,
     children: [
       { index: true, element: <Login />, action: loginAction },
-      { path: "register", element: <Register />, action: registerAction },
+      { path: "register", element: <Register /> },
     ],
   },
   {
@@ -61,7 +61,11 @@ const router = createBrowserRouter([
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <div id="App">
+      <RouterProvider router={router} />
+    </div>
+  );
 };
 
 export default App;

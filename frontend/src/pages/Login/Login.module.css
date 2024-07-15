@@ -3,7 +3,8 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    height: 60vh;
+    flex: 1;
+    overflow-y: auto;
 }
 
 .main .login_div {
@@ -11,6 +12,15 @@
     background-color: white;
     padding: 2rem;
     border-radius: 10px;
+    max-width: 30rem;
+}
+
+.main .register_div {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    min-width: 470px;
     max-width: 30rem;
 }
 
@@ -107,12 +117,13 @@ select {
     justify-content: center;
     gap: 0.5rem;
     padding: 0;
+    margin-bottom: 0;
 }
 
 .main .pagination li {
     border-radius: 50%;
     background-color: #F0953B;
-    padding: 0.05rem 0.25rem;
+    padding: 0.05rem 0.20rem;
     font-size: 0.5rem;
     list-style: none;
     color: #F0953B;

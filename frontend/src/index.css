@@ -7,6 +7,33 @@ body {
   background-color: rgb(231, 231, 231);
 }
 
+#App {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header,
+footer {
+  flex-shrink: 0;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+a button {
+  color: white;
+}
+
+button {
+  text-align: center;
+}
+
 @import '@radix-ui/colors/black-alpha.css';
 @import '@radix-ui/colors/mauve.css';
 @import '@radix-ui/colors/violet.css';

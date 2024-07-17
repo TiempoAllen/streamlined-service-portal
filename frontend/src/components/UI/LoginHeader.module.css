@@ -23,7 +23,7 @@
 .logo p,
 li {
     font-size: 1rem;
-    color: #e6e6e6;
+    color: #ffffff;
 }
 
 .list {
@@ -40,15 +40,25 @@ li {
 
 .list a {
     text-decoration: none;
-    color: #e6e6e6;
+    color: #ffffff;
+    font-size: 16px;
     padding: 0.25rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .list a:hover,
 .list a.active {
-    border-radius: 15px;
+    /* color: #F0953B; */
+    border-radius: 18px;
     background-color: #9C3338;
 }
+
+/* .list a:hover .icon,
+.list a.active .icon {
+    filter: brightness(0) saturate(100%) invert(67%) sepia(73%) saturate(843%) hue-rotate(331deg) brightness(97%) contrast(94%);
+} */
 
 .buttons {
     display: flex;
@@ -83,4 +93,9 @@ li {
 .btnSignUp {
     background-color: #9C3338;
     color: #e6e6e6
+}
+
+.icon{
+    width: auto;
+    height: 24px;
 }

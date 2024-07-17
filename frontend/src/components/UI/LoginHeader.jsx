@@ -8,7 +8,7 @@ const LoginHeader = () => {
     <header className={classes.header}>
       <div className={classes.logo}>
         <img src={cituLogo} alt="citu-logo" />
-        <p>Streamlined Service Portal</p>
+        <p>Streamlined Service <br></br> Portal</p>
       </div>
       <div className={classes.buttons}>
         <Link to="/">

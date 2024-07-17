@@ -6,13 +6,25 @@ import { json, useRouteLoaderData } from "react-router-dom";
 
 const HomePage = () => {
   const user = useRouteLoaderData("home");
+  const isAdmin = user && user.isadmin;
   return (
-    <section className={classes.home}>
+    <section className={isAdmin ? classes.adminHome : classes.home}>
       <div>
         <h1>Welcome, {user.firstname}!</h1>
         <p>
-        Enjoy effortless campus maintenance with our streamlined service, 
-        offering swift and professional janitorial, plumbing, and electrical support via an intuitive online portal.
+        {isAdmin ? (
+            <>
+              Manage campus maintenance efficiently with our admin portal. Oversee
+              and dispatch janitorial, plumbing, and electrical support swiftly and
+              professionally.
+            </>
+          ) : (
+            <>
+              Enjoy effortless campus maintenance with our streamlined service,
+              offering swift and professional janitorial, plumbing, and electrical
+              support via an intuitive online portal.
+            </>
+          )}
         </p>
       </div>
       <img src={homepageImage} alt="homepage" />

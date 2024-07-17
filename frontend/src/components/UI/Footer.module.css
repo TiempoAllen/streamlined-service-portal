@@ -3,7 +3,8 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    border-top: solid 2px #F0953B;
+    border-top: solid 3px #F0953B;
+    background-color: #FFF;
 }
 
 .footer img {

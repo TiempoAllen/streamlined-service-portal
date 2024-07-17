@@ -1,7 +1,6 @@
 .approval {
     /* height: 80vh; */
-    width: 100vw;
     display: flex;
     flex-direction: column;
-    padding: 2rem 4rem;
+    padding: 1rem 1rem;
 }

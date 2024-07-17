@@ -4,6 +4,8 @@ import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import * as Dialog from "@radix-ui/react-dialog";
+import RequestDialogPortal from "../../components/UI/RequestDialogPortal";
 
 const formatDateTime = (datetime) => {
   const date = new Date(datetime);
@@ -23,38 +25,45 @@ const Table = ({ requests }) => {
       <table className={classes.table}>
         <tbody>
           {requests.map((request, index) => (
-            <tr key={index}>
-              <td>
-                {request.user_firstname} {request.user_lastname}
-              </td>
-              <td>{request.technician}</td>
-              <td>{request.purpose}</td>
-              <td>{formatDateTime(request.datetime)}</td>
-              <td>{request.request_location}</td>
-              <td>{request.department}</td>
-              <td className={classes.attachment}>
-                {/* <AttachFileIcon /> */}
-                <p>
-                  <AttachFileIcon />
-                  {request.attachment ? request.attachment : "No Attachment"}
-                </p>
-              </td>
-              <td className={classes.assign}>
-                <p>
-                  <AddIcon /> Assign
-                </p>
-              </td>
-              <td className={classes.assign}>
-                <p className={classes.buttons}>
-                  <CheckIcon />
-                </p>
-              </td>
-              <td className={classes.assign}>
-                <p className={classes.buttons}>
-                  <CloseIcon />
-                </p>
-              </td>
-            </tr>
+            <Dialog.Root>
+              <Dialog.Trigger asChild>
+                <tr key={index}>
+                  <td>
+                    {request.user_firstname} {request.user_lastname}
+                  </td>
+                  <td>{request.technician}</td>
+                  <td>{request.purpose}</td>
+                  <td>{formatDateTime(request.datetime)}</td>
+                  <td>{request.request_location}</td>
+                  <td>{request.department}</td>
+                  <td className={classes.attachment}>
+                    {/* <AttachFileIcon /> */}
+                    <p>
+                      <AttachFileIcon />
+                      {request.attachment
+                        ? request.attachment
+                        : "No Attachment"}
+                    </p>
+                  </td>
+                  <td className={classes.assign}>
+                    <p>
+                      <AddIcon /> Assign
+                    </p>
+                  </td>
+                  <td className={classes.assign}>
+                    <p className={classes.buttons}>
+                      <CheckIcon />
+                    </p>
+                  </td>
+                  <td className={classes.assign}>
+                    <p className={classes.buttons}>
+                      <CloseIcon />
+                    </p>
+                  </td>
+                </tr>
+              </Dialog.Trigger>
+              <RequestDialogPortal request={request} />
+            </Dialog.Root>
           ))}
         </tbody>
       </table>

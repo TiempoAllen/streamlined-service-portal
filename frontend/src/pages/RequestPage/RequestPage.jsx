@@ -2,27 +2,23 @@ import React, { useRef, useState } from "react";
 import classes from "./RequestPage.module.css";
 import { Form, json, redirect, useRouteLoaderData } from "react-router-dom";
 import uploadIcon from "../../assets/upload-icon.svg";
+import deleteIcon from "../../assets/delete-button.svg";
 import axios from "axios";
+import * as Dialog from "@radix-ui/react-dialog";
+import FileModal from "../../components/UI/FileModal";
 
 const RequestPage = () => {
   const user = useRouteLoaderData("home");
   const [file, setFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState(null);
   const fileInputRef = useRef();
+
+  const handleDeleteFile = () => {
+    setFile("");
+  };
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
-
-    if (selectedFile && selectedFile.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result);
-      };
-      reader.readAsDataURL(selectedFile);
-    } else {
-      setPreviewUrl(null);
-    }
   };
 
   const handleImageClick = () => {
@@ -83,15 +79,15 @@ const RequestPage = () => {
                 <label id="attachFileLabel">Attach File *Optional</label>
                 <div className={classes.fileUpload}>
                   <div className={classes.fileArea}>
-                    {previewUrl ? (
-                      <img
-                        src={previewUrl}
-                        alt="Preview"
-                        style={{ maxWidth: "100%" }}
-                        onClick={handleImageClick}
-                      />
+                    {file ? (
+                      <Dialog.Root>
+                        <Dialog.Trigger asChild>
+                          <p className={classes.file}>{file.name}</p>
+                        </Dialog.Trigger>
+                        <FileModal file={file} />
+                      </Dialog.Root>
                     ) : (
-                      file && <p onClick={handleImageClick}>{file.name}</p>
+                      "No file selected."
                     )}
                   </div>
                   <div className={classes.imageUpload}>
@@ -110,6 +106,14 @@ const RequestPage = () => {
                       ref={fileInputRef}
                     />
                   </div>
+                  {file && (
+                    <div
+                      className={classes.deleteIcon}
+                      onClick={handleDeleteFile}
+                    >
+                      <img src={deleteIcon} alt="delete icon" />
+                    </div>
+                  )}
                 </div>
               </span>
             </div>

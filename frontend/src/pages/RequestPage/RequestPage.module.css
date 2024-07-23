@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 90vh;
+    height: 100%;
 }
 
 .request .main {
@@ -73,19 +73,37 @@
 
 .request .fileUpload {
     display: flex;
-    justify-content: end;
+    justify-content: start;
     gap: 1rem;
 }
 
 .request .fileUpload .fileArea {
-    width: 80%;
+    width: auto;
     border: solid 1px #848484;
-    height: 150px;
+    height: auto;
     border-radius: 5px;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
-.request .fileUpload .imageUpload {
-    width: 20%;
+.request .fileUpload .fileArea p {
+    cursor: pointer;
+}
+
+.request .fileUpload .fileArea p:hover {
+    color: #89343B;
+}
+
+.request .fileUpload .imageUpload {}
+
+.request .fileUpload .deleteIcon img {
+    height: 2rem;
+    width: auto;
+    background-color: #89343B;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .request .imageUpload input {

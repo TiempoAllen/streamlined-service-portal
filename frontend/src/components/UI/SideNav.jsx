@@ -1,10 +1,8 @@
 import React from "react";
 import classes from "./SideNav.module.css";
-import cituLogo from "../../assets/citu-logo.png";
-import homeIcon from "../../assets/Homehome.svg";
-import recordIcon from "../../assets/Record.svg";
-import requestIcon from "../../assets/request.svg";
-import approvalIcon from "../../assets/Approval.svg";
+import homeIcon from "../../assets/dashboard.svg";
+import recordIcon5 from "../../assets/record5.svg";
+import approvalIcon3 from "../../assets/approval3.svg";
 import { NavLink } from "react-router-dom";
 
 const SideNav = ({user_id}) => {
@@ -16,6 +14,7 @@ const SideNav = ({user_id}) => {
         <div className={classes.link}>
           <NavLink
             to={`/home/${user_id}`}
+            end
             className={({ isActive }) =>
               isActive ? classes.active : undefined
             }
@@ -33,7 +32,7 @@ const SideNav = ({user_id}) => {
               isActive ? classes.active : undefined
             }
           >
-          <img src={approvalIcon} alt="approval-icon" className={classes.icon} />
+          <img src={approvalIcon3} alt="approval-icon" className={classes.icon} />
             Approval
           </NavLink>
           </div>
@@ -46,7 +45,7 @@ const SideNav = ({user_id}) => {
               isActive ? classes.active : undefined
             }
           >
-          <img src={recordIcon} alt="records-icon" className={classes.icon} />
+          <img src={recordIcon5} alt="records-icon" className={classes.icon} />
             Record
           </NavLink>
           </div>

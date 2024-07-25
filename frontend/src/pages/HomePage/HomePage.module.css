@@ -4,7 +4,6 @@
     justify-content: center;
     gap: 2rem;
     padding: 0 6rem;
-    height: 100%;
 }
 
 .home img {
@@ -27,7 +26,7 @@
     align-items: center;
     justify-content: center;
     gap: 2rem;
-    padding: 5rem 2rem;
+    min-height: 100%;
 }
 
 .adminHome img {

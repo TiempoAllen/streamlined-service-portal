@@ -1,11 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
+
 import classes from "./LoginHeader.module.css";
 import profileImage from "../../assets/profile-image.svg";
 import cituLogo from "../../assets/citu-logo.png";
-import inboxImage from "../../assets/inbox-image.svg";
+import inboxImage from "../../assets/chat.svg";
 import homeIcon from "../../assets/home.svg";
 import requestIcon from "../../assets/request.svg";
-import bellIcon from "../../assets/bell.svg";
+import bellIcon from  "../../assets/bell.svg"
 import { Form, NavLink } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
@@ -13,8 +14,15 @@ import DropdownPortal from "./DropdownPortal";
 import SideNav from "./SideNav";
 
 const MainNavigation = ({ user = {} }) => {
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(1);
   const isAdmin = user && user.isadmin;
   const user_id = user && user.user_id;
+
+  const handleNotificationClick = () => {
+    setShowNotification(!showNotification);
+    setNotificationCount(0);
+  };
 
   console.log(isAdmin, user_id);
 
@@ -23,7 +31,7 @@ const MainNavigation = ({ user = {} }) => {
       <header className={classes.header}>
         <div className={classes.logo}>
           <img src={cituLogo} alt="citu-logo" />
-          <p>Streamlined Service <br />Portal</p>
+          <p>Streamlined Service Portal</p>
         </div>
         <ul className={classes.list}>
           {!isAdmin ? (
@@ -58,23 +66,26 @@ const MainNavigation = ({ user = {} }) => {
           )}
         </ul>
         <div className={classes.buttons}>
-          <Form action="logout" method="post">
-            <button className={classes.btnSignUp}>Logout</button>
-          </Form>
-          <img src={bellIcon} alt="bell" />
-          <img src={inboxImage} alt="inbox" />
-
-          <DropdownMenu.Root>
-            <DropdownMenu.Trigger asChild>
-              <p>
-                <img src={profileImage} alt="profile" />
-                <ArrowDropDownIcon style={{ color: "white" }} />
-              </p>
-            </DropdownMenu.Trigger>
-            <DropdownPortal /> 
-          </DropdownMenu.Root>
+          <div className={classes.badgeContainer} onClick={handleNotificationClick}>
+            <img src={bellIcon} alt="bell" />
+            {notificationCount > 0 && (
+              <span className={classes.badge}>{notificationCount}</span>
+            )}
+          </div>
+          <div className={classes.badgeContainer} onClick={handleNotificationClick}>
+            <img src={inboxImage} alt="inbox" />
+            {notificationCount > 0 && (
+              <span className={classes.badge}>{notificationCount}</span>
+            )}
+          </div>
+            <DropdownPortal />  
         </div>
       </header>
+      {showNotification && (
+        <div className={classes.bellNotification}>
+          <p>You have new notifications!</p>
+        </div>
+      )}
     </>
   );
 };

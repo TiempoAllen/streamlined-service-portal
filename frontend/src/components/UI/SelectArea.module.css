@@ -1,7 +1,7 @@
 .selectArea {
     display: grid;
     grid-auto-flow: column;
-    grid-column-gap: 950px;
+    grid-column-gap: 900px;
   }
   
   .selectArea h1 {

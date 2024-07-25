@@ -87,7 +87,7 @@ const RequestPage = () => {
                       <img
                         src={previewUrl}
                         alt="Preview"
-                        style={{ maxWidth: "100%" }}
+                        style={{ maxWidth: "100%", maxHeight:"100%" }}
                         onClick={handleImageClick}
                       />
                     ) : (

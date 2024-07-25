@@ -3,19 +3,31 @@ import homepageImage from "../../assets/homepage-image.png";
 import classes from "./HomePage.module.css";
 import axios from "axios";
 import { json, useRouteLoaderData } from "react-router-dom";
+import Dashboard from "../Dashboard/Dashboard";
 
 const HomePage = () => {
   const user = useRouteLoaderData("home");
+  const isAdmin = user && user.isadmin;
   return (
-    <section className={classes.home}>
+    <section className={isAdmin ? classes.adminHome : classes.home}>
       <div>
-        <h1>Welcome, {user.firstname}!</h1>
-        <p>
-        Enjoy effortless campus maintenance with our streamlined service, 
-        offering swift and professional janitorial, plumbing, and electrical support via an intuitive online portal.
-        </p>
+      {!isAdmin && <h1>Welcome, {user.firstname}!</h1>}
+        {isAdmin ? (
+            <>
+           <Dashboard />
+            </>
+          ) : (
+            <>
+      
+              <p>Enjoy effortless campus maintenance with our streamlined service,
+              offering swift and professional janitorial, plumbing, and electrical
+              support via an intuitive online portal. </p>
+            </>
+          )}
       </div>
-      <img src={homepageImage} alt="homepage" />
+      {!isAdmin && (
+        <img src={homepageImage} alt="homepage" />
+      )}
     </section>
   );
 };

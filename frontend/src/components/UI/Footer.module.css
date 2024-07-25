@@ -6,8 +6,10 @@
     border-top: solid 2px #F0953B;
     width: 100%;
     box-sizing: border-box;
+    background: #fff;
+    bottom: 0;
 }
-
+    
 .footer img {
     height: 6rem;
     width: auto;

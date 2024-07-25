@@ -4,7 +4,6 @@
     justify-content: center;
     gap: 2rem;
     padding: 0 6rem;
-    height: 100%;
 }
 
 .home img {
@@ -18,5 +17,38 @@
 }
 
 .home div p {
+    font-size: 1.5rem;
+}
+
+
+.adminHome {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    min-height: 100%;
+}
+
+.adminHome img {
+    max-width: 100%;
+    height: 250px;
+    max-height: 80vh;
+}
+
+.adminHome div h1 {
+    font-size: 2rem;
+}
+
+.adminHome img {
+    max-width: 100%;
+    height: 400px;
+    max-height: 80vh;
+}
+
+.adminHome div h1 {
+    font-size: 3rem;
+}
+
+.adminHome div p {
     font-size: 1.5rem;
 }

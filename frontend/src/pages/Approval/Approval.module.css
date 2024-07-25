@@ -1,12 +1,13 @@
 .approval {
-    height: 100vh;
     width: auto;
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     align-items: center;
     justify-content: start;
-    padding: 2rem 4rem;
+    padding: 2rem 2rem;
 }
 
 @import '@radix-ui/colors/black-alpha.css';

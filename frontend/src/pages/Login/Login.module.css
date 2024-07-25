@@ -2,9 +2,10 @@
     padding: 4rem;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
     flex: 1;
     overflow-y: auto;
+    gap: 15rem;
 }
 
 .main .login_div {

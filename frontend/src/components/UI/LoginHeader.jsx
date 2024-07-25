@@ -12,7 +12,7 @@ const LoginHeader = () => {
       </div>
       <div className={classes.buttons}>
         <Link to="/">
-          <button>Sign in</button>
+          <button className={classes.btnSignIn}>Sign in</button>
         </Link>
         <Link to="/register">
           <button className={classes.btnSignUp}>Sign up</button>

@@ -24,7 +24,7 @@
 .logo p,
 li {
     font-size: 1rem;
-    color: #e6e6e6;
+    color: #ffffff;
 }
 
 .list {
@@ -41,24 +41,34 @@ li {
 
 .list a {
     text-decoration: none;
-    color: #e6e6e6;
+    color: #ffffff;
+    font-size: 16px;
     padding: 0.25rem 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .list a:hover,
 .list a.active {
-    border-radius: 15px;
+    /* color: #F0953B; */
+    border-radius: 18px;
     background-color: #9C3338;
 }
+
+/* .list a:hover .icon,
+.list a.active .icon {
+    filter: brightness(0) saturate(100%) invert(67%) sepia(73%) saturate(843%) hue-rotate(331deg) brightness(97%) contrast(94%);
+} */
 
 .buttons {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 30px;
 }
 
 .buttons img {
-    height: 2rem;
+    height: 27px;
     width: auto;
 }
 
@@ -70,14 +80,14 @@ li {
 .header button {
     padding: 10px;
     font-size: 1rem;
-    border: 0.5px solid #9C3338;
     border-radius: 5px;
     cursor: pointer;
 
 }
 
 .btnSignIn {
-    background-color: #9C3338;
+    border-color: #9C3338;
+    border-style: solid;
     color: #e6e6e6;
 }
 
@@ -85,3 +95,45 @@ li {
     background-color: #9C3338;
     color: #e6e6e6
 }
+
+.icon{
+    width: auto;
+    height: 24px;
+}
+
+.bellNotification {
+    position: absolute;
+    top: 60px; /* adjust based on your header height */
+    right: 20px; /* adjust as needed */
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    z-index: 1000; /* ensure it appears above other elements */
+  }
+  
+  .badgeContainer {
+    color: white;
+    display: inline-block;
+    position: relative; 
+    padding: 2px 5px; 
+  }
+
+  .badge {
+    /* circle shape, size and position */
+    position: absolute;
+    right: -0.3em;
+    top: -0.5em;
+    min-width: 1.6em; /* or width, explained below. */
+    height: 1.6em;
+    border-radius: 100px; /* or 50%, explained below. */
+    background-color: #fa3e3e;
+  
+    /* number size and position */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    color: white;
+  }

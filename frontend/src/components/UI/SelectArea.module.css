@@ -1,15 +1,14 @@
 .selectArea {
-    display: grid;
-    grid-auto-flow: column;
-    grid-column-gap: 900px;
-  }
-  
-  .selectArea h1 {
-    color: #424242;
-    font-size: 2rem;
-    margin: 0;
-  }
-  
-  .selectArea select {
-    margin-left: auto;
-  }
+  width: 100%;
+  display: flex;
+}
+
+.selectArea h1 {
+  color: #424242;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.selectArea select {
+  margin-left: auto;
+}

@@ -79,7 +79,6 @@ const RequestPage = () => {
                 <label id="attachFileLabel">Attach File *Optional</label>
                 <div className={classes.fileUpload}>
                   <div className={classes.fileArea}>
-<<<<<<< HEAD
                     {file ? (
                       <Dialog.Root>
                         <Dialog.Trigger asChild>
@@ -87,15 +86,6 @@ const RequestPage = () => {
                         </Dialog.Trigger>
                         <FileModal file={file} />
                       </Dialog.Root>
-=======
-                    {previewUrl ? (
-                      <img
-                        src={previewUrl}
-                        alt="Preview"
-                        style={{ maxWidth: "100%", maxHeight:"100%" }}
-                        onClick={handleImageClick}
-                      />
->>>>>>> Justine
                     ) : (
                       "No file selected."
                     )}

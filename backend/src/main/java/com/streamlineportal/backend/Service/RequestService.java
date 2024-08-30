@@ -1,4 +1,4 @@
-package com.example.streamlined.backend.Service;
+package com.streamlineportal.backend.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -7,10 +7,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.streamlined.backend.Entity.RequestEntity;
-import com.example.streamlined.backend.Entity.UserEntity;
-import com.example.streamlined.backend.Repository.RequestRepository;
-import com.example.streamlined.backend.Repository.UserRepository;
+import com.streamlineportal.backend.Entity.RequestEntity;
+import com.streamlineportal.backend.Entity.UserEntity;
+import com.streamlineportal.backend.Repository.RequestRepository;
+import com.streamlineportal.backend.Repository.UserRepository;
+
 
 
 @Service
@@ -49,7 +50,7 @@ public class RequestService {
 	}
 	
 	public Optional<RequestEntity> getRequestById(int request_id) {
-		return rrepo.findById(request_id);	
+		return rrepo.findById(request_id);
 	}
 	
 	// @SuppressWarnings("finally")
@@ -84,7 +85,8 @@ public class RequestService {
 	// 	}
 	// }
 	
-	public String deleteRequest (int request_id) {
+	@SuppressWarnings("unused")
+    public String deleteRequest (int request_id) {
 		String msg = "";
 		
 		if(rrepo.findById(request_id) != null) {
@@ -96,3 +98,4 @@ public class RequestService {
 		return msg;
 	}
 }
+

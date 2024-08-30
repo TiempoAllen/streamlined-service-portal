@@ -1,17 +1,17 @@
-package com.example.streamlined.backend.Service;
+package com.streamlineportal.backend.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.streamlined.backend.Config.JwtUtil;
-import com.example.streamlined.backend.Entity.UserEntity;
-import com.example.streamlined.backend.Repository.UserRepository;
+import com.streamlineportal.backend.Config.JwtUtil;
+import com.streamlineportal.backend.Entity.UserEntity;
+import com.streamlineportal.backend.Repository.UserRepository;
+
 
 
 @Service
@@ -45,7 +45,11 @@ public class UserService {
     }
 	
 	public UserEntity insertUser(UserEntity user) {
-		return urepo.save(user);
+		String email = user.getEmail();
+	    if (urepo.existsByEmail(email)) {
+	        throw new IllegalArgumentException("Email already exists");
+	    }
+	    return urepo.save(user);
 	}
 	
 	public List<UserEntity> getAllUsers() {
@@ -73,7 +77,8 @@ public class UserService {
 		}
 	}*/
 	
-	public String deleteUser (int user_id) {
+	@SuppressWarnings("unused")
+    public String deleteUser (int user_id) {
 		String msg = "";
 		
 		if(urepo.findById(user_id) != null) {
@@ -81,7 +86,7 @@ public class UserService {
 			msg = "User " + user_id + " is successfully deleted!";
 		} else {
 			msg = "User " + user_id + " does not exist.";
-		}
+        }
 		return msg;
 	}
 }

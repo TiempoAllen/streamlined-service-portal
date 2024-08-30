@@ -1,5 +1,4 @@
-package com.example.streamlined.backend.Entity;
-
+package com.streamlineportal.backend.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -135,3 +134,5 @@ public class UserEntity {
 
     
 }
+
+

@@ -1,6 +1,5 @@
-package com.example.streamlined.backend.Controller;
+package com.streamlineportal.backend.Controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.streamlined.backend.Entity.UserEntity;
-import com.example.streamlined.backend.Service.UserService;
+import com.streamlineportal.backend.Entity.UserEntity;
+import com.streamlineportal.backend.Service.UserService;
+
+
 
 
 @RestController
@@ -35,9 +36,14 @@ public class UserController {
 	
 
 	@PostMapping("/add")
-	public UserEntity insertUser (@RequestBody UserEntity user) {
-		return userv.insertUser(user);
-	}
+    public ResponseEntity<?> insertUser(@RequestBody UserEntity user) {
+        try {
+            UserEntity newUser = userv.insertUser(user);
+            return ResponseEntity.ok(newUser);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 	
 	@GetMapping("/all")
 	public List<UserEntity> getAllUsers(){
@@ -64,7 +70,7 @@ public class UserController {
 	public ResponseEntity<?> loginUser(@RequestBody UserEntity loginRequest) {
         String email = loginRequest.getEmail();
         String password = loginRequest.getPassword();
-
+        
         Map<String, Object> loginResponse = userv.loginUser(email, password);
 
         if (loginResponse != null) {
@@ -76,3 +82,4 @@ public class UserController {
         }
     }
 }
+

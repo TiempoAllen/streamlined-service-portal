@@ -1,8 +1,8 @@
-package com.example.streamlined.backend.Repository;
+package com.streamlineportal.backend.Repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.streamlined.backend.Entity.RequestEntity;
+import com.streamlineportal.backend.Entity.RequestEntity;
 
 public interface RequestRepository extends JpaRepository <RequestEntity, Integer>{
 

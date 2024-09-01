@@ -13,6 +13,9 @@ import { action as logoutAction } from "./pages/Login/Logout";
 import { checkAuthLoader } from "./util/auth";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
 import Record from "./pages/Record/Record";
+import Technician, {
+  loader as technicianLoader,
+} from "./pages/Technician/Technician";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +54,12 @@ const router = createBrowserRouter([
         path: "record",
         element: <Record />,
         loader: checkAuthLoader,
+      },
+      {
+        path: "technician",
+        id: "technician",
+        element: <Technician />,
+        loader: technicianLoader,
       },
       {
         path: "logout",

@@ -80,6 +80,22 @@ hr {
     height: 35px;
 }
 
+.btnApprove {
+    background-color: #15ff00;
+    padding: 0.5rem;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btnBack {
+    background-color: #b8b8b8;
+    padding: 0.5rem;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .Button.violet {
     background-color: white;
     color: var(--violet-11);
@@ -151,6 +167,14 @@ hr {
     color: #424242;
     box-shadow: 0 0 0 1px var(--violet-7);
     height: 35px;
+}
+
+.techAssignedInput {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .Input:focus {

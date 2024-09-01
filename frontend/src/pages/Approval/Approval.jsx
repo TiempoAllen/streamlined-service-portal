@@ -1,17 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "../../components/UI/Table";
 import classes from "./Approval.module.css";
 import { getAuthToken } from "../../util/auth";
 import axios from "axios";
 import { useRouteLoaderData } from "react-router-dom";
 import SelectArea from "../../components/UI/SelectArea";
+import DetailsHeader from "../../components/UI/DetailsHeader";
 
 const Approval = () => {
   const { requests } = useRouteLoaderData("approval");
+  const [filter, setFilter] = useState("All");
+
+  const handleFilterChange = (selectedFilter) => {
+    setFilter(selectedFilter);
+  };
+
+  const filteredRequests = requests.filter((request) => {
+    if (filter === "All") {
+      return true;
+    }
+
+    return request.status === filter;
+  });
   return (
     <section className={classes.approval}>
-      <SelectArea />
-      <Table requests={requests} />
+      <SelectArea onFilterChange={handleFilterChange} header="Requests" />
+      {/* <DetailsHeader isTechnician={false} /> */}
+      <Table inputs={filteredRequests} />
     </section>
   );
 };

@@ -3,6 +3,9 @@ import classes from "./RequestDialogPortal.module.css";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import AddIcon from "@mui/icons-material/Add";
+import axios from "axios";
+import MessagePortal from "./MessagePortal";
 
 const formatDateTime = (datetime) => {
   const date = new Date(datetime);
@@ -18,6 +21,19 @@ const formatDateTime = (datetime) => {
 
 const RequestDialogPortal = ({ request }) => {
   const requestor = `${request.user_firstname} ${request.user_lastname}`;
+
+  const approveRequest = async (request_id) => {
+    try {
+      await axios.put(
+        `http://localhost:8080/request/updateStatus?request_id=${request_id}`,
+        {
+          status: "Approved",
+        }
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <Dialog.Portal>
@@ -34,6 +50,7 @@ const RequestDialogPortal = ({ request }) => {
               className={classes.Input}
               id="name"
               defaultValue={requestor}
+              disabled
             />
           </fieldset>
           <fieldset className={classes.Fieldset}>
@@ -44,7 +61,30 @@ const RequestDialogPortal = ({ request }) => {
               className={classes.Input}
               id="name"
               defaultValue={request.technician}
+              disabled
             />
+          </fieldset>
+          <fieldset className={classes.Fieldset}>
+            <label className={classes.Label} htmlFor="name">
+              Technician Assigned
+            </label>
+            <div className={classes.techAssignedInput}>
+              <AddIcon
+                sx={{
+                  padding: "0.50rem",
+                  border: "solid 1px #631c21",
+                  color: "#ffffff",
+                  backgroundColor: "#631c21",
+                  cursor: "pointer",
+                }}
+              />
+              <input
+                className={classes.Input}
+                id="techAssigned"
+                defaultValue="None"
+                disabled
+              />
+            </div>
           </fieldset>
           <fieldset className={classes.Fieldset}>
             <label className={classes.Label} htmlFor="name">
@@ -54,13 +94,14 @@ const RequestDialogPortal = ({ request }) => {
               className={classes.Input}
               id="name"
               defaultValue={formatDateTime(request.datetime)}
+              disabled
             />
           </fieldset>
           <fieldset className={classes.Fieldset}>
             <label className={classes.Label} htmlFor="name">
               Purpose
             </label>
-            <textarea className={classes.Input} id="name">
+            <textarea className={classes.Input} id="name" disabled>
               {request.purpose}
             </textarea>
           </fieldset>
@@ -78,11 +119,31 @@ const RequestDialogPortal = ({ request }) => {
               display: "flex",
               marginTop: 25,
               justifyContent: "flex-end",
+              gap: "1rem",
             }}
           >
-            <Dialog.Close asChild>
-              <button className="Button green">Back</button>
-            </Dialog.Close>
+            {request.status === "Pending" ? (
+              <>
+                <Dialog.Root>
+                  <Dialog.Trigger asChild>
+                    <button
+                      className={classes.btnApprove}
+                      // onClick={() => approveRequest(request.request_id)}
+                    >
+                      Approve
+                    </button>
+                  </Dialog.Trigger>
+                  <MessagePortal />
+                </Dialog.Root>
+                <Dialog.Close asChild>
+                  <button className={classes.btnBack}>Back</button>
+                </Dialog.Close>
+              </>
+            ) : (
+              <Dialog.Close asChild>
+                <button className={classes.btnBack}>Back</button>
+              </Dialog.Close>
+            )}
           </div>
           <Dialog.Close asChild>
             <button className={classes.IconButton} aria-label="Close">

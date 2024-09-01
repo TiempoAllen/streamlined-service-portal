@@ -16,36 +16,64 @@ const formatDateTime = (datetime) => {
   return new Intl.DateTimeFormat("en-US", options).format(date);
 };
 
-const Table = ({ requests }) => {
+const Table = ({ inputs }) => {
+  // Check if inputs is an array of technicians or requests
+  const isTechnician = inputs.length > 0 && inputs[0].tech_id !== undefined;
+
   return (
     <>
       <table className={classes.table}>
         <tbody>
-          {requests.map((request, index) => (
+          {inputs.map((input, index) => (
             <tr key={index}>
-              <td>
-                {request.user_firstname} {request.user_lastname}
-              </td>
-              <td>{request.technician}</td>
-              <td>{request.purpose}</td>
-              <td>{formatDateTime(request.datetime)}</td>
-              <td>{request.request_location}</td>
-              <td>{request.department}</td>
-              <td className={classes.attachment}>
-                {/* <AttachFileIcon /> */}
-                <p>
-                  <AttachFileIcon />
-                  {request.attachment ? request.attachment : "No Attachment"}
-                </p>
-              </td>
-              <Dialog.Root>
-                <Dialog.Trigger asChild>
-                  <td className={classes.assign}>
-                    <p>View</p>
+              {isTechnician ? (
+                <>
+                  <td className={classes.namePhone}>
+                    <p>{input.tech_name}</p>
+                    <p className={classes.techPhone}>{input.tech_phone}</p>
                   </td>
-                </Dialog.Trigger>
-                <RequestDialogPortal request={request} />
-              </Dialog.Root>
+                  <td>{input.tech_gender}</td>
+                  <td>{input.tech_classification}</td>
+                  <td>{input.available ? "Not Available" : "Available"}</td>
+                  <td>{input.tech_status}</td>
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <td className={classes.assign}>
+                        <p>View</p>
+                      </td>
+                    </Dialog.Trigger>
+                    {/* <TechnicianDialogPortal technician={input} /> */}
+                  </Dialog.Root>
+                  <td className={classes.assign}>
+                    <p>Assign</p>
+                  </td>
+                </>
+              ) : (
+                <>
+                  <td>
+                    {input.user_firstname} {input.user_lastname}
+                  </td>
+                  <td>{input.technician}</td>
+                  <td>{input.purpose}</td>
+                  <td>{formatDateTime(input.datetime)}</td>
+                  <td>{input.request_location}</td>
+                  <td>{input.department}</td>
+                  <td className={classes.attachment}>
+                    <p>
+                      <AttachFileIcon />
+                      {input.attachment ? input.attachment : "No Attachment"}
+                    </p>
+                  </td>
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <td className={classes.view}>
+                        <p>View</p>
+                      </td>
+                    </Dialog.Trigger>
+                    <RequestDialogPortal request={input} />
+                  </Dialog.Root>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

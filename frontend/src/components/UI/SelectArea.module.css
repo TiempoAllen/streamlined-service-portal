@@ -1,6 +1,7 @@
 .selectArea {
   width: 100%;
   display: flex;
+
 }
 
 .selectArea h1 {
@@ -11,4 +12,9 @@
 
 .selectArea select {
   margin-left: auto;
+  cursor: pointer;
+}
+
+.selectArea select option {
+  cursor: pointer;
 }

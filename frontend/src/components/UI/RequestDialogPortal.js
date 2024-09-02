@@ -6,6 +6,7 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
 import MessagePortal from "./MessagePortal";
+import TechnicianPortal from "./TechnicianPortal";
 
 const formatDateTime = (datetime) => {
   const date = new Date(datetime);
@@ -19,7 +20,7 @@ const formatDateTime = (datetime) => {
   return new Intl.DateTimeFormat("en-US", options).format(date);
 };
 
-const RequestDialogPortal = ({ request }) => {
+const RequestDialogPortal = ({ request, technicians }) => {
   const requestor = `${request.user_firstname} ${request.user_lastname}`;
 
   const approveRequest = async (request_id) => {
@@ -69,21 +70,40 @@ const RequestDialogPortal = ({ request }) => {
               Technician Assigned
             </label>
             <div className={classes.techAssignedInput}>
-              <AddIcon
-                sx={{
-                  padding: "0.50rem",
-                  border: "solid 1px #631c21",
-                  color: "#ffffff",
-                  backgroundColor: "#631c21",
-                  cursor: "pointer",
-                }}
-              />
-              <input
-                className={classes.Input}
-                id="techAssigned"
-                defaultValue="None"
-                disabled
-              />
+              {request.tech_id !== null ? (
+                <input
+                  className={classes.Input}
+                  id="techAssigned"
+                  defaultValue={request.tech_id}
+                  disabled
+                />
+              ) : (
+                <>
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <AddIcon
+                        sx={{
+                          padding: "0.50rem",
+                          border: "solid 1px #631c21",
+                          color: "#ffffff",
+                          backgroundColor: "#631c21",
+                          cursor: "pointer",
+                        }}
+                      />
+                    </Dialog.Trigger>
+                    <TechnicianPortal
+                      technicians={technicians}
+                      request_id={request.request_id}
+                    />
+                  </Dialog.Root>
+                  <input
+                    className={classes.Input}
+                    id="techAssigned"
+                    defaultValue="None"
+                    disabled
+                  />
+                </>
+              )}
             </div>
           </fieldset>
           <fieldset className={classes.Fieldset}>

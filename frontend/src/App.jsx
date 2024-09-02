@@ -17,6 +17,17 @@ import Technician, {
   loader as technicianLoader,
 } from "./pages/Technician/Technician";
 
+// const technicianApprovalLoader = async () => {
+//   const [requests, technicians] = await Promise.all([
+//     approvalLoader(),
+//     technicianLoader(),
+//   ]);
+//   return {
+//     requests,
+//     technicians,
+//   };
+// };
+
 const router = createBrowserRouter([
   {
     path: "/",

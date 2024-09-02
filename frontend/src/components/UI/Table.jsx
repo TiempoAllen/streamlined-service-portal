@@ -16,9 +16,8 @@ const formatDateTime = (datetime) => {
   return new Intl.DateTimeFormat("en-US", options).format(date);
 };
 
-const Table = ({ inputs }) => {
-  // Check if inputs is an array of technicians or requests
-  const isTechnician = inputs.length > 0 && inputs[0].tech_id !== undefined;
+const Table = ({ inputs, technicians }) => {
+  const isTechnician = inputs.length > 0 && inputs[0].tech_phone !== undefined;
 
   return (
     <>
@@ -36,14 +35,6 @@ const Table = ({ inputs }) => {
                   <td>{input.tech_classification}</td>
                   <td>{input.available ? "Not Available" : "Available"}</td>
                   <td>{input.tech_status}</td>
-                  <Dialog.Root>
-                    <Dialog.Trigger asChild>
-                      <td className={classes.assign}>
-                        <p>View</p>
-                      </td>
-                    </Dialog.Trigger>
-                    {/* <TechnicianDialogPortal technician={input} /> */}
-                  </Dialog.Root>
                   <td className={classes.assign}>
                     <p>Assign</p>
                   </td>
@@ -70,7 +61,10 @@ const Table = ({ inputs }) => {
                         <p>View</p>
                       </td>
                     </Dialog.Trigger>
-                    <RequestDialogPortal request={input} />
+                    <RequestDialogPortal
+                      request={input}
+                      technicians={technicians}
+                    />
                   </Dialog.Root>
                 </>
               )}

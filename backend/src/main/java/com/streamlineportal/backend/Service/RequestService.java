@@ -21,23 +21,32 @@ public class RequestService {
 	
 	@Autowired
     UserRepository urepo;
+
+	public boolean isTechnicianBooked(String technician, java.sql.Timestamp timestamp) {
+		return rrepo.existsByTechnicianAndDatetime(technician, timestamp);
+	}
+	
 	
 	public RequestEntity addRequest(RequestEntity request) {
-        Optional<UserEntity> userOpt = urepo.findById(request.getUser_id().intValue());
-        if (userOpt.isPresent()) {
-            UserEntity user = userOpt.get();
-            
-            request.setDepartment(user.getDepartment());
-            request.setUser_firstname(user.getFirstname());
-            request.setUser_lastname(user.getLastname());
-            
-            
-        } else {
-            throw new NoSuchElementException("User with ID " + request.getUser_id() + " not found.");
-        }
-        request.setStatus("Pending");
-        return rrepo.save(request);
-    }
+		Optional<UserEntity> userOpt = urepo.findById(request.getUser_id().intValue());
+		if (userOpt.isPresent()) {
+			UserEntity user = userOpt.get();
+			request.setDepartment(user.getDepartment());
+			request.setUser_firstname(user.getFirstname());
+			request.setUser_lastname(user.getLastname());
+		} else {
+			throw new NoSuchElementException("User with ID " + request.getUser_id() + " not found.");
+		}
+		
+		// Check if the technician is already booked for the selected date and time
+		if (isTechnicianBooked(request.getTechnician(), request.getDatetime())) {
+			throw new IllegalStateException("Technician is already booked for the selected date and time.");
+		}
+	
+		request.setStatus("Pending");
+		return rrepo.save(request);
+	}
+	
 	
 	
 	/*public RequestEntity addRequest(RequestEntity request) {
@@ -97,5 +106,6 @@ public class RequestService {
 		}
 		return msg;
 	}
+
 }
 

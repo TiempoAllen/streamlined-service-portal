@@ -6,4 +6,7 @@ import com.streamlineportal.backend.Entity.RequestEntity;
 
 public interface RequestRepository extends JpaRepository <RequestEntity, Integer>{
 
+    boolean existsByTechnicianAndDatetime(String technician, java.sql.Timestamp timestamp);
+
+
 }

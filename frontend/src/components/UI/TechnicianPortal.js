@@ -5,15 +5,20 @@ import { Table } from "@radix-ui/themes";
 import classes from "./RequestDialogPortal.module.css";
 import axios from "axios";
 
-const TechnicianPortal = ({ technicians, request_id }) => {
+const TechnicianPortal = ({
+  technicians,
+  request_id,
+  onTechnicianAssigned,
+}) => {
   console.log(request_id);
 
-  const handleAssignTechnicianToRequest = async (tech_id) => {
+  const handleAssignTechnicianToRequest = async (tech_id, tech_name) => {
     try {
       const response = await axios.post(
         `http://localhost:8080/request/assignTechnician?request_id=${request_id}&tech_id=${tech_id}`
       );
       alert("Technician assigned successfully");
+      onTechnicianAssigned(tech_id, tech_name);
     } catch (error) {
       console.error(error.response.data.message);
       // console.log("Request Id: ", request_id);
@@ -59,7 +64,10 @@ const TechnicianPortal = ({ technicians, request_id }) => {
                     <p
                       className={classes.assign}
                       onClick={() =>
-                        handleAssignTechnicianToRequest(technician.tech_id)
+                        handleAssignTechnicianToRequest(
+                          technician.tech_id,
+                          technician.tech_name
+                        )
                       }
                     >
                       Assign

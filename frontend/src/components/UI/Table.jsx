@@ -16,7 +16,7 @@ const formatDateTime = (datetime) => {
   return new Intl.DateTimeFormat("en-US", options).format(date);
 };
 
-const Table = ({ inputs, technicians }) => {
+const Table = ({ inputs, technicians, onUpdateRequestStatus }) => {
   const isTechnician = inputs.length > 0 && inputs[0].tech_phone !== undefined;
 
   return (
@@ -64,6 +64,7 @@ const Table = ({ inputs, technicians }) => {
                     <RequestDialogPortal
                       request={input}
                       technicians={technicians}
+                      onUpdateRequestStatus={onUpdateRequestStatus}
                     />
                   </Dialog.Root>
                 </>

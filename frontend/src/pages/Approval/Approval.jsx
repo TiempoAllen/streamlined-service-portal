@@ -12,23 +12,42 @@ const Approval = () => {
   console.log("Requests", requests);
 
   const [filter, setFilter] = useState("All");
+  const [filteredRequests, setFilteredRequests] = useState(requests);
 
   const handleFilterChange = (selectedFilter) => {
     setFilter(selectedFilter);
+    setFilteredRequests(
+      requests.filter((request) => {
+        if (selectedFilter === "All") {
+          return true;
+        }
+        return request.status === selectedFilter;
+      })
+    );
   };
 
-  const filteredRequests = requests.filter((request) => {
-    if (filter === "All") {
-      return true;
-    }
-
-    return request.status === filter;
-  });
+  const updateRequestStatus = (request_id, status) => {
+    const updatedRequests = requests.map((request) =>
+      request.request_id === request_id ? { ...request, status } : request
+    );
+    setFilteredRequests(
+      updatedRequests.filter((request) => {
+        if (filter === "All") {
+          return true;
+        }
+        return request.status === filter;
+      })
+    );
+  };
   return (
     <section className={classes.approval}>
       <SelectArea onFilterChange={handleFilterChange} header="Requests" />
       {/* <DetailsHeader isTechnician={false} /> */}
-      <Table inputs={filteredRequests} technicians={technicians} />
+      <Table
+        inputs={filteredRequests}
+        technicians={technicians}
+        onUpdateRequestStatus={updateRequestStatus}
+      />
     </section>
   );
 };

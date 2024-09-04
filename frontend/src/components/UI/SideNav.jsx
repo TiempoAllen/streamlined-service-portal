@@ -3,9 +3,9 @@ import classes from "./SideNav.module.css";
 import homeIcon from "../../assets/dashboard.svg";
 import recordIcon5 from "../../assets/record5.svg";
 import approvalIcon3 from "../../assets/approval3.svg";
-<<<<<<< HEAD
 import chatIcon from "../../assets/chat.svg";
 import hashtagIcon from "../../assets/hashtag.svg";
+import technicianIcon from "../../assets/technician-icon.svg";
 import { NavLink } from "react-router-dom";
 
 const SideNav = ({user_id}) => {
@@ -16,12 +16,6 @@ const SideNav = ({user_id}) => {
     setSideBar(!sideBar);
   };
 
-=======
-import technicianIcon from "../../assets/technician-icon.svg";
-import { NavLink } from "react-router-dom";
-
-const SideNav = ({ user_id }) => {
->>>>>>> master
   return (
     <nav className={classes.sideNav}>
       <ul className={classes.list}>

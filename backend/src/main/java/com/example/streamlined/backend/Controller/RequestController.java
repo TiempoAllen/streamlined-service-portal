@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.streamlined.backend.Entity.RequestEntity;
-import com.example.streamlined.backend.Service.RequestService;
+import com.streamlineportal.backend.Entity.RequestEntity;
+import com.streamlineportal.backend.Service.RequestService;
 
 @RestController
 @RequestMapping("/request")

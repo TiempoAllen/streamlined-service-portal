@@ -8,12 +8,9 @@ import requestIcon from "../../assets/request.svg";
 import bellIcon from "../../assets/bell.svg";
 import { NavLink } from "react-router-dom";
 import DropdownPortal from "./DropdownPortal";
-<<<<<<< HEAD
 import Notification from "./Notification";
 import ChatNotification from "./ChatNotification";
 import SideNav from "./SideNav";
-=======
->>>>>>> master
 
 const MainNavigation = ({ user = {} }) => {
   const isAdmin = user && user.isadmin;
@@ -68,11 +65,9 @@ const MainNavigation = ({ user = {} }) => {
           )}
         </ul>
         <div className={classes.buttons}>
-<<<<<<< HEAD
             <Notification />
             <ChatNotification />
             <DropdownPortal />  
-=======
           <div
             className={classes.badgeContainer}
             onClick={handleNotificationClick}

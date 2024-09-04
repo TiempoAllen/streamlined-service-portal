@@ -12,6 +12,8 @@ import Error from "./pages/Error/Error";
 import { action as logoutAction } from "./pages/Login/Logout";
 import { checkAuthLoader } from "./util/auth";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
+import Chat from "./pages/Chat/Chat";
+import Profile from "./pages/Profile/Profile";
 import Record from "./pages/Record/Record";
 
 const router = createBrowserRouter([
@@ -51,6 +53,13 @@ const router = createBrowserRouter([
         path: "record",
         element: <Record />,
         loader: checkAuthLoader,
+      },
+      {
+        path: "profile",
+        element: <Profile />
+      },{
+        path: "chat",
+        element: <Chat />
       },
       {
         path: "logout",

@@ -9,7 +9,7 @@ import profileImage from "../../assets/profile-image.svg";
 import { NavLink, Form } from "react-router-dom";
 
 const DropdownPortal = () => {
-  const [showProfile, setShowProfile] = useState(false)
+  const [showProfile, setShowProfile] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleShowProfile = () =>{
@@ -36,13 +36,13 @@ const DropdownPortal = () => {
       </button>
       {showProfile && (
         <div className={classes.dropdownMenu}>
-          <NavLink to="/profile" className={classes.dropdownItem}>
+          <NavLink to="profile" className={classes.dropdownItem}>
             <button type="myprofile" className={classes.myProfileButton}>
             <img src={myProfileIcon} alt="myprofile" />
             My Profile
             </button>
           </NavLink>
-          <NavLink to="/history" className={classes.dropdownItem}>
+          <NavLink to="history" className={classes.dropdownItem}>
             <button type="history" className={classes.historyButton}>
             <img src={historyIcon} alt="history" />
             History

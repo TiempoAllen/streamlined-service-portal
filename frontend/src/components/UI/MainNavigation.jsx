@@ -11,18 +11,13 @@ import { Form, NavLink } from "react-router-dom";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import DropdownPortal from "./DropdownPortal";
+import Notification from "./Notification";
+import ChatNotification from "./ChatNotification";
 import SideNav from "./SideNav";
 
 const MainNavigation = ({ user = {} }) => {
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationCount, setNotificationCount] = useState(1);
   const isAdmin = user && user.isadmin;
   const user_id = user && user.user_id;
-
-  const handleNotificationClick = () => {
-    setShowNotification(!showNotification);
-    setNotificationCount(0);
-  };
 
   console.log(isAdmin, user_id);
 
@@ -66,26 +61,11 @@ const MainNavigation = ({ user = {} }) => {
           )}
         </ul>
         <div className={classes.buttons}>
-          <div className={classes.badgeContainer} onClick={handleNotificationClick}>
-            <img src={bellIcon} alt="bell" />
-            {notificationCount > 0 && (
-              <span className={classes.badge}>{notificationCount}</span>
-            )}
-          </div>
-          <div className={classes.badgeContainer} onClick={handleNotificationClick}>
-            <img src={inboxImage} alt="inbox" />
-            {notificationCount > 0 && (
-              <span className={classes.badge}>{notificationCount}</span>
-            )}
-          </div>
+            <Notification />
+            <ChatNotification />
             <DropdownPortal />  
         </div>
       </header>
-      {showNotification && (
-        <div className={classes.bellNotification}>
-          <p>You have new notifications!</p>
-        </div>
-      )}
     </>
   );
 };

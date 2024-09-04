@@ -1,0 +1,38 @@
+.main{
+    width: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 2rem;
+}
+
+.chatPeopleContainer{
+    display: flex;
+    flex-direction: column;
+    background-color: azure;
+    height: 500px;
+    width: 350px;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+.chatMessages{
+    display: flex;
+    background-color: white;
+    height: 500px;
+    width: 500px;
+    border-radius: 16px;
+    box-sizing: border-box;
+}
+
+
+.profilePic{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+

@@ -1,0 +1,109 @@
+.notificationContainer {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50px; /* adjust based on your header height */
+    right: 150px;
+    background-color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 6px;
+    z-index: 1000; 
+  }
+
+  .notificationContainer .title{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .notificationContainer .title img{
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+  }
+
+  .notificationsRow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  
+
+  .notificationsRow img{
+    height: 35px;
+    width: 35px;
+    padding:5px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .notificationsRow p, .notificationsRow span{
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  .parentRow{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 10px;
+  }
+  
+  .childRow{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    gap: 20px;
+    margin-top: 5px;
+  }
+
+  .childRow span{
+    flex-shrink: 0;
+    font-size: 9px;
+    font-weight: 600;
+    color: #484444;
+  }
+
+  .notificationsRow .accepted{
+    color: #2BA437;
+  }
+
+  .notificationsRow .rejected{
+    color: #EF3939;
+  }
+
+.badgeContainer {
+    color: white;
+    display: inline-block;
+    position: relative; 
+    padding: 2px 5px; 
+  }
+
+  .badge {
+    /* circle shape, size and position */
+    position: absolute;
+    right: -0.3em;
+    top: -0.5em;
+    min-width: 1.6em;
+    height: 1.6em;
+    border-radius: 100px; 
+    background-color: #fa3e3e;
+  
+    /* number size and position */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    color: white;
+  }

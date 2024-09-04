@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./SideNav.module.css";
 import homeIcon from "../../assets/dashboard.svg";
 import recordIcon5 from "../../assets/record5.svg";
 import approvalIcon3 from "../../assets/approval3.svg";
+import chatIcon from "../../assets/chat.svg";
+import hashtagIcon from "../../assets/hashtag.svg";
 import { NavLink } from "react-router-dom";
 
 const SideNav = ({user_id}) => {
   
+  const [sideBar, setSideBar] = useState(false);
+  
+  const toggleSideBar = () =>{
+    setSideBar(!sideBar);
+  };
+
   return (
     <nav className={classes.sideNav}>
       <ul className={classes.list}>
@@ -50,6 +58,32 @@ const SideNav = ({user_id}) => {
           </NavLink>
           </div>
         </li>
+        <li>
+          <div className={classes.link}>
+          <NavLink
+            to={`/home/${user_id}/chat`}
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+          >
+          <img src={chatIcon} alt="records-icon" className={classes.icon} />
+            Chat
+          </NavLink>
+          </div>
+        </li>
+        {/* <li>
+          <div className={classes.link}>
+          <NavLink
+            to={`/home/${user_id}/superuser`}
+            className={({ isActive }) =>
+              isActive ? classes.active : undefined
+            }
+          >
+          <img src={hashtagIcon} alt="records-icon" className={classes.icon} />
+            Superuser
+          </NavLink>
+          </div>
+        </li> */}
       </ul>
     </nav>
   );

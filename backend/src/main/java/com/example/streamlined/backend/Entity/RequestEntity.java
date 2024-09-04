@@ -43,13 +43,19 @@ public class RequestEntity {
     
     @Column(name = "technician")
     private String technician;
+    
+    @Column(name = "attachment")
+    private String attachment;
 
 	public RequestEntity() {
 		super();
 	}
 
+	
+
 	public RequestEntity(Long request_id, String purpose, Timestamp datetime, String status, String request_location,
-			String department, Long user_id, String user_firstname, String user_lastname, String technician) {
+			String department, Long user_id, String user_firstname, String user_lastname, String technician,
+			String attachment) {
 		super();
 		this.request_id = request_id;
 		this.purpose = purpose;
@@ -61,7 +67,10 @@ public class RequestEntity {
 		this.user_firstname = user_firstname;
 		this.user_lastname = user_lastname;
 		this.technician = technician;
+		this.attachment = attachment;
 	}
+
+
 
 	public Long getRequest_id() {
 		return request_id;
@@ -142,6 +151,19 @@ public class RequestEntity {
 	public void setTechnician(String technician) {
 		this.technician = technician;
 	}
+
+
+
+	public String getAttachment() {
+		return attachment;
+	}
+
+
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
     
+	
     
 }

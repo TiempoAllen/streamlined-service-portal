@@ -6,13 +6,13 @@
   flex-direction: column;
   box-sizing: border-box;
   align-items: center;
-  justify-content: start;
+  justify-content: center;
   padding: 2rem 2rem;
 }
 
   .cardBox{
     position: relative;
-    width: 1150px;
+    width: 100%;
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -62,7 +62,7 @@
   
   .details{
     position: relative;
-    width: 96%;
+    width: 100%;
     padding: 10px;
     margin-left: 10px;
     display: grid;

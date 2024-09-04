@@ -45,7 +45,11 @@ public class UserService {
     }
 	
 	public UserEntity insertUser(UserEntity user) {
-		return urepo.save(user);
+		String email = user.getEmail();
+	    if (urepo.existsByEmail(email)) {
+	        throw new IllegalArgumentException("Email already exists");
+	    }
+	    return urepo.save(user);
 	}
 	
 	public List<UserEntity> getAllUsers() {

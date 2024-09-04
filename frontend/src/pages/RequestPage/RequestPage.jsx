@@ -118,7 +118,7 @@ const RequestPage = () => {
               </span>
             </div>
           </div>
-          <button type="submit" id="submitButton">
+          <button type="submit" id="submitButton" className={classes.submitBtn}>
             Submit Record
           </button>
         </Form>

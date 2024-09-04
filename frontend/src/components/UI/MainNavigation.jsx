@@ -1,19 +1,19 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import classes from "./LoginHeader.module.css";
-import profileImage from "../../assets/profile-image.svg";
 import cituLogo from "../../assets/citu-logo.png";
 import inboxImage from "../../assets/chat.svg";
 import homeIcon from "../../assets/home.svg";
 import requestIcon from "../../assets/request.svg";
-import bellIcon from  "../../assets/bell.svg"
-import { Form, NavLink } from "react-router-dom";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import bellIcon from "../../assets/bell.svg";
+import { NavLink } from "react-router-dom";
 import DropdownPortal from "./DropdownPortal";
+<<<<<<< HEAD
 import Notification from "./Notification";
 import ChatNotification from "./ChatNotification";
 import SideNav from "./SideNav";
+=======
+>>>>>>> master
 
 const MainNavigation = ({ user = {} }) => {
   const isAdmin = user && user.isadmin;
@@ -39,7 +39,11 @@ const MainNavigation = ({ user = {} }) => {
                   }
                   end
                 >
-                  <img src={homeIcon} alt="home-icon" className={classes.icon} />
+                  <img
+                    src={homeIcon}
+                    alt="home-icon"
+                    className={classes.icon}
+                  />
                   Home
                 </NavLink>
               </li>
@@ -50,20 +54,45 @@ const MainNavigation = ({ user = {} }) => {
                     isActive ? classes.active : undefined
                   }
                 >
-                  <img src={requestIcon} alt="request-icon" className={classes.icon} />
+                  <img
+                    src={requestIcon}
+                    alt="request-icon"
+                    className={classes.icon}
+                  />
                   Request
                 </NavLink>
               </li>
             </>
           ) : (
-            <>
-            </>
+            <></>
           )}
         </ul>
         <div className={classes.buttons}>
+<<<<<<< HEAD
             <Notification />
             <ChatNotification />
             <DropdownPortal />  
+=======
+          <div
+            className={classes.badgeContainer}
+            onClick={handleNotificationClick}
+          >
+            <img src={bellIcon} alt="bell" />
+            {notificationCount > 0 && (
+              <span className={classes.badge}>{notificationCount}</span>
+            )}
+          </div>
+          <div
+            className={classes.badgeContainer}
+            onClick={handleNotificationClick}
+          >
+            <img src={inboxImage} alt="inbox" />
+            {notificationCount > 0 && (
+              <span className={classes.badge}>{notificationCount}</span>
+            )}
+          </div>
+          <DropdownPortal />
+>>>>>>> master
         </div>
       </header>
     </>

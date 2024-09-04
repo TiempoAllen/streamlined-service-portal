@@ -30,6 +30,10 @@
 
 }
 
+.request .submitBtn {
+    cursor: pointer;
+}
+
 .request form .inputs {
     display: flex;
     align-items: start;

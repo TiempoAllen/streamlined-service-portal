@@ -1,8 +1,12 @@
 .table {
-    display: inline-block;
+    display: table;
     border-collapse: separate;
     border-spacing: 0 1rem;
     color: #424242;
+    width: 100%;
+}
+
+.table tbody {
     width: 100%;
 }
 
@@ -21,11 +25,21 @@ tr td:last-child {
 td {
     /* border-top: 0.25px solid #424242;
     border-bottom: 0.25px solid #424242; */
+    /* width: 100%; */
     font-size: 1rem;
     padding: 1rem 1rem;
     background-color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
+    /* cursor: pointer; */
+}
+
+/* .namePhone {
+    display: flex;
+    flex-direction: ;
+} */
+
+.techPhone {
+    font-size: 12px;
 }
 
 .attachment p {
@@ -41,6 +55,10 @@ td {
     height: 100%;
 }
 
+.assign {
+    cursor: pointer;
+}
+
 .assign p {
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -52,6 +70,25 @@ td {
     justify-content: center;
     gap: 0.5rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 70px;
+}
+
+.view {
+    cursor: pointer;
+}
+
+.view p {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    background-color: #9C3338;
+    color: #e6e6e6;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 70px;
 }
 
 .assign .buttons {

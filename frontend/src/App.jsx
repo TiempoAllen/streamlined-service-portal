@@ -15,6 +15,20 @@ import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
 import Chat from "./pages/Chat/Chat";
 import Profile from "./pages/Profile/Profile";
 import Record from "./pages/Record/Record";
+import Technician, {
+  loader as technicianLoader,
+} from "./pages/Technician/Technician";
+
+// const technicianApprovalLoader = async () => {
+//   const [requests, technicians] = await Promise.all([
+//     approvalLoader(),
+//     technicianLoader(),
+//   ]);
+//   return {
+//     requests,
+//     technicians,
+//   };
+// };
 
 const router = createBrowserRouter([
   {
@@ -57,9 +71,15 @@ const router = createBrowserRouter([
       {
         path: "profile",
         element: <Profile />
-      },{
+      },
+      {
         path: "chat",
         element: <Chat />
+      },
+      { path: "technician",
+        id: "technician",
+        element: <Technician />,
+        loader: technicianLoader,
       },
       {
         path: "logout",

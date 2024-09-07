@@ -3,10 +3,17 @@ import classes from "./SideNav.module.css";
 import homeIcon from "../../assets/dashboard.svg";
 import recordIcon5 from "../../assets/record5.svg";
 import approvalIcon3 from "../../assets/approval3.svg";
+<<<<<<< HEAD
 import superUser2 from "../../assets/superuser2.svg";
 import { NavLink } from "react-router-dom";
 
 const SideNav = ({ user_id, isSuperUser }) => {
+=======
+import technicianIcon from "../../assets/technician-icon.svg";
+import { NavLink } from "react-router-dom";
+
+const SideNav = ({ user_id }) => {
+>>>>>>> master
   return (
     <nav className={classes.sideNav}>
       <ul className={classes.list}>
@@ -32,7 +39,15 @@ const SideNav = ({ user_id, isSuperUser }) => {
                 isActive ? classes.active : undefined
               }
             >
+<<<<<<< HEAD
               <img src={approvalIcon3} alt="approval-icon" className={classes.icon} />
+=======
+              <img
+                src={approvalIcon3}
+                alt="approval-icon"
+                className={classes.icon}
+              />
+>>>>>>> master
               Approval
             </NavLink>
           </div>
@@ -45,9 +60,36 @@ const SideNav = ({ user_id, isSuperUser }) => {
                 isActive ? classes.active : undefined
               }
             >
+<<<<<<< HEAD
               <img src={recordIcon5} alt="records-icon" className={classes.icon} />
               Record
             </NavLink>
+=======
+              <img
+                src={recordIcon5}
+                alt="records-icon"
+                className={classes.icon}
+              />
+              Record
+            </NavLink>
+          </div>
+        </li>
+        <li>
+          <div className={classes.link}>
+            <NavLink
+              to={`/home/${user_id}/technician`}
+              className={({ isActive }) =>
+                isActive ? classes.active : undefined
+              }
+            >
+              <img
+                src={technicianIcon}
+                alt="technician-icon"
+                className={classes.icon}
+              />
+              Technician
+            </NavLink>
+>>>>>>> master
           </div>
         </li>
         {isSuperUser && ( 

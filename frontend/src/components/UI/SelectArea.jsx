@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./SelectArea.module.css";
 
-const SelectArea = () => {
+const SelectArea = ({ onFilterChange, header }) => {
+  const [selectedFilter, setSelectedFilter] = useState("All");
+
+  const handleFilterChange = (event) => {
+    setSelectedFilter(event.target.value);
+    onFilterChange(event.target.value);
+  };
+
   return (
     <section className={classes.selectArea}>
-      <h1>Requests</h1>
-      <select>
-        <option>All</option>
+      <h1>{header}</h1>
+      <select value={selectedFilter} onChange={handleFilterChange}>
+        <option value="All">All</option>
+        <option value="Pending">Pending</option>
+        <option value="Approved">Approved</option>
       </select>
     </section>
   );

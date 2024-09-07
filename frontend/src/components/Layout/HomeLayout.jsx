@@ -8,6 +8,7 @@ import Footer from "../UI/Footer";
 const HomeLayout = () => {
   const user = useRouteLoaderData("home");
   const isAdmin = user && user.isadmin;
+  const isSuperUser = user && user.isSuperUser;
   const user_id = user && user.user_id;
 
   return (
@@ -15,7 +16,12 @@ const HomeLayout = () => {
       <MainNavigation user={user} />
       {isAdmin ? (
         <div className={classes.layout}>
-          <SideNav user_id={user_id} className={classes.menu} />
+          <SideNav 
+            user_id={user_id} 
+            isSuperUser={isSuperUser} 
+            isadmin={isAdmin} 
+            className={classes.menu} 
+          />
           <main className={classes.adminMain}>
             <Outlet />
             <Footer className={classes.footerAdmin} />

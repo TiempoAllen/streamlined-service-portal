@@ -13,6 +13,7 @@ import { action as logoutAction } from "./pages/Login/Logout";
 import { checkAuthLoader } from "./util/auth";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
 import Record from "./pages/Record/Record";
+import SuperUser from "./pages/SuperUser/SuperUser";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,11 @@ const router = createBrowserRouter([
         path: "record",
         element: <Record />,
         loader: checkAuthLoader,
+      },
+      {
+        path: "superuser",  
+        element: <SuperUser />,
+        loader: checkAuthLoader, 
       },
       {
         path: "logout",

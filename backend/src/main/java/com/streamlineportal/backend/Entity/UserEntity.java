@@ -39,14 +39,14 @@ public class UserEntity {
     @Column(name = "isadmin")
     private Boolean isadmin = false;
 
-    @Column(name = "isSuperUser") // Added new field
+    @Column(name = "isSuperUser") 
     private Boolean isSuperUser = false;
 
     public UserEntity() {
     }
 
     public UserEntity(Long user_id, String username, String firstname, String lastname, String password,
-			String employee_id, String email, String department, Boolean isadmin, Boolean isSuperUser) { // Updated constructor
+			String employee_id, String email, String department, Boolean isadmin, Boolean isSuperUser) { 
 		super();
 		this.user_id = user_id;
 		this.username = username;
@@ -96,7 +96,7 @@ public class UserEntity {
         return isadmin;
     }
 
-    public Boolean getIsSuperUser() { // Getter for isSuperUser
+    public Boolean getIsSuperUser() { 
         return isSuperUser;
     }
 
@@ -136,7 +136,7 @@ public class UserEntity {
         this.isadmin = isadmin;
     }
 
-    public void setIsSuperUser(Boolean isSuperUser) { // Setter for isSuperUser
+    public void setIsSuperUser(Boolean isSuperUser) {
         this.isSuperUser = isSuperUser;
     }
 }

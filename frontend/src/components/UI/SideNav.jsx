@@ -50,7 +50,7 @@ const SideNav = ({ user_id, isSuperUser }) => {
             </NavLink>
           </div>
         </li>
-        {isSuperUser && ( // Conditional rendering based on isSuperUser
+        {isSuperUser && ( 
           <li>
             <div className={classes.link}>
               <NavLink

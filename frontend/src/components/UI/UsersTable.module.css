@@ -1,0 +1,29 @@
+.userstable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.userstable th,
+.userstable td {
+  padding: 5px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  height: 100%;
+  
+}
+
+.userstable th {
+  background-color: #fffaf1;
+  color: #424242;
+   margin: 0;
+}
+
+.actions {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+  justify-content: center; /* Center the buttons */
+  
+ 
+}
+  
+

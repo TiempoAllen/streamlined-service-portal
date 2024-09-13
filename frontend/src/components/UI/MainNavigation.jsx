@@ -68,26 +68,6 @@ const MainNavigation = ({ user = {} }) => {
             <Notification />
             <ChatNotification />
             <DropdownPortal />  
-          <div
-            className={classes.badgeContainer}
-            onClick={handleNotificationClick}
-          >
-            <img src={bellIcon} alt="bell" />
-            {notificationCount > 0 && (
-              <span className={classes.badge}>{notificationCount}</span>
-            )}
-          </div>
-          <div
-            className={classes.badgeContainer}
-            onClick={handleNotificationClick}
-          >
-            <img src={inboxImage} alt="inbox" />
-            {notificationCount > 0 && (
-              <span className={classes.badge}>{notificationCount}</span>
-            )}
-          </div>
-          <DropdownPortal />
->>>>>>> master
         </div>
       </header>
     </>

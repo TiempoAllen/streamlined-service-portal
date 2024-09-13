@@ -32,7 +32,7 @@ const DropdownPortal = () => {
   return (
     <div className={classes.dropdown} ref={dropdownRef}>
       <button onClick={handleShowProfile} className={classes.profileTrigger}>
-        <img src={profileImage} alt="profile" />
+        <img src={profileImage} alt="profile" className={classes.profileImage}/>
       </button>
       {showProfile && (
         <div className={classes.dropdownMenu}>
@@ -42,12 +42,12 @@ const DropdownPortal = () => {
             My Profile
             </button>
           </NavLink>
-          <NavLink to="history" className={classes.dropdownItem}>
+          {/* <NavLink to="history" className={classes.dropdownItem}>
             <button type="history" className={classes.historyButton}>
             <img src={historyIcon} alt="history" />
             History
             </button>
-          </NavLink>
+          </NavLink> */}
           <Form action="logout" method="post" className={classes.dropdownItem}>
             <button type="logout" className={classes.logoutButton}>
               <img src={logoutIcon} alt="logout" />

@@ -12,18 +12,24 @@ const Approval = () => {
   console.log("Requests", requests);
 
   const [filter, setFilter] = useState("All");
-  const [filteredRequests, setFilteredRequests] = useState(requests);
+  const [filteredRequests, setFilteredRequests] = useState(
+    [...requests].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  );
 
   const handleFilterChange = (selectedFilter) => {
     setFilter(selectedFilter);
-    setFilteredRequests(
-      requests.filter((request) => {
-        if (selectedFilter === "All") {
-          return true;
-        }
-        return request.status === selectedFilter;
-      })
+
+    let updatedRequests = [...requests];
+    
+    if(selectedFilter != "All"){
+      updatedRequests = updatedRequests.filter((requests) => requests.status == selectedFilter);
+    }
+
+    updatedRequests = updatedRequests.sort((
+      a,b) => new Date(b.createdAt) - new Date(a.createdAt)
     );
+
+    setFilteredRequests(updatedRequests);
   };
 
   const updateRequestStatus = (request_id, status) => {
@@ -37,6 +43,7 @@ const Approval = () => {
         }
         return request.status === filter;
       })
+      .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
     );
   };
   return (

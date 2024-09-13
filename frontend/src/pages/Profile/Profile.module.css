@@ -10,6 +10,16 @@
     gap: 20px;
 }
 
+.columnSection{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    width: 100%;
+    padding: 2rem 2rem;
+}
+
 .profileCard{
     display: flex;
     justify-content: center;
@@ -19,6 +29,7 @@
     box-sizing: border-box;
     border-radius: 16px;
     height: 300px;
+    max-height: 100%;
     width: 350px;
     padding: 1rem;
 }
@@ -47,6 +58,23 @@
     width: 100%;
     padding: 1rem;
     flex: 1 1;
+}
+
+.editPassword{
+    display: flex;
+    background-color: #631C21;
+    color: white;
+    justify-content: flex-end;
+    align-self: flex-end;
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 10px;
+    margin-top: -55px;
+}
+
+.editPassword:hover{
+    background-color: #953a40;
+    cursor: pointer;
 }
 
 .name, .username, .idNumber, .password, .email, .department {

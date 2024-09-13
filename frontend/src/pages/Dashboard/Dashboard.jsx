@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Dashboard.module.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -12,6 +12,32 @@ const Dashboard = () => {
   const onChange = (newDate) => {
     setDate(newDate);
   };
+  const [request, setRequest] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(()  => {
+    const fetchRequest = async () => {
+        try{
+          const response = await axios.get('http://localhost:8080/request/all');
+          setRequest(response.data);
+          setIsLoading(false);
+        }catch(err){
+          setError("Failed to load");
+          setIsLoading(false);
+        }
+    };
+    fetchRequest();
+  }, []);
+
+  if(isLoading){
+    return <p>{error}</p>;
+  }
+
+  if(error){
+    return <p>{error}</p>;
+  }
+
     return(
         <section className={classes.main}>
 
@@ -20,7 +46,7 @@ const Dashboard = () => {
         {/* Total Requests */}
           <div className={classes.card}>
             <div>
-                <div className={classes.requestsNumber}>1</div>
+                <div className={classes.requestsNumber}>{request.length}</div>
                 <div className={classes.name}>Total Requests</div>
             </div>
             <div className={classes.icon}>

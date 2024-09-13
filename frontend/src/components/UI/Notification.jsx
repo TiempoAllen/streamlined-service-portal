@@ -30,7 +30,7 @@ const Notification = () => {
     return(
         <div className={classes.main} ref={dropdownRef}>
             <div className={classes.badgeContainer} onClick={handleNotificationClick}>
-            <img src={bellIcon} alt="bell" />
+            <img src={bellIcon} alt="bell" className={classes.bellIcon} />
             {notificationCount > 0 && (
               <span className={classes.badge}>{notificationCount}</span>
             )}
@@ -40,25 +40,87 @@ const Notification = () => {
             <div className={classes.title}>
                 <span className={classes.firstTitle}>Notification</span>
             </div>
-            <div className={classes.notificationsRow}>
-                <img src={profileImg} className={classes.profileImg} />
-                <div className={classes.parentRow}>
-                    <p>John Doe <span className={classes.accepted}>accepted</span> your request</p>
-                    <div className={classes.childRow}>
-                        <span>Fri 10:20 am</span>
-                        <span>Aug 05, 2024</span>
-                    </div>
-                </div>
-            </div>
-            <div className={classes.notificationsRow}>
-                <img src={profileImg} className={classes.profileImg} />
-                <div className={classes.parentRow}>
-                    <p>John Doe <span className={classes.rejected}>rejected</span> your request</p>
-                    <div className={classes.childRow}>
-                        <span>Fri 10:20 am</span>
-                        <span>Aug 05, 2024</span>
-                    </div>
-                </div>
+            <div className={classes.notificationItems}>
+              <div className={classes.notificationsRow}>
+                  <img src={profileImg} className={classes.profileImg} />
+                  <div className={classes.parentRow}>
+                      <p>John Doe <span className={classes.accepted}>accepted</span> your request</p>
+                      <div className={classes.childRow}>
+                          <span>Fri 10:20 am</span>
+                          <span>Aug 05, 2024</span>
+                      </div>
+                  </div>
+              </div>
+              <div className={classes.notificationsRow}>
+                  <img src={profileImg} className={classes.profileImg} />
+                  <div className={classes.parentRow}>
+                      <p>John Doe <span className={classes.rejected}>rejected</span> your request</p>
+                      <div className={classes.childRow}>
+                          <span>Fri 10:20 am</span>
+                          <span>Aug 05, 2024</span>
+                      </div>
+                  </div>
+              </div>
+              <div className={classes.notificationsRow}>
+                  <img src={profileImg} className={classes.profileImg} />
+                  <div className={classes.parentRow}>
+                      <p>John Doe <span className={classes.accepted}>accepted</span> your request</p>
+                      <div className={classes.childRow}>
+                          <span>Fri 10:20 am</span>
+                          <span>Aug 05, 2024</span>
+                      </div>
+                  </div>
+              </div>
+              <div className={classes.notificationsRow}>
+                  <img src={profileImg} className={classes.profileImg} />
+                  <div className={classes.parentRow}>
+                      <p>John Doe <span className={classes.rejected}>rejected</span> your request</p>
+                      <div className={classes.childRow}>
+                          <span>Fri 10:20 am</span>
+                          <span>Aug 05, 2024</span>
+                      </div>
+                  </div>
+              </div>
+              <div className={classes.notificationsRow}>
+                  <img src={profileImg} className={classes.profileImg} />
+                  <div className={classes.parentRow}>
+                      <p>John Doe <span className={classes.accepted}>accepted</span> your request</p>
+                      <div className={classes.childRow}>
+                          <span>Fri 10:20 am</span>
+                          <span>Aug 05, 2024</span>
+                      </div>
+                  </div>
+              </div>
+              <div className={classes.notificationsRow}>
+                  <img src={profileImg} className={classes.profileImg} />
+                  <div className={classes.parentRow}>
+                      <p>John Doe <span className={classes.rejected}>rejected</span> your request</p>
+                      <div className={classes.childRow}>
+                          <span>Fri 10:20 am</span>
+                          <span>Aug 05, 2024</span>
+                      </div>
+                  </div>
+              </div>
+              <div className={classes.notificationsRow}>
+                  <img src={profileImg} className={classes.profileImg} />
+                  <div className={classes.parentRow}>
+                      <p>John Doe <span className={classes.accepted}>accepted</span> your request</p>
+                      <div className={classes.childRow}>
+                          <span>Fri 10:20 am</span>
+                          <span>Aug 05, 2024</span>
+                      </div>
+                  </div>
+              </div>
+              <div className={classes.notificationsRow}>
+                  <img src={profileImg} className={classes.profileImg} />
+                  <div className={classes.parentRow}>
+                      <p>John Doe <span className={classes.rejected}>rejected</span> your request</p>
+                      <div className={classes.childRow}>
+                          <span>Fri 10:20 am</span>
+                          <span>Aug 05, 2024</span>
+                      </div>
+                  </div>
+              </div>
             </div>
         </div>
             )}

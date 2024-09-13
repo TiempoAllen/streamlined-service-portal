@@ -9,7 +9,6 @@
   padding: 2rem 2rem;
 }
 
-<<<<<<< HEAD
   .cardBox{
     position: relative;
     width: 100%;
@@ -103,6 +102,7 @@
   .cardHeader .btn:hover{
     color: rgb(255, 255, 255);
     background-color: rgb(218, 101, 101);
+    cursor: pointer;
   }
   
   .details table{
@@ -133,7 +133,6 @@
   .details .tableDashboard table tr td{
     padding: 20px;
   }
-=======
 .cardBox {
   position: relative;
   width: 1150px;
@@ -142,7 +141,6 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
->>>>>>> master
 
 
 .cardBox .card {

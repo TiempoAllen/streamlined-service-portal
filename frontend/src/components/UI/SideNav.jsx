@@ -15,9 +15,10 @@ const SideNav = ({ user_id }) => {
     setSideBar(!sideBar);
   };
 
-  
+
   return (
     <nav className={classes.sideNav}>
+      
       <ul className={classes.list}>
         <li>
           <div className={classes.link}>

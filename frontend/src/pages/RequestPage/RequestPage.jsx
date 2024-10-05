@@ -34,7 +34,7 @@ const RequestPage = () => {
               <div>
                 <span>
                   <label id="technicianLabel">Technician</label>
-                  <select name="technician" required>
+                  <select name="request_technician" required>
                     <option value="Janitor">Janitor</option>
                     <option value="Electrician">Electrician</option>
                     <option value="Plumber">Plumber</option>
@@ -61,16 +61,27 @@ const RequestPage = () => {
                   disabled
                   required
                 />
-                <label id="datetimeLabel">Date and Time</label>
-                <input type="datetime-local" name="datetime" required />
+                <label id="datetimeLabel">Start Date and Time</label>
+                <input type="datetime-local" name="startTime" required />
+                <label id="datetimeLabel">End Date and Time</label>
+                <input type="datetime-local" name="endTime" required />
               </div>
             </div>
             <div className={classes.secondHalf}>
               <span>
-                <label id="purposeLabel">Purpose</label>
+                <label id="titleLabel">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="e.g. Fix something."
+                  required
+                />
+              </span>
+              <span>
+                <label id="descriptionLabel">Description</label>
                 <textarea
                   type="text"
-                  name="purpose"
+                  name="description"
                   placeholder="e.g. Clean the room."
                   required
                 ></textarea>
@@ -133,15 +144,22 @@ export const action = async ({ request, params }) => {
   const user_id = params.user_id;
   const data = await request.formData();
 
-  const rawDatetime = data.get("datetime");
-  const formattedDatetime = new Date(rawDatetime).toISOString();
+  const rawStartTime = data.get("startTime");
+  const formattedStartTime = new Date(rawStartTime).toISOString();
+  const rawEndTime = data.get("endTime");
+  const formattedEndTime = new Date(rawEndTime).toISOString();
+
+  const currentDateTime = new Date().toISOString();
 
   const requestData = new FormData();
   requestData.append("request_location", data.get("request_location"));
-  requestData.append("datetime", formattedDatetime);
-  requestData.append("purpose", data.get("purpose"));
+  requestData.append("datetime", currentDateTime);
+  requestData.append("startTime", formattedStartTime);
+  requestData.append("endTime", formattedEndTime);
+  requestData.append("title", data.get("title"));
+  requestData.append("description", data.get("description"));
   requestData.append("user_id", user_id);
-  requestData.append("technician", data.get("technician"));
+  requestData.append("request_technician", data.get("request_technician"));
   requestData.append("attachment", data.get("attachment"));
 
   for (let [key, value] of requestData.entries()) {

@@ -3,37 +3,41 @@ import classes from "./Table.module.css";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import * as Dialog from "@radix-ui/react-dialog";
 import RequestDialogPortal from "../../components/UI/RequestDialogPortal";
+import { formatDateTime } from "../../util/auth";
 
-const formatDateTime = (datetime) => {
-  const date = new Date(datetime);
-  const options = {
-    month: "2-digit",
-    day: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  };
-  return new Intl.DateTimeFormat("en-US", options).format(date);
-};
-
-const Table = ({ inputs, technicians, onUpdateRequestStatus }) => {
+const Table = ({
+  inputs,
+  technicians,
+  onApproveRequest,
+  onRemoveTechnician,
+}) => {
   const isTechnician = inputs.length > 0 && inputs[0].tech_phone !== undefined;
+
+  const sortedInputs = [...inputs].sort((a, b) => {
+    const dateA = new Date(a.datetime);
+    const dateB = new Date(b.datetime);
+    return dateB - dateA; // For descending order (latest to oldest)
+  });
 
   return (
     <>
       <table className={classes.table}>
         <tbody>
-          {inputs.map((input, index) => (
+          {/* Existing rendering logic using sortedInputs */}
+          {sortedInputs.map((input, index) => (
             <tr key={index}>
               {isTechnician ? (
                 <>
+                  <td>{input.tech_id}</td>
                   <td className={classes.namePhone}>
                     <p>{input.tech_name}</p>
                     <p className={classes.techPhone}>{input.tech_phone}</p>
                   </td>
                   <td>{input.tech_gender}</td>
                   <td>{input.tech_classification}</td>
-                  <td>{input.available ? "Not Available" : "Available"}</td>
+                  <td>
+                    {input.isavailable === true ? "Available" : "Not Available"}
+                  </td>
                   <td>{input.tech_status}</td>
                   <td className={classes.assign}>
                     <p>Assign</p>
@@ -41,10 +45,12 @@ const Table = ({ inputs, technicians, onUpdateRequestStatus }) => {
                 </>
               ) : (
                 <>
+                  {/* This section will render if it's not a technician */}
+                  <td>{input.request_id}</td>
                   <td>
                     {input.user_firstname} {input.user_lastname}
                   </td>
-                  <td>{input.technician}</td>
+                  <td>{input.request_technician}</td>
                   <td>{input.purpose}</td>
                   <td>{formatDateTime(input.datetime)}</td>
                   <td>{input.request_location}</td>
@@ -64,7 +70,8 @@ const Table = ({ inputs, technicians, onUpdateRequestStatus }) => {
                     <RequestDialogPortal
                       request={input}
                       technicians={technicians}
-                      onUpdateRequestStatus={onUpdateRequestStatus}
+                      onApproveRequest={onApproveRequest}
+                      onRemoveTechnician={onRemoveTechnician}
                     />
                   </Dialog.Root>
                 </>

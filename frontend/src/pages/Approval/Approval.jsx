@@ -1,22 +1,29 @@
 import React, { useState } from "react";
-import Table from "../../components/UI/Table";
 import classes from "./Approval.module.css";
-import { getAuthToken } from "../../util/auth";
+import { loadRequestsAndTechnicians } from "../../util/auth";
 import axios from "axios";
-import { useLoaderData, useRouteLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import SelectArea from "../../components/UI/SelectArea";
-import DetailsHeader from "../../components/UI/DetailsHeader";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import * as Dialog from "@radix-ui/react-dialog";
+import RequestDialogPortal from "../../components/UI/RequestDialogPortal";
 
 const Approval = () => {
-  const { requests, technicians } = useLoaderData();
-  console.log("Requests", requests);
+  const { requests: initialRequests, technicians } = useLoaderData();
+  console.log("Requests", initialRequests);
 
-  const [filter, setFilter] = useState("All");
-  const [filteredRequests, setFilteredRequests] = useState(requests);
+  // Manage the `requests` state, not just `rowData`
+  const [requests, setRequests] = useState(initialRequests);
+  const [filter, setFilter] = useState("Pending");
+  const [rowData, setRowData] = useState(
+    initialRequests.filter((request) => request.status === "Pending")
+  );
 
   const handleFilterChange = (selectedFilter) => {
     setFilter(selectedFilter);
-    setFilteredRequests(
+    setRowData(
       requests.filter((request) => {
         if (selectedFilter === "All") {
           return true;
@@ -26,79 +33,132 @@ const Approval = () => {
     );
   };
 
-  const updateRequestStatus = (request_id, status) => {
-    const updatedRequests = requests.map((request) =>
-      request.request_id === request_id ? { ...request, status } : request
-    );
-    setFilteredRequests(
-      updatedRequests.filter((request) => {
-        if (filter === "All") {
-          return true;
+  const approveRequest = async (request_id) => {
+    try {
+      await axios.put(
+        `http://localhost:8080/request/updateStatus?request_id=${request_id}`,
+        {
+          status: "Approved",
         }
-        return request.status === filter;
-      })
-    );
+      );
+
+      // Update the requests array
+      const updatedRequests = requests.map((request) =>
+        request.request_id === request_id
+          ? { ...request, status: "Approved" }
+          : request
+      );
+
+      // Update both requests and rowData states
+      setRequests(updatedRequests);
+      setRowData(
+        updatedRequests.filter((request) => {
+          if (filter === "All") {
+            return true;
+          }
+          return request.status === filter;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  const handleRequestDone = async (request_id) => {
+    try {
+      await axios.put(
+        `http://localhost:8080/request/updateStatus?request_id=${request_id}`,
+        { status: "Done" }
+      );
+
+      const updatedRequests = requests.map((request) =>
+        request.request_id === request_id
+          ? { ...request, status: "Done" }
+          : request
+      );
+
+      setRequests(updatedRequests);
+      setRowData(
+        updatedRequests.filter((request) => {
+          if (filter === "All") {
+            return true;
+          }
+          return request.status === filter;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const columns = [
+    { headerName: "Request ID", field: "request_id", flex: 1 },
+    {
+      headerName: "User",
+      field: "user_firstname",
+      cellRenderer: (params) =>
+        `${params.data.user_firstname} ${params.data.user_lastname}`,
+      flex: 1,
+    },
+    { headerName: "Technician", field: "request_technician", flex: 1 },
+    { headerName: "Title", field: "title", flex: 1 },
+    { headerName: "Description", field: "description", flex: 1 },
+    {
+      headerName: "Date/Time",
+      field: "datetime",
+      flex: 1,
+      valueFormatter: (params) => new Date(params.value).toLocaleString(),
+    },
+    { headerName: "Location", field: "request_location", flex: 1 },
+    { headerName: "Department", field: "department", flex: 1 },
+    {
+      headerName: "Attachment",
+      field: "attachment",
+      flex: 1,
+      cellRenderer: (params) => (
+        <span>{params.value ? params.value : "No Attachment"}</span>
+      ),
+    },
+    {
+      headerName: "Actions",
+      flex: 1,
+      cellRenderer: (params) => (
+        <div>
+          <Dialog.Root>
+            <Dialog.Trigger asChild>
+              <p className={classes.viewBtn}>View</p>
+            </Dialog.Trigger>
+            <RequestDialogPortal
+              request={params.data}
+              technicians={technicians}
+              onApproveRequest={approveRequest}
+              onRequestDone={handleRequestDone}
+            />
+          </Dialog.Root>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <section className={classes.approval}>
       <SelectArea onFilterChange={handleFilterChange} header="Requests" />
-      {/* <DetailsHeader isTechnician={false} /> */}
-      <Table
-        inputs={filteredRequests}
-        technicians={technicians}
-        onUpdateRequestStatus={updateRequestStatus}
-      />
+      <div
+        className="ag-theme-quartz"
+        style={{ height: "100%", width: "100%", marginTop: "1rem" }}
+      >
+        <AgGridReact
+          rowData={rowData}
+          columnDefs={columns}
+          domLayout="autoHeight"
+          pagination={true}
+          paginationPageSize={10}
+        />
+      </div>
     </section>
   );
 };
 
 export default Approval;
 
-export const loader = async () => {
-  const token = getAuthToken();
-
-  if (!token) {
-    throw new Error("No token found");
-  }
-
-  const [requestsResponse, techniciansResponse] = await Promise.all([
-    axios.get("http://localhost:8080/request/all", {
-      // headers: {
-      //   Authorization: `Bearer ${token}`,
-      // },
-    }),
-    axios.get("http://localhost:8080/technician/getAllTechnician", {
-      // headers: {
-      //   Authorization: `Bearer ${token}`,
-      // },
-    }),
-  ]);
-
-  return {
-    requests: requestsResponse.data,
-    technicians: techniciansResponse.data,
-  };
-};
-
-// export const loader = async ({ params }) => {
-//   const token = getAuthToken();
-
-//   if (!token) {
-//     throw new Error("No token found");
-//   }
-
-//   try {
-//     const response = await axios.get("http://localhost:8080/request/all", {
-//       // headers: {
-//       //   Authorization: `Bearer ${token}`,
-//       // },
-//     });
-
-//     const requests = response.data;
-//     console.log(requests);
-
-//     return { requests };
-//   } catch (error) {
-//     throw new Error(`Error fetching requests: ${error.message}`);
-//   }
-// };
+export const loader = loadRequestsAndTechnicians;

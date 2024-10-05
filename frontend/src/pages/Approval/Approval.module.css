@@ -21,6 +21,11 @@ input {
     all: unset;
 }
 
+.viewBtn {
+    cursor: pointer;
+    color: #89343B;
+}
+
 .DialogOverlay {
     background-color: var(--black-a9);
     position: fixed;

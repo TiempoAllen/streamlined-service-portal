@@ -15,20 +15,12 @@ import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
 import Chat from "./pages/Chat/Chat";
 import Profile from "./pages/Profile/Profile";
 import Record from "./pages/Record/Record";
+import Record, { loader as recordLoader } from "./pages/Record/Record";
 import Technician, {
   loader as technicianLoader,
 } from "./pages/Technician/Technician";
-
-// const technicianApprovalLoader = async () => {
-//   const [requests, technicians] = await Promise.all([
-//     approvalLoader(),
-//     technicianLoader(),
-//   ]);
-//   return {
-//     requests,
-//     technicians,
-//   };
-// };
+import TechnicianSchedule from "./pages/Technician/TechnicianSchedule";
+import RecordDetails from "./pages/Record/RecordDetails";
 
 const router = createBrowserRouter([
   {
@@ -66,20 +58,31 @@ const router = createBrowserRouter([
       {
         path: "record",
         element: <Record />,
-        loader: checkAuthLoader,
+        loader: recordLoader,
+      },
+      {
+        path: "record/:requestId",
+        element: <RecordDetails />,
       },
       {
         path: "profile",
-        element: <Profile />
+        element: <Profile />,
       },
       {
         path: "chat",
-        element: <Chat />
+        element: <Chat />,
       },
-      { path: "technician",
+      {
+        path: "technician",
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,
+        children: [
+          {
+            path: "schedule",
+            element: <TechnicianSchedule />,
+          },
+        ],
       },
       {
         path: "logout",

@@ -1,4 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-calendars/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-dropdowns/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-lists/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-react-schedule/styles/material.css";
+
 
 
 html {
@@ -15,6 +26,8 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+
 
 header,
 footer {
@@ -35,6 +48,18 @@ a button {
 
 button {
   text-align: center;
+}
+
+/* Customizing AG Grid Theme */
+.ag-theme-quartz {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+/* Additional grid custom styles if needed */
+.ag-theme-quartz .ag-header-cell {
+  font-weight: bold;
+  font-size: 16px;
 }
 
 @import '@radix-ui/colors/black-alpha.css';
@@ -223,3 +248,29 @@ button {
     transform: translateX(0);
   }
 }
+
+/* @media print {
+  body * {
+    visibility: hidden;
+  }
+
+  nav {
+    visibility: hidden;
+  }
+
+  .recordDetailsContainer,
+  .recordDetailsContainer * {
+    visibility: visible;
+  }
+
+  .recordDetailsContainer {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+
+  .button {
+    display: none;
+  }
+} */

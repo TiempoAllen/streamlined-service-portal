@@ -14,12 +14,8 @@ import { checkAuthLoader } from "./util/auth";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
 import Chat from "./pages/Chat/Chat";
 import Profile from "./pages/Profile/Profile";
-<<<<<<< HEAD
 import Record, { loader as recordLoader } from "./pages/Record/Record";
-=======
-import Record from "./pages/Record/Record";
 import SuperUser from "./pages/SuperUser/SuperUser";
->>>>>>> fcd78850809556d9a43f778575f9e1d06d4bdca8
 import Technician, {
   loader as technicianLoader,
 } from "./pages/Technician/Technician";
@@ -75,7 +71,7 @@ const router = createBrowserRouter([
         element: <RecordDetails />,
       },
       {
-<<<<<<< HEAD
+
         path: "superuser",
         id: "superuser"  ,
         element: <SuperUser />,
@@ -83,7 +79,7 @@ const router = createBrowserRouter([
       },
       { 
         path: "technician",
-=======
+
         path: "profile",
         element: <Profile />,
       },
@@ -91,13 +87,8 @@ const router = createBrowserRouter([
         path: "chat",
         element: <Chat />,
       },
-<<<<<<< HEAD
-      {
-        path: "technician",
-=======
+
       { path: "technician",
->>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f
->>>>>>> fcd78850809556d9a43f778575f9e1d06d4bdca8
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,

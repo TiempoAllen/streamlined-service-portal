@@ -1,19 +1,13 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import classes from "./SideNav.module.css";
 import homeIcon from "../../assets/dashboard.svg";
 import recordIcon5 from "../../assets/record5.svg";
 import approvalIcon3 from "../../assets/approval3.svg";
-<<<<<<< HEAD
 import superUser2 from "../../assets/superuser2.svg";
-import { NavLink } from "react-router-dom";
+import technicianIcon from "../../assets/technician-icon.svg";
 
 const SideNav = ({ user_id, isSuperUser }) => {
-=======
-import technicianIcon from "../../assets/technician-icon.svg";
-import { NavLink } from "react-router-dom";
-
-const SideNav = ({ user_id }) => {
->>>>>>> master
   return (
     <nav className={classes.sideNav}>
       <ul className={classes.list}>
@@ -39,15 +33,7 @@ const SideNav = ({ user_id }) => {
                 isActive ? classes.active : undefined
               }
             >
-<<<<<<< HEAD
               <img src={approvalIcon3} alt="approval-icon" className={classes.icon} />
-=======
-              <img
-                src={approvalIcon3}
-                alt="approval-icon"
-                className={classes.icon}
-              />
->>>>>>> master
               Approval
             </NavLink>
           </div>
@@ -60,16 +46,7 @@ const SideNav = ({ user_id }) => {
                 isActive ? classes.active : undefined
               }
             >
-<<<<<<< HEAD
               <img src={recordIcon5} alt="records-icon" className={classes.icon} />
-              Record
-            </NavLink>
-=======
-              <img
-                src={recordIcon5}
-                alt="records-icon"
-                className={classes.icon}
-              />
               Record
             </NavLink>
           </div>
@@ -89,10 +66,9 @@ const SideNav = ({ user_id }) => {
               />
               Technician
             </NavLink>
->>>>>>> master
           </div>
         </li>
-        {isSuperUser && ( 
+        {isSuperUser && (
           <li>
             <div className={classes.link}>
               <NavLink

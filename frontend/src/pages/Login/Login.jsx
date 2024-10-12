@@ -71,6 +71,7 @@ export async function action({ request }) {
     const user_id = resData.user_id;
 
     localStorage.setItem("token", token);
+ 
 
     return redirect(`/home/${user_id}`);
   } catch (error) {

@@ -6,9 +6,9 @@ import classes from "./RequestDialogPortal.module.css";
 import axios from "axios";
 
 const TechnicianPortal = ({
-  technicians,
-  request_id,
-  onTechnicianAssigned,
+  technicians = [],
+  request_id , 
+  onTechnicianAssigned ,
 }) => {
   console.log(request_id);
 

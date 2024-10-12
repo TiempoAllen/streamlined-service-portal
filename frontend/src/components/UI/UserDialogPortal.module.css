@@ -72,6 +72,17 @@
     background-color: #dc3545;
     cursor: pointer;
   }
+  .AddButton{
+    background-color: #28a745;
+    font-family: inherit;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+  }
   
   
   .SaveButton {
@@ -133,4 +144,11 @@
     gap: 10px;
     justify-content: space-between;
   }
-  
+  .Error{
+    color:red;
+    margin-bottom:  15px;
+  }
+
+  .Success{
+    margin-bottom: 15px;
+  }

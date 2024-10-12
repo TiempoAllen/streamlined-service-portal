@@ -25,5 +25,18 @@
   
  
 }
+.hidetext{
+   -webkit-text-security: disc; 
+}
   
 
+@media (max-width: 768px) {
+  .userstable {
+      font-size: 14px; /* Slightly smaller font size for smaller screens */
+  }
+
+  .userstable th,
+  .userstable td {
+      padding: 8px; /* Less padding on smaller screens */
+  }
+}

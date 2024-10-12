@@ -1,28 +1,27 @@
 import { redirect } from "react-router-dom";
 import axios from "axios";
 
+
 export const getAuthToken = () => {
   const token = localStorage.getItem("token");
   return token;
+
 };
+
 
 export const checkAuthLoader = () => {
   const token = getAuthToken();
 
   if (!token) {
-    // throw json(
-    //   { message: "You have no access to this page." },
-    //   { status: 500 }
-    // );
     return redirect("/");
   }
 
-  return null;
+  return null;  
 };
 
 
 
-export const submitRegistration = async (formData) => {
+export const AddSuperUser = async (formData) => {
   const {
     firstname,
     lastname,
@@ -31,10 +30,10 @@ export const submitRegistration = async (formData) => {
     department,
     email,
     password,
-    confirmPassword,
   } = formData;
 
-  // Validations
+ 
+
   if (password.length < 8) {
     return {
       success: false,
@@ -63,12 +62,6 @@ export const submitRegistration = async (formData) => {
   if (!email.endsWith("@cit.edu")) {
     return { success: false, message: "Email must end with '@cit.edu'." };
   }
-  if (password !== confirmPassword) {
-    return {
-      success: false,
-      message: "Password and Confirm Password do not match.",
-    };
-  }
 
   const registerData = {
     firstname,
@@ -78,6 +71,7 @@ export const submitRegistration = async (formData) => {
     employee_id,
     email,
     department,
+ 
   };
 
   try {
@@ -93,14 +87,12 @@ export const submitRegistration = async (formData) => {
     return { success: true };
   } catch (error) {
     console.error("Error: ", error.response?.data || error.message);
-    
     if (error.response && error.response.data === "Email already exists") {
       return { success: false, message: "Email already exists" };
     }
     if (error.response && error.response.data === "Employee ID already exists") {
       return { success: false, message: "Employee ID already exists" };
     }
-    
     return { success: false, message: "Could not register user." };
   }
 };

@@ -5,9 +5,10 @@
 
 .requestsTable th,
 .requestsTable td {
-  padding: 5px;
+  padding: 3.5px;
   text-align: left;
   border-bottom: 1px solid #ddd;
+ 
 }
 
 .requestsTable th {

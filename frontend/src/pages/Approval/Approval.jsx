@@ -14,32 +14,15 @@ const Approval = () => {
   const { requests: initialRequests, technicians } = useLoaderData();
   console.log("Requests", initialRequests);
 
-<<<<<<< HEAD
-  const [filter, setFilter] = useState("All");
-  const [filteredRequests, setFilteredRequests] = useState(
-    [...requests].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-=======
   // Manage the `requests` state, not just `rowData`
   const [requests, setRequests] = useState(initialRequests);
   const [filter, setFilter] = useState("Pending");
   const [rowData, setRowData] = useState(
     initialRequests.filter((request) => request.status === "Pending")
->>>>>>> Allen
   );
 
   const handleFilterChange = (selectedFilter) => {
     setFilter(selectedFilter);
-<<<<<<< HEAD
-
-    let updatedRequests = [...requests];
-    
-    if(selectedFilter != "All"){
-      updatedRequests = updatedRequests.filter((requests) => requests.status == selectedFilter);
-    }
-
-    updatedRequests = updatedRequests.sort((
-      a,b) => new Date(b.createdAt) - new Date(a.createdAt)
-=======
     setRowData(
       requests.filter((request) => {
         if (selectedFilter === "All") {
@@ -47,10 +30,7 @@ const Approval = () => {
         }
         return request.status === selectedFilter;
       })
->>>>>>> Allen
     );
-
-    setFilteredRequests(updatedRequests);
   };
 
   const approveRequest = async (request_id) => {
@@ -60,12 +40,6 @@ const Approval = () => {
         {
           status: "Approved",
         }
-<<<<<<< HEAD
-        return request.status === filter;
-      })
-      .sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt))
-    );
-=======
       );
 
       // Update the requests array
@@ -88,7 +62,37 @@ const Approval = () => {
     } catch (error) {
       console.error(error);
     }
->>>>>>> Allen
+  };
+
+  const denyRequest = async (request_id) => {
+    try {
+      await axios.put(
+        `http://localhost:8080/request/updateStatus?request_id=${request_id}`,
+        {
+          status: "Denied",
+        }
+      );
+
+      // Update the requests array
+      const updatedRequests = requests.map((request) =>
+        request.request_id === request_id
+          ? { ...request, status: "Denied" }
+          : request
+      );
+
+      // Update both requests and rowData states
+      setRequests(updatedRequests);
+      setRowData(
+        updatedRequests.filter((request) => {
+          if (filter === "All") {
+            return true;
+          }
+          return request.status === filter;
+        })
+      );
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleRequestDone = async (request_id) => {
@@ -160,6 +164,7 @@ const Approval = () => {
               technicians={technicians}
               onApproveRequest={approveRequest}
               onRequestDone={handleRequestDone}
+              onDenyRequest={denyRequest}
             />
           </Dialog.Root>
         </div>

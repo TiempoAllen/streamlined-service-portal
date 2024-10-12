@@ -14,14 +14,14 @@ const Record = () => {
   const navigate = useNavigate();
 
   const [colDefs, setColDefs] = useState([
-    { field: "RequestID" },
-    { field: "Requestor" },
-    { field: "Technician Requested" },
-    { field: "Title" },
-    { field: "Date Requested" },
-    { field: "Location" },
-    { field: "Department" },
-    { field: "Attachment" },
+    { field: "RequestID", flex: 1 },
+    { field: "Requestor", flex: 1 },
+    { field: "Technician Requested", flex: 1 },
+    { field: "Title", flex: 1 },
+    { field: "Date Requested", flex: 1 },
+    { field: "Location", flex: 1 },
+    { field: "Department", flex: 1 },
+    { field: "Attachment", flex: 1 },
     {
       headerName: "Actions",
       flex: 1,

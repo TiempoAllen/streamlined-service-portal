@@ -17,6 +17,7 @@ const SelectArea = ({ onFilterChange, header, isRecords }) => {
           <option value="All">All</option>
           <option value="Pending">Pending</option>
           <option value="Approved">Approved</option>
+          <option value="Denied">Denied</option>
         </select>
       )}
     </section>

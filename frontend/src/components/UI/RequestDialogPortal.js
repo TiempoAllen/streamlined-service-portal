@@ -25,6 +25,7 @@ const RequestDialogPortal = ({
   request,
   technicians,
   onApproveRequest,
+  onDenyRequest,
   onRemoveTechnician,
   onRequestDone,
 }) => {
@@ -110,8 +111,7 @@ const RequestDialogPortal = ({
         <Dialog.Overlay className={classes.DialogOverlay} />
         <Dialog.Content className={classes.DialogContent}>
           <Dialog.Title className={classes.DialogTitle}>
-            Request Details, Request_id: {request.request_id}, Tech_Assigned:{" "}
-            {techAssigned}
+            Request Details
           </Dialog.Title>
           <div className={classes.requestDetails}>
             <div className={classes.firstHalf}>
@@ -316,6 +316,16 @@ const RequestDialogPortal = ({
                     onApproveRequest={onApproveRequest}
                   />
                 </Dialog.Root>
+                <Dialog.Root>
+                  <Dialog.Trigger asChild>
+                    <button className={classes.btnDeny}>Deny</button>
+                  </Dialog.Trigger>
+                  <MessagePortal
+                    messageType="deny"
+                    request_id={request.request_id}
+                    onDenyRequest={onDenyRequest}
+                  />
+                </Dialog.Root>
                 <Dialog.Close asChild>
                   <button className={classes.btnBack}>Back</button>
                 </Dialog.Close>
@@ -330,7 +340,7 @@ const RequestDialogPortal = ({
                     messageType="markAsDone"
                     request_id={request.request_id}
                     onRequestDone={(request_id) => {
-                      onRequestDone(request_id); // This will update the request status to "Done"
+                      onRequestDone(request_id);
                     }}
                   />
                 </Dialog.Root>

@@ -14,13 +14,13 @@ import { checkAuthLoader } from "./util/auth";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
 import Chat from "./pages/Chat/Chat";
 import Profile from "./pages/Profile/Profile";
-import Record from "./pages/Record/Record";
 import Record, { loader as recordLoader } from "./pages/Record/Record";
 import Technician, {
   loader as technicianLoader,
 } from "./pages/Technician/Technician";
 import TechnicianSchedule from "./pages/Technician/TechnicianSchedule";
 import RecordDetails from "./pages/Record/RecordDetails";
+import History, { loader as historyLoader } from "./pages/History/History";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +48,11 @@ const router = createBrowserRouter([
         element: <RequestPage />,
         loader: checkAuthLoader,
         action: requestAction,
+      },
+      {
+        path: "history",
+        element: <History />,
+        loader: historyLoader,
       },
       {
         path: "approval",

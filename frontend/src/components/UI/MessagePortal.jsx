@@ -9,8 +9,10 @@ const MessagePortal = ({
   request_id,
   onApproveRequest,
   onRequestDone,
+  onDenyRequest,
 }) => {
   const isApproveMessage = messageType === "approve";
+  const isDenyMessage = messageType === "deny";
   const isMarkAsDoneMessage = messageType === "markAsDone";
   return (
     <>
@@ -28,6 +30,7 @@ const MessagePortal = ({
                   : "A technician has not yet been assigned to this request. A technician must be assigned before the request can be approved."}
               </>
             )}
+            {isDenyMessage && "Are you sure you want to deny this request?"}
             {isMarkAsDoneMessage &&
               "Are you sure you want to mark this request as done?"}
           </Dialog.Description>
@@ -44,6 +47,16 @@ const MessagePortal = ({
                 <button
                   className={classes.btnApprove}
                   onClick={() => onApproveRequest(request_id)}
+                >
+                  Yes
+                </button>
+              </Dialog.Close>
+            )}
+            {isDenyMessage && (
+              <Dialog.Close asChild>
+                <button
+                  className={classes.btnApprove}
+                  onClick={() => onDenyRequest(request_id)}
                 >
                   Yes
                 </button>

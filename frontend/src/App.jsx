@@ -12,6 +12,8 @@ import Error from "./pages/Error/Error";
 import { action as logoutAction } from "./pages/Login/Logout";
 import { checkAuthLoader } from "./util/auth";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
+import Chat from "./pages/Chat/Chat";
+import Profile from "./pages/Profile/Profile";
 import Record from "./pages/Record/Record";
 import SuperUser from "./pages/SuperUser/SuperUser";
 import Technician, {
@@ -68,6 +70,7 @@ const router = createBrowserRouter([
         loader: checkAuthLoader,
       },
       {
+<<<<<<< HEAD
         path: "superuser",
         id: "superuser"  ,
         element: <SuperUser />,
@@ -75,6 +78,16 @@ const router = createBrowserRouter([
       },
       { 
         path: "technician",
+=======
+        path: "profile",
+        element: <Profile />
+      },
+      {
+        path: "chat",
+        element: <Chat />
+      },
+      { path: "technician",
+>>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,

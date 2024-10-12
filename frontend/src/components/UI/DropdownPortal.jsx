@@ -9,7 +9,7 @@ import profileImage from "../../assets/profile-image.svg";
 import { NavLink, Form } from "react-router-dom";
 
 const DropdownPortal = () => {
-  const [showProfile, setShowProfile] = useState(false)
+  const [showProfile, setShowProfile] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleShowProfile = () =>{
@@ -32,22 +32,22 @@ const DropdownPortal = () => {
   return (
     <div className={classes.dropdown} ref={dropdownRef}>
       <button onClick={handleShowProfile} className={classes.profileTrigger}>
-        <img src={profileImage} alt="profile" />
+        <img src={profileImage} alt="profile" className={classes.profileImage}/>
       </button>
       {showProfile && (
         <div className={classes.dropdownMenu}>
-          <NavLink to="/profile" className={classes.dropdownItem}>
+          <NavLink to="profile" className={classes.dropdownItem}>
             <button type="myprofile" className={classes.myProfileButton}>
             <img src={myProfileIcon} alt="myprofile" />
             My Profile
             </button>
           </NavLink>
-          <NavLink to="/history" className={classes.dropdownItem}>
+          {/* <NavLink to="history" className={classes.dropdownItem}>
             <button type="history" className={classes.historyButton}>
             <img src={historyIcon} alt="history" />
             History
             </button>
-          </NavLink>
+          </NavLink> */}
           <Form action="logout" method="post" className={classes.dropdownItem}>
             <button type="logout" className={classes.logoutButton}>
               <img src={logoutIcon} alt="logout" />

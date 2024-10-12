@@ -1,7 +1,10 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./Dashboard.module.css";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; 
+import "react-calendar/dist/Calendar.css";
+import { useRouteLoaderData } from "react-router-dom";
+import { getAuthToken } from "../../util/auth";
+import axios from "axios";
 
 const Dashboard = () => {
   const [date, setDate] = useState(new Date());
@@ -9,15 +12,41 @@ const Dashboard = () => {
   const onChange = (newDate) => {
     setDate(newDate);
   };
+  const [request, setRequest] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(()  => {
+    const fetchRequest = async () => {
+        try{
+          const response = await axios.get('http://localhost:8080/request/all');
+          setRequest(response.data);
+          setIsLoading(false);
+        }catch(err){
+          setError("Failed to load");
+          setIsLoading(false);
+        }
+    };
+    fetchRequest();
+  }, []);
+
+  if(isLoading){
+    return <p>{error}</p>;
+  }
+
+  if(error){
+    return <p>{error}</p>;
+  }
+
     return(
-        <div className={classes.main}>
+        <section className={classes.main}>
 
         {/* 1st CardBox */}
-        <div className={classes.cardBox}>
+        <section className={classes.cardBox}>
         {/* Total Requests */}
           <div className={classes.card}>
             <div>
-                <div className={classes.requestsNumber}>1000</div>
+                <div className={classes.requestsNumber}>{request.length}</div>
                 <div className={classes.name}>Total Requests</div>
             </div>
             <div className={classes.icon}>
@@ -58,10 +87,10 @@ const Dashboard = () => {
             </div>
           </div>
 
-        </div>
+        </section>
 
          {/*  */}
-        <div className={classes.details}>
+        <section className={classes.details}>
             <div className={classes.tableDashboard}>
               <div className={classes.cardHeader}>
                 <h2>xxxxxxxx</h2>
@@ -108,8 +137,8 @@ const Dashboard = () => {
           </div>
           <Calendar onChange={onChange} value={date} />
           </div>
-        </div>
-      </div>
+        </section>
+      </section>
     );
 };
 

@@ -1,13 +1,13 @@
 .footer {
     display: flex;
     align-items: center;
+    flex-direction: row;
     justify-content: space-between;
     padding: 0 1rem;
     border-top: solid 2px #F0953B;
     width: 100%;
     box-sizing: border-box;
     background: #fff;
-    bottom: 0;
 }
     
 .footer img {

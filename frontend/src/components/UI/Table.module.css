@@ -91,6 +91,10 @@ td {
     max-width: 70px;
 }
 
+.view p:hover{
+   background-color:  rgb(218, 101, 101);
+}
+
 .assign .buttons {
     padding: 0.5rem;
     background-color: #cacaca;

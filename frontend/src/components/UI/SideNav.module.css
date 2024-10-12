@@ -8,7 +8,8 @@
   
   /* height: 700px; */
   /* height: 836px; */
-  height: 110.9vh;
+  /* height: 110.9vh; */
+  min-height: 100vh;
 }
 
 .logo {

@@ -141,11 +141,15 @@ textarea {
 }
 
 .request form button {
-    padding: 0.5rem;
+    padding: 1rem;
     color: #e6e6e6;
-    background-color: #89343B;
+    background-color: rgba(154, 35, 35);
     border-radius: 5px;
     border: 1px solid #e6e6e6;
     font-size: 1.2rem;
     width: auto;
+}
+
+.submitBtn:hover{
+    background-color: rgb(183, 45, 45);
 }

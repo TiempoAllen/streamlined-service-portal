@@ -60,32 +60,40 @@ public class UserService {
 		return urepo.findById(user_id);	
 	}
 	
-	/*@SuppressWarnings("finally")
-	public UserEntity updateUser(int user_id, UserEntity newUserDetails) {
-		UserEntity user = new UserEntity();
-		try {
-			user = urepo.findById(user_id).get();
-			
-			user.setFname(newUserDetails.getFname());
-			user.setLname(newUserDetails.getLname());
-			user.setEmail(newUserDetails.getEmail());
-			user.setPassword(newUserDetails.getPassword());
-		} catch(NoSuchElementException ex) {
-			throw new NoSuchElementException("User " + uid + " does not exist!");
-		} finally {
-			return urepo.save(user);
-		}
-	}*/
+	@SuppressWarnings("finally")
+public UserEntity updateUser(int user_id, UserEntity newUserDetails) {
+    try {
+        // Find the existing user by ID
+        UserEntity existingUser = urepo.findById(user_id).orElseThrow(
+            () -> new NoSuchElementException("User " + user_id + " does not exist!")
+        );
+
+        // Set all new user details
+        existingUser.setUsername(newUserDetails.getUsername());
+        existingUser.setFirstname(newUserDetails.getFirstname());
+        existingUser.setLastname(newUserDetails.getLastname());
+        existingUser.setEmail(newUserDetails.getEmail());
+        existingUser.setPassword(newUserDetails.getPassword());
+        existingUser.setEmployee_id(newUserDetails.getEmployee_id());
+        existingUser.setDepartment(newUserDetails.getDepartment());
+//existingUser.setIsadmin(newUserDetails.getIsadmin());
+  //      existingUser.setIsSuperUser(newUserDetails.getIsSuperUser());
+
+        // Save and return the updated user
+        return urepo.save(existingUser);
+
+    } catch (NoSuchElementException ex) {
+        throw new NoSuchElementException("User " + user_id + " does not exist!");
+    }
+}
 	
-	public String deleteUser (int user_id) {
-		String msg = "";
-		
-		if(urepo.findById(user_id) != null) {
-			urepo.deleteById(user_id);
-			msg = "User " + user_id + " is successfully deleted!";
-		} else {
-			msg = "User " + user_id + " does not exist.";
-		}
-		return msg;
+public String deleteUser(int userId) {
+	// Assuming you have a UserRepository or similar
+	if (urepo.existsById(userId)) {
+		urepo.deleteById(userId);
+		return "User deleted successfully";
+	} else {
+		return "User not found";
 	}
+}
 }

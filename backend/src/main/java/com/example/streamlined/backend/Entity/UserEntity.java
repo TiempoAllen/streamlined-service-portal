@@ -1,6 +1,5 @@
 package com.example.streamlined.backend.Entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,23 +39,21 @@ public class UserEntity {
     @Column(name = "isadmin")
     private Boolean isadmin = false;
 
-<<<<<<< HEAD:backend/src/main/java/com/streamlineportal/backend/Entity/UserEntity.java
+
     @Column(name = "isSuperUser") 
     private Boolean isSuperUser = false;
-=======
+
     // @Column(name = "profile_picture")
     // private String profile_picture;
->>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f:backend/src/main/java/com/example/streamlined/backend/Entity/UserEntity.java
+
+
 
     public UserEntity() {
     }
 
     public UserEntity(Long user_id, String username, String firstname, String lastname, String password,
-<<<<<<< HEAD:backend/src/main/java/com/streamlineportal/backend/Entity/UserEntity.java
+
 			String employee_id, String email, String department, Boolean isadmin, Boolean isSuperUser) { 
-=======
-			String employee_id, String email, String department, Boolean isadmin/*, String profile_picture*/) {
->>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f:backend/src/main/java/com/example/streamlined/backend/Entity/UserEntity.java
 		super();
 		this.user_id = user_id;
 		this.username = username;
@@ -67,11 +64,10 @@ public class UserEntity {
 		this.email = email;
 		this.department = department;
 		this.isadmin = isadmin;
-<<<<<<< HEAD:backend/src/main/java/com/streamlineportal/backend/Entity/UserEntity.java
         this.isSuperUser = isSuperUser;
-=======
-        // this.profile_picture = profile_picture;
->>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f:backend/src/main/java/com/example/streamlined/backend/Entity/UserEntity.java
+
+        this.isSuperUser = isSuperUser;
+
 	}
 
     public Long getUser_id() {
@@ -110,15 +106,14 @@ public class UserEntity {
         return isadmin;
     }
 
-<<<<<<< HEAD:backend/src/main/java/com/streamlineportal/backend/Entity/UserEntity.java
+
     public Boolean getIsSuperUser() { 
         return isSuperUser;
     }
-=======
+
     // public String getProfile_picture(){
     //     return profile_picture;
     // }
->>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f:backend/src/main/java/com/example/streamlined/backend/Entity/UserEntity.java
 
     public void setUser_id(Long user_id) {
         this.user_id = user_id;
@@ -156,25 +151,15 @@ public class UserEntity {
         this.isadmin = isadmin;
     }
 
-<<<<<<< HEAD:backend/src/main/java/com/streamlineportal/backend/Entity/UserEntity.java
+
     public void setIsSuperUser(Boolean isSuperUser) {
         this.isSuperUser = isSuperUser;
     }
-=======
+
     // public void setProfile_picture(String profile_picture){
     //     this.profile_picture = profile_picture;
     // }
 
 
-	public String getDepartment() {
-		return department;
-	}
 
-
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-
-    
->>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f:backend/src/main/java/com/example/streamlined/backend/Entity/UserEntity.java
 }

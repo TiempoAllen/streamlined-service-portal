@@ -2,26 +2,18 @@ import React from "react";
 import classes from "./RequestDialogPortal.module.css";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
-import axios from "axios";
 
 const MessagePortal = ({
+  messageType,
   isTechnicianAssigned,
   request_id,
-  onUpdateRequestStatus,
+  onApproveRequest,
+  onRequestDone,
+  onDenyRequest,
 }) => {
-  const approveRequest = async () => {
-    try {
-      await axios.put(
-        `http://localhost:8080/request/updateStatus?request_id=${request_id}`,
-        {
-          status: "Approved",
-        }
-      );
-      onUpdateRequestStatus(request_id, "Approved");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const isApproveMessage = messageType === "approve";
+  const isDenyMessage = messageType === "deny";
+  const isMarkAsDoneMessage = messageType === "markAsDone";
   return (
     <>
       <Dialog.Portal>
@@ -31,9 +23,16 @@ const MessagePortal = ({
             Notice
           </Dialog.Title>
           <Dialog.Description className={classes.DialogDescription}>
-            {isTechnicianAssigned
-              ? "Are you sure you want to approve this request?"
-              : "A technician has not yet been assigned to this request. A technician must be assigned before the request can be approved."}
+            {isApproveMessage && (
+              <>
+                {isTechnicianAssigned
+                  ? "Are you sure you want to approve this request?"
+                  : "A technician has not yet been assigned to this request. A technician must be assigned before the request can be approved."}
+              </>
+            )}
+            {isDenyMessage && "Are you sure you want to deny this request?"}
+            {isMarkAsDoneMessage &&
+              "Are you sure you want to mark this request as done?"}
           </Dialog.Description>
           <div
             style={{
@@ -45,7 +44,30 @@ const MessagePortal = ({
           >
             {isTechnicianAssigned && (
               <Dialog.Close asChild>
-                <button className={classes.btnApprove} onClick={approveRequest}>
+                <button
+                  className={classes.btnApprove}
+                  onClick={() => onApproveRequest(request_id)}
+                >
+                  Yes
+                </button>
+              </Dialog.Close>
+            )}
+            {isDenyMessage && (
+              <Dialog.Close asChild>
+                <button
+                  className={classes.btnApprove}
+                  onClick={() => onDenyRequest(request_id)}
+                >
+                  Yes
+                </button>
+              </Dialog.Close>
+            )}
+            {isMarkAsDoneMessage && (
+              <Dialog.Close asChild>
+                <button
+                  className={classes.btnApprove}
+                  onClick={() => onRequestDone(request_id)}
+                >
                   Yes
                 </button>
               </Dialog.Close>

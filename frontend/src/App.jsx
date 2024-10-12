@@ -14,22 +14,18 @@ import { checkAuthLoader } from "./util/auth";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
 import Chat from "./pages/Chat/Chat";
 import Profile from "./pages/Profile/Profile";
+<<<<<<< HEAD
+import Record, { loader as recordLoader } from "./pages/Record/Record";
+=======
 import Record from "./pages/Record/Record";
 import SuperUser from "./pages/SuperUser/SuperUser";
+>>>>>>> fcd78850809556d9a43f778575f9e1d06d4bdca8
 import Technician, {
   loader as technicianLoader,
 } from "./pages/Technician/Technician";
-
-// const technicianApprovalLoader = async () => {
-//   const [requests, technicians] = await Promise.all([
-//     approvalLoader(),
-//     technicianLoader(),
-//   ]);
-//   return {
-//     requests,
-//     technicians,
-//   };
-// };
+import TechnicianSchedule from "./pages/Technician/TechnicianSchedule";
+import RecordDetails from "./pages/Record/RecordDetails";
+import History, { loader as historyLoader } from "./pages/History/History";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +55,11 @@ const router = createBrowserRouter([
         action: requestAction,
       },
       {
+        path: "history",
+        element: <History />,
+        loader: historyLoader,
+      },
+      {
         path: "approval",
         id: "approval",
         element: <Approval />,
@@ -67,9 +68,14 @@ const router = createBrowserRouter([
       {
         path: "record",
         element: <Record />,
-        loader: checkAuthLoader,
+        loader: recordLoader,
       },
       {
+        path: "record/:requestId",
+        element: <RecordDetails />,
+      },
+      {
+<<<<<<< HEAD
         path: "superuser",
         id: "superuser"  ,
         element: <SuperUser />,
@@ -77,9 +83,30 @@ const router = createBrowserRouter([
       },
       { 
         path: "technician",
+=======
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "chat",
+        element: <Chat />,
+      },
+<<<<<<< HEAD
+      {
+        path: "technician",
+=======
+      { path: "technician",
+>>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f
+>>>>>>> fcd78850809556d9a43f778575f9e1d06d4bdca8
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,
+        children: [
+          {
+            path: "schedule",
+            element: <TechnicianSchedule />,
+          },
+        ],
       },
       {
         path: "logout",

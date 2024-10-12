@@ -3,28 +3,27 @@ import { Cross2Icon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Table } from "@radix-ui/themes";
 import classes from "./RequestDialogPortal.module.css";
-import axios from "axios";
 
 const TechnicianPortal = ({
+<<<<<<< HEAD
+  technicians, // Default to an empty array
+  request,
+  onAssignTechnicianToRequest,
+=======
   technicians = [],
   request_id , 
   onTechnicianAssigned ,
+>>>>>>> fcd78850809556d9a43f778575f9e1d06d4bdca8
 }) => {
-  console.log(request_id);
+  console.log(request.request_id);
+  console.log("Technician Data: ", technicians);
 
-  const handleAssignTechnicianToRequest = async (tech_id, tech_name) => {
-    try {
-      const response = await axios.post(
-        `http://localhost:8080/request/assignTechnician?request_id=${request_id}&tech_id=${tech_id}`
-      );
-      alert("Technician assigned successfully");
-      onTechnicianAssigned(tech_id, tech_name);
-    } catch (error) {
-      console.error(error.response.data.message);
-      // console.log("Request Id: ", request_id);
-      alert("Failed to assign technician");
-    }
-  };
+  // Check if technicians is an array before mapping
+  // const isTechniciansArray = Array.isArray(technicians);
+
+  const availableTechnicians = technicians.filter(
+    (technician) => technician.isavailable === true
+  );
 
   return (
     <>
@@ -32,7 +31,7 @@ const TechnicianPortal = ({
         <Dialog.Overlay className={classes.DialogOverlay} />
         <Dialog.Content className={classes.TechnicianDialogContent}>
           <Dialog.Title className={classes.DialogTitle}>
-            Available Technicians, Request ID: {request_id}
+            Available Technicians, Request ID: {request.request_id}
           </Dialog.Title>
           <Table.Root variant="surface">
             <Table.Header>
@@ -48,7 +47,7 @@ const TechnicianPortal = ({
             </Table.Header>
 
             <Table.Body>
-              {technicians.map((technician, index) => (
+              {availableTechnicians.map((technician, index) => (
                 <Table.Row key={index}>
                   <Table.RowHeaderCell>
                     {technician.tech_name}
@@ -57,16 +56,18 @@ const TechnicianPortal = ({
                   <Table.Cell>{technician.tech_gender}</Table.Cell>
                   <Table.Cell>{technician.tech_classification}</Table.Cell>
                   <Table.Cell>
-                    {technician.tech_available ? "Not Available" : "Available"}
+                    {technician.isavailable ? "Available" : "Not Available"}
                   </Table.Cell>
                   <Table.Cell>{technician.tech_status}</Table.Cell>
                   <Table.Cell>
                     <p
                       className={classes.assign}
                       onClick={() =>
-                        handleAssignTechnicianToRequest(
+                        onAssignTechnicianToRequest(
+                          request.request_id,
                           technician.tech_id,
-                          technician.tech_name
+                          request.startTime,
+                          request.endTime
                         )
                       }
                     >
@@ -77,7 +78,6 @@ const TechnicianPortal = ({
               ))}
             </Table.Body>
           </Table.Root>
-          ,
           <div
             style={{
               display: "flex",

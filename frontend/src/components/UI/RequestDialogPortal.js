@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./RequestDialogPortal.module.css";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Cross2Icon } from "@radix-ui/react-icons";
@@ -24,29 +24,84 @@ const formatDateTime = (datetime) => {
 const RequestDialogPortal = ({
   request,
   technicians,
-  onUpdateRequestStatus,
+  onApproveRequest,
+  onDenyRequest,
+  onRemoveTechnician,
+  onRequestDone,
 }) => {
   const requestor = `${request.user_firstname} ${request.user_lastname}`;
-  const [techAssigned, setTechAssigned] = useState({
-    tech_id: request.tech_id,
-    tech_name: request.tech_name || "None",
-  });
+  const [techAssigned, setTechAssigned] = useState(null);
 
-  const handleTechnicianAssigned = (tech_id, tech_name) => {
-    setTechAssigned({
-      tech_id: tech_id,
-      tech_name: tech_name,
-    });
+  const fetchRequestById = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/request/${id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching request by ID:", error);
+      return null;
+    }
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const updatedRequest = await fetchRequestById(request.request_id);
+      if (updatedRequest) {
+        setTechAssigned(updatedRequest.technicianId);
+      }
+      console.log("Tech Assigned", techAssigned);
+    };
+
+    fetchData();
+    console.log("Technicians: ", technicians);
+  }, [request.request_id]);
 
   const removeTechnician = async (request_id) => {
     try {
       await axios.post(
         `http://localhost:8080/request/removeTechnician?request_id=${request_id}`
       );
-      handleTechnicianAssigned(null, "None");
+      const updatedRequest = await fetchRequestById(request_id);
+      setTechAssigned(updatedRequest.technician); // Update technician info
+      onRemoveTechnician(request_id);
     } catch (error) {
       console.error("Error removing technician:", error);
+    }
+  };
+
+  const handleAssignTechnicianToRequest = async (
+    request_id,
+    tech_id,
+    startTime,
+    endTime,
+    closeDialog
+  ) => {
+    try {
+      const formattedStartTime = new Date(startTime).toISOString();
+      const formattedEndTime = new Date(endTime).toISOString();
+
+      await axios.post(
+        `http://localhost:8080/request/assignTechnician?request_id=${request_id}&tech_id=${tech_id}&startTime=${formattedStartTime}&endTime=${formattedEndTime}`
+      );
+      setTechAssigned(tech_id);
+
+      const updatedRequest = await fetchRequestById(request_id);
+      if (updatedRequest) {
+        setTechAssigned(updatedRequest.technicianId);
+      }
+    } catch (error) {
+      console.error("Failed to assign technician:", error);
+      // console.log(error.response.data.message);
+
+      if (
+        error.response.data.message ===
+        "Technician is already assigned to another request during this time."
+      ) {
+        alert(
+          "Technician is already assigned to another request during this time."
+        );
+      } else {
+        alert("Failed to assign technician.");
+      }
     }
   };
 
@@ -58,111 +113,188 @@ const RequestDialogPortal = ({
           <Dialog.Title className={classes.DialogTitle}>
             Request Details
           </Dialog.Title>
-          <fieldset className={classes.Fieldset}>
-            <label className={classes.Label} htmlFor="name">
-              Requestor
-            </label>
-            <input
-              className={classes.Input}
-              id="name"
-              defaultValue={requestor}
-              disabled
-            />
-          </fieldset>
-          <fieldset className={classes.Fieldset}>
-            <label className={classes.Label} htmlFor="name">
-              Technician Requested
-            </label>
-            <input
-              className={classes.Input}
-              id="name"
-              defaultValue={request.technician}
-              disabled
-            />
-          </fieldset>
-          <fieldset className={classes.Fieldset}>
-            <label className={classes.Label} htmlFor="name">
-              Technician Assigned
-            </label>
-            <div className={classes.techAssignedInput}>
-              {techAssigned.tech_id !== null ? (
-                <>
-                  <input
-                    className={classes.Input}
-                    id="techAssigned"
-                    value={techAssigned.tech_name}
-                    disabled
-                  />
-                  <span onClick={() => removeTechnician(request.request_id)}>
-                    <DeleteIcon
-                      sx={{
-                        padding: "0.50rem",
-                        border: "solid 1px #631c21",
-                        color: "#ffffff",
-                        backgroundColor: "#631c21",
-                        cursor: "pointer",
-                      }}
-                    />
-                  </span>
-                </>
-              ) : (
-                <>
-                  <Dialog.Root>
-                    <Dialog.Trigger asChild>
-                      <AddIcon
-                        sx={{
-                          padding: "0.50rem",
-                          border: "solid 1px #631c21",
-                          color: "#ffffff",
-                          backgroundColor: "#631c21",
-                          cursor: "pointer",
-                        }}
-                      />
-                    </Dialog.Trigger>
-                    <TechnicianPortal
-                      technicians={technicians}
-                      request_id={request.request_id}
-                      onTechnicianAssigned={handleTechnicianAssigned}
-                    />
-                  </Dialog.Root>
-                  <input
-                    className={classes.Input}
-                    id="techAssigned"
-                    value="None"
-                    disabled
-                  />
-                </>
-              )}
+          <div className={classes.requestDetails}>
+            <div className={classes.firstHalf}>
+              <fieldset className={classes.Fieldset}>
+                <label className={classes.Label} htmlFor="name">
+                  Title
+                </label>
+                <input
+                  className={classes.Input}
+                  id="name"
+                  defaultValue={request.title}
+                  disabled
+                />
+              </fieldset>
+              <fieldset className={classes.Fieldset}>
+                <label className={classes.Label} htmlFor="name">
+                  Description
+                </label>
+                <textarea
+                  className={classes.Input}
+                  id="name"
+                  value={request.description}
+                  disabled
+                />
+              </fieldset>
+              <fieldset className={classes.Fieldset}>
+                <label className={classes.Label} htmlFor="name">
+                  Start Date and Time
+                </label>
+                <input
+                  className={classes.Input}
+                  id="name"
+                  defaultValue={formatDateTime(request.startTime)}
+                  disabled
+                />
+              </fieldset>
+              <fieldset className={classes.Fieldset}>
+                <label className={classes.Label} htmlFor="name">
+                  End Date and Time
+                </label>
+                <input
+                  className={classes.Input}
+                  id="name"
+                  defaultValue={formatDateTime(request.endTime)}
+                  disabled
+                />
+              </fieldset>
+              <fieldset className={classes.Fieldset}>
+                <label className={classes.Label} htmlFor="name">
+                  Attachment
+                </label>
+                <p className={classes.attachment}>
+                  <AttachFileIcon />
+                  {request.attachment ? request.attachment : "No Attachment"}
+                </p>
+              </fieldset>
             </div>
-          </fieldset>
-          <fieldset className={classes.Fieldset}>
-            <label className={classes.Label} htmlFor="name">
-              Date and Time
-            </label>
-            <input
-              className={classes.Input}
-              id="name"
-              defaultValue={formatDateTime(request.datetime)}
-              disabled
-            />
-          </fieldset>
-          <fieldset className={classes.Fieldset}>
-            <label className={classes.Label} htmlFor="name">
-              Purpose
-            </label>
-            <textarea className={classes.Input} id="name" disabled>
-              {request.purpose}
-            </textarea>
-          </fieldset>
-          <fieldset className={classes.Fieldset}>
-            <label className={classes.Label} htmlFor="name">
-              Attachment
-            </label>
-            <p className={classes.attachment}>
-              <AttachFileIcon />
-              {request.attachment ? request.attachment : "No Attachment"}
-            </p>
-          </fieldset>
+
+            <div className={classes.secondHalf}>
+              <fieldset className={classes.Fieldset}>
+                <label className={classes.Label} htmlFor="name">
+                  Requestor
+                </label>
+                <input
+                  className={classes.Input}
+                  id="name"
+                  defaultValue={requestor}
+                  disabled
+                />
+              </fieldset>
+              <fieldset className={classes.Fieldset}>
+                <label className={classes.Label} htmlFor="name">
+                  Technician Requested
+                </label>
+                <input
+                  className={classes.Input}
+                  id="name"
+                  defaultValue={request.request_technician} // Update this if necessary
+                  disabled
+                />
+              </fieldset>
+              <fieldset className={classes.Fieldset}>
+                <label className={classes.Label} htmlFor="name">
+                  Technician Assigned
+                </label>
+                <div className={classes.techAssignedInput}>
+                  {techAssigned ? (
+                    <>
+                      {technicians && technicians.length > 0 ? (
+                        <>
+                          <input
+                            className={classes.Input}
+                            id="techAssigned"
+                            value={
+                              technicians.find(
+                                (tech) => tech.tech_id === techAssigned
+                              )?.tech_name || "Unknown Technician"
+                            }
+                            disabled
+                          />
+                          <span
+                            onClick={() => removeTechnician(request.request_id)}
+                          >
+                            <DeleteIcon
+                              sx={{
+                                padding: "0.50rem",
+                                border: "solid 1px #631c21",
+                                color: "#ffffff",
+                                backgroundColor: "#631c21",
+                                cursor: "pointer",
+                              }}
+                            />
+                          </span>
+                        </>
+                      ) : (
+                        <input
+                          className={classes.Input}
+                          id="techAssigned"
+                          value="Technician Not Found"
+                          disabled
+                        />
+                      )}
+                    </>
+                  ) : (
+                    <>
+                      <Dialog.Root>
+                        <Dialog.Trigger asChild>
+                          <AddIcon
+                            sx={{
+                              padding: "0.50rem",
+                              border: "solid 1px #631c21",
+                              color: "#ffffff",
+                              backgroundColor: "#631c21",
+                              cursor: "pointer",
+                            }}
+                          />
+                        </Dialog.Trigger>
+                        <TechnicianPortal
+                          technicians={technicians}
+                          request={request}
+                          onAssignTechnicianToRequest={(
+                            request_id,
+                            tech_id,
+                            startTime,
+                            endTime
+                          ) => {
+                            handleAssignTechnicianToRequest(
+                              request_id,
+                              tech_id,
+                              startTime,
+                              endTime,
+                              () => {
+                                document
+                                  .querySelector('button[aria-label="Close"]')
+                                  .click();
+                              }
+                            );
+                          }}
+                        />
+                      </Dialog.Root>
+                      <input
+                        className={classes.Input}
+                        id="techAssigned"
+                        value="None"
+                        disabled
+                      />
+                    </>
+                  )}
+                </div>
+              </fieldset>
+              <fieldset className={classes.Fieldset}>
+                <label className={classes.Label} htmlFor="name">
+                  Date and Time Requested
+                </label>
+                <input
+                  className={classes.Input}
+                  id="name"
+                  defaultValue={formatDateTime(request.datetime)}
+                  disabled
+                />
+              </fieldset>
+            </div>
+          </div>
           <div
             style={{
               display: "flex",
@@ -178,9 +310,20 @@ const RequestDialogPortal = ({
                     <button className={classes.btnApprove}>Approve</button>
                   </Dialog.Trigger>
                   <MessagePortal
-                    isTechnicianAssigned={techAssigned.tech_id !== null}
+                    messageType="approve"
+                    isTechnicianAssigned={techAssigned !== null}
                     request_id={request.request_id}
-                    onUpdateRequestStatus={onUpdateRequestStatus}
+                    onApproveRequest={onApproveRequest}
+                  />
+                </Dialog.Root>
+                <Dialog.Root>
+                  <Dialog.Trigger asChild>
+                    <button className={classes.btnDeny}>Deny</button>
+                  </Dialog.Trigger>
+                  <MessagePortal
+                    messageType="deny"
+                    request_id={request.request_id}
+                    onDenyRequest={onDenyRequest}
                   />
                 </Dialog.Root>
                 <Dialog.Close asChild>
@@ -188,9 +331,23 @@ const RequestDialogPortal = ({
                 </Dialog.Close>
               </>
             ) : (
-              <Dialog.Close asChild>
-                <button className={classes.btnBack}>Back</button>
-              </Dialog.Close>
+              <>
+                <Dialog.Root>
+                  <Dialog.Trigger asChild>
+                    <button className={classes.btnApprove}>Mark as Done</button>
+                  </Dialog.Trigger>
+                  <MessagePortal
+                    messageType="markAsDone"
+                    request_id={request.request_id}
+                    onRequestDone={(request_id) => {
+                      onRequestDone(request_id);
+                    }}
+                  />
+                </Dialog.Root>
+                <Dialog.Close asChild>
+                  <button className={classes.btnBack}>Back</button>
+                </Dialog.Close>
+              </>
             )}
           </div>
           <Dialog.Close asChild>

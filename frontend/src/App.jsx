@@ -70,7 +70,6 @@ const router = createBrowserRouter([
         loader: checkAuthLoader,
       },
       {
-<<<<<<< HEAD
         path: "superuser",
         id: "superuser"  ,
         element: <SuperUser />,
@@ -78,16 +77,6 @@ const router = createBrowserRouter([
       },
       { 
         path: "technician",
-=======
-        path: "profile",
-        element: <Profile />
-      },
-      {
-        path: "chat",
-        element: <Chat />
-      },
-      { path: "technician",
->>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,

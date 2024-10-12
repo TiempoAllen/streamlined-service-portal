@@ -5,18 +5,14 @@ import RequestsTable from "../../components/UI/RequestsTable";
 import TechniciansTable from "../../components/UI/TechniciansTable"; // Import the TechniciansTable
 import classes from "./SuperUser.module.css";
 import { Link } from "react-router-dom";
-import RequestTableDialogPortal from "../../components/UI/RequestTableDialogPortal";
 import { useRouteLoaderData } from "react-router-dom";
 
 const SuperUser = () => {
-  const [users, setUsers] = useState([]);
   const [requests, setRequests] = useState([]);
-  const [technicians, setTechnicians] = useState([]); // State for technicians
   const [isViewingUsers, setIsViewingUsers] = useState(true);
   const [isViewingRequests, setIsViewingRequests] = useState(false);
   const [isViewingTechnicians, setIsViewingTechnicians] = useState(false);
-  const [isAddRequestMode, setIsAddRequestMode] = useState(false);
-  const [selectedRequest, setSelectedRequest] = useState(null);
+
   
 
   const user = useRouteLoaderData("home");
@@ -36,46 +32,7 @@ const SuperUser = () => {
     fetchRequests();
   }, []);
 
-  const handleDelete = async (id) => {
-    try {
-      if (isViewingUsers) {
-        await axios.delete(`http://localhost:8080/user/${id}`);
-        setUsers(prevUsers => prevUsers.filter(user => user.user_id !== id));
-      } else if (isViewingRequests) {
-        await axios.delete(`http://localhost:8080/request/${id}`);
-        setRequests(prevRequests => prevRequests.filter(request => request.request_id !== id));
-      } else if (isViewingTechnicians) {
-        await axios.delete(`http://localhost:8080/technician/${id}`);
-        setTechnicians(prevTechnicians => prevTechnicians.filter(technician => technician.technician_id !== id));
-      }
-      alert("Item deleted successfully.");
-    } catch (error) {
-      console.error("Error deleting:", error);
-      alert("Failed to delete item.");
-    }
-  };
-
-  const handleAddRequest = async (newRequest) => {
-    try {
-      let response;
-      if (selectedRequest) {
-        response = await axios.put(`http://localhost:8080/request/${selectedRequest.request_id}`, newRequest);
-      } else {
-        response = await axios.post("http://localhost:8080/request/add", newRequest);
-      }
-      if (response && response.status === 200) {
-        setRequests(prevRequests => [...prevRequests, response.data]);
-        alert("Request saved successfully.");
-      } else {
-        throw new Error("Failed to save the request.");
-      }
-    } catch (error) {
-      console.error("Error adding or editing request:", error);
-      alert("An error occurred while saving the request.");
-    } finally {
-      setIsAddRequestMode(false);
-    }
-  };
+ 
 
   
 
@@ -123,8 +80,8 @@ const SuperUser = () => {
       <div className={classes.tableContainer}>
         {isViewingUsers && (
           <UsersTable
-            users={users}
-            onDelete={handleDelete}
+           // users={users}
+           
           />
         )}
         {isViewingRequests && (
@@ -132,22 +89,13 @@ const SuperUser = () => {
             <RequestsTable
               requests={requests}
               user_id={user_id}
-              onEdit={setSelectedRequest}
-              onDelete={handleDelete}
+           
             />
-            {isAddRequestMode && (
-              <RequestTableDialogPortal
-                onClose={() => setIsAddRequestMode(false)}
-                onAddRequest={handleAddRequest}
-                selectedRequest={selectedRequest}
-              />
-            )}
           </>
         )}
         {isViewingTechnicians && (
           <TechniciansTable
-            technicians={technicians}
-            onDelete={handleDelete}
+          //  technicians={technicians}
           />
         )}
       </div>

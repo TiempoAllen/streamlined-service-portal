@@ -14,6 +14,7 @@ const TechniciansTable = () => {
     const [openForm, setOpenForm] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false); 
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
     const [newTechnician, setNewTechnician] = useState({
         tech_name: '',
         tech_phone: '',
@@ -58,11 +59,24 @@ const TechniciansTable = () => {
         setOpenForm(false);
     };
 
+    const isValidPhoneNumber = (phoneNumber) => {
+        const mobileRegex = /^09\d{9}$/; 
+    
+        return mobileRegex.test(phoneNumber);
+    };
+
     const handleAddTechnician = async () => {
         if (!newTechnician.tech_name || !newTechnician.tech_phone) {
             alert("Please fill in all required fields.");
             return;
         }
+
+
+        if (!isValidPhoneNumber(newTechnician.tech_phone)) {
+            alert("Please enter a valid Philippine phone number.");
+            return;
+        }
+    
         try {
             const response = await axios.post('http://localhost:8080/technician/addTechnician', newTechnician);
             setTechnicians([...technicians, response.data]);
@@ -77,9 +91,19 @@ const TechniciansTable = () => {
 
     const handleEditTechnician = async () => {
         if (!newTechnician.tech_name || !newTechnician.tech_phone) {
-            alert("Please fill in all required fields.");
+            setSnackbarSeverity("error");
+            setSnackbarMessage("Please fill in all required fields.");
+            setOpenSnackbar(true); 
             return;
         }
+
+        if (!isValidPhoneNumber(newTechnician.tech_phone)) {
+            setSnackbarSeverity("error");
+            setSnackbarMessage("Please enter a valid Philippine phone number.");
+            setOpenSnackbar(true); 
+            return;
+        }
+    
         try {
             const response = await axios.put(`http://localhost:8080/technician/updateTechnician?tid=${selectedTechnician.tech_id}`, newTechnician);
             const updatedTechnicians = technicians.map((technician) =>
@@ -221,7 +245,7 @@ const TechniciansTable = () => {
 
                 <Box sx={{ marginBottom: 2 }}>
                     <Typography variant="subtitle1" color="textSecondary">
-                        Phone
+                        Phone#
                     </Typography>
                     <Typography variant="body1">
                         {selectedTechnician?.tech_phone || "N/A"}
@@ -342,8 +366,10 @@ const TechniciansTable = () => {
                 onClose={() => setOpenSnackbar(false)}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
-                <Alert onClose={() => setOpenSnackbar(false)} severity="success" sx={{ width: '100%' }}>
+                <Alert onClose={() => setOpenSnackbar(false)} severity={snackbarSeverity} sx={{ width: '100%' }}>
+              
                     {snackbarMessage}
+                   
                 </Alert>
             </Snackbar>
         </div>

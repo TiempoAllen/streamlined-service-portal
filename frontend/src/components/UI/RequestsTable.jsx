@@ -48,13 +48,13 @@
 
     const [openForm, setOpenForm] = useState(false);
     const [formData, setFormData] = useState({
-      purpose: "",
+      description: "",
       datetime: "",
       status: "Pending", 
       request_location: "",
       department:user_department || "",
       attachment: null,
-      technician: "",
+      request_technician: "",
       user_id: user_id || "",  
     });
     const [requests, setRequests] = useState([]);
@@ -82,7 +82,7 @@
 
     const fetchRequests = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/request/all");
+        const response = await axios.get("http://localhost:8080/request/getAllRequest");
         const validRequests = response.data.filter((request) => request != null);
         setRequests(validRequests);
       } catch (error) {
@@ -105,24 +105,24 @@
         const formattedDateTime = existingDateTime.toISOString().slice(0, 16);
 
         setFormData({
-          purpose: request.purpose,
+          description: request.description,
           datetime: formattedDateTime,
           status: request.status,
           request_location: request.request_location,
           department: request.department,
           attachment: request.attachment || null,
-          technician: request.technician || "",
+          request_technician: request.request_technician || "",
           user_id: request.user_id || user_id,  
         });
       } else {
         setFormData({
-          purpose: "",
+          description: "",
           datetime: "",
           status: "Pending",
           request_location: "",
           department: user_department || "",
           attachment: null,
-          technician: "",
+          request_technician: "",
           user_id: user_id, 
         });
       }
@@ -147,7 +147,7 @@
 
     const handleAddRequest = async () => {
       // Check for required fields
-      if (!formData.purpose || !formData.datetime || !formData.request_location || !formData.technician) {
+      if (!formData.description || !formData.datetime || !formData.request_location || !formData.request_technician) {
         setSnackbarSeverity("error");
         setSnackbarMessage("Please fill in all required fields.");
         setSnackbarOpen(true);
@@ -169,11 +169,11 @@
     
       try {
         const requestBody = new FormData();
-        requestBody.append("purpose", formData.purpose);
+        requestBody.append("description", formData.description);
         requestBody.append("datetime", formattedDateTime);
         requestBody.append("request_location", formData.request_location);
         requestBody.append("department", formData.department);
-        requestBody.append("technician", formData.technician);
+        requestBody.append("request_technician", formData.request_technician);
         requestBody.append("user_id", formData.user_id);
     
         // If the attachment is provided, append it to the form data
@@ -194,11 +194,11 @@
           fetchRequests();
           handleCloseDialog();
           setFormData({
-            purpose: "",
+            description: "",
             datetime: "",
             request_location: "",
             department: "",
-            technician: "",
+            request_technician: "",
             attachment: null,
           });
         } else {
@@ -229,7 +229,7 @@
       if (!requestToDelete) return;
 
       try {
-        await axios.delete(`http://localhost:8080/request/${requestToDelete}`);
+        await axios.delete(`http://localhost:8080/request/deleteRequest/${requestToDelete}`);
         setSnackbarSeverity("success");
         setSnackbarMessage("Request deleted successfully!");
         setSnackbarOpen(true);
@@ -259,7 +259,7 @@
 
     const handleEditRequest = async () => {
       // Check for required fields
-      if (!formData.purpose || !formData.datetime || !formData.request_location || !formData.technician) {
+      if (!formData.description || !formData.datetime || !formData.request_location || !formData.request_technician) {
         setSnackbarSeverity("error");
         setSnackbarMessage("Please fill in all required fields.");
         setSnackbarOpen(true);
@@ -280,11 +280,11 @@
     
       try {
         const requestBody = new FormData();
-        requestBody.append("purpose", formData.purpose);
+        requestBody.append("description", formData.description);
         requestBody.append("datetime", formattedDateTime);
         requestBody.append("request_location", formData.request_location);
         requestBody.append("department", formData.department);
-        requestBody.append("technician", formData.technician);
+        requestBody.append("request_technician", formData.request_technician);
         requestBody.append("user_id", formData.user_id);
     
         // If the attachment is provided, append it to the form data
@@ -438,12 +438,12 @@
             {sortedRequests.map((request) => (
               <tr key={request.request_id}>
                 <td>{request.request_id}</td>
-                <td>{request.purpose || "N/A"}</td>
+                <td>{request.description|| "N/A"}</td>
                 <td>{formatDateTime(request.datetime) || "N/A"}</td>
                 <td>{request.status || "N/A"}</td>
                 <td>{request.request_location || "N/A"}</td>
                 <td>{request.department || "N/A"}</td>
-                <td>{request.technician || "N/A"}</td>
+                <td>{request.request_technician || "N/A"}</td>
                 <td>
                 {request.attachment ? (
                   <div>
@@ -507,8 +507,8 @@
     <DialogContent>
       <TextField
         label="Purpose"
-        name="purpose"
-        value={formData.purpose}
+        name="description"
+        value={formData.description}
         onChange={handleFormChange}
         fullWidth
         margin="normal"
@@ -548,8 +548,8 @@
       <FormControl fullWidth margin="normal" required disabled={dialogMode === "view"}>
         <InputLabel>Technician</InputLabel>
         <Select
-          name="technician"
-          value={formData.technician}
+          name="request_technician"
+          value={formData.request_technician}
           onChange={handleFormChange}
         >
           {technicians.map((tech) => (

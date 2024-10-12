@@ -9,7 +9,9 @@ import { useRouteLoaderData } from "react-router-dom";
 
 const SuperUser = () => {
   const [requests, setRequests] = useState([]);
-  const [isViewingUsers, setIsViewingUsers] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [technicians, setTechnicians] = useState([]);
+   const [isViewingUsers, setIsViewingUsers] = useState(true);
   const [isViewingRequests, setIsViewingRequests] = useState(false);
   const [isViewingTechnicians, setIsViewingTechnicians] = useState(false);
 
@@ -84,7 +86,7 @@ const SuperUser = () => {
         </div>
       </div>
       <div className={classes.tableContainer}>
-        {isViewingUsers && <UsersTable users={users} onDelete={handleDelete} />}
+        {isViewingUsers && <UsersTable users={users} />}
         {isViewingRequests && (
           <>
             <RequestsTable
@@ -96,7 +98,7 @@ const SuperUser = () => {
           </>
         )}
         {isViewingTechnicians && (
-          <TechniciansTable technicians={technicians} onDelete={handleDelete} />
+          <TechniciansTable technicians={technicians}  />
         )}
       </div>
     </div>

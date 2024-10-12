@@ -39,6 +39,7 @@ const Approval = () => {
         `http://localhost:8080/request/updateStatus?request_id=${request_id}`,
         {
           status: "Approved",
+          denialReason: null,
         }
       );
 
@@ -64,12 +65,13 @@ const Approval = () => {
     }
   };
 
-  const denyRequest = async (request_id) => {
+  const denyRequest = async (request_id, denialReason) => {
     try {
       await axios.put(
         `http://localhost:8080/request/updateStatus?request_id=${request_id}`,
         {
           status: "Denied",
+          denialReason: {denialReason}
         }
       );
 

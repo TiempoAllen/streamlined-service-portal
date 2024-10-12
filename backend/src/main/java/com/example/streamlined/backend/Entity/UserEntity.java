@@ -1,6 +1,5 @@
 package com.example.streamlined.backend.Entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,15 +39,21 @@ public class UserEntity {
     @Column(name = "isadmin")
     private Boolean isadmin = false;
 
+
+    @Column(name = "isSuperUser") 
+    private Boolean isSuperUser = false;
+
     // @Column(name = "profile_picture")
     // private String profile_picture;
+
+
 
     public UserEntity() {
     }
 
-
     public UserEntity(Long user_id, String username, String firstname, String lastname, String password,
-			String employee_id, String email, String department, Boolean isadmin/*, String profile_picture*/) {
+
+			String employee_id, String email, String department, Boolean isadmin, Boolean isSuperUser) { 
 		super();
 		this.user_id = user_id;
 		this.username = username;
@@ -59,11 +64,13 @@ public class UserEntity {
 		this.email = email;
 		this.department = department;
 		this.isadmin = isadmin;
-        // this.profile_picture = profile_picture;
+        this.isSuperUser = isSuperUser;
+
+        this.isSuperUser = isSuperUser;
+
 	}
 
-
-	public Long getUser_id() {
+    public Long getUser_id() {
         return user_id;
     }
 
@@ -91,8 +98,17 @@ public class UserEntity {
         return email;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
     public Boolean getIsadmin() {
         return isadmin;
+    }
+
+
+    public Boolean getIsSuperUser() { 
+        return isSuperUser;
     }
 
     // public String getProfile_picture(){
@@ -127,8 +143,17 @@ public class UserEntity {
         this.email = email;
     }
 
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     public void setIsadmin(Boolean isadmin) {
         this.isadmin = isadmin;
+    }
+
+
+    public void setIsSuperUser(Boolean isSuperUser) {
+        this.isSuperUser = isSuperUser;
     }
 
     // public void setProfile_picture(String profile_picture){
@@ -136,14 +161,5 @@ public class UserEntity {
     // }
 
 
-	public String getDepartment() {
-		return department;
-	}
 
-
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-
-    
 }

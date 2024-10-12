@@ -5,9 +5,15 @@ import { Table } from "@radix-ui/themes";
 import classes from "./RequestDialogPortal.module.css";
 
 const TechnicianPortal = ({
+<<<<<<< HEAD
   technicians, // Default to an empty array
   request,
   onAssignTechnicianToRequest,
+=======
+  technicians = [],
+  request_id , 
+  onTechnicianAssigned ,
+>>>>>>> fcd78850809556d9a43f778575f9e1d06d4bdca8
 }) => {
   console.log(request.request_id);
   console.log("Technician Data: ", technicians);

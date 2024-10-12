@@ -1,13 +1,24 @@
+<<<<<<< HEAD
+import React from "react";
+import { NavLink } from "react-router-dom";
+=======
 import React, { useState } from "react";
+>>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f
 import classes from "./SideNav.module.css";
 import homeIcon from "../../assets/dashboard.svg";
 import recordIcon5 from "../../assets/record5.svg";
 import approvalIcon3 from "../../assets/approval3.svg";
+<<<<<<< HEAD
+import superUser2 from "../../assets/superuser2.svg";
+=======
 import chatIcon from "../../assets/chat.svg";
 import hashtagIcon from "../../assets/hashtag.svg";
+>>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f
 import technicianIcon from "../../assets/technician-icon.svg";
-import { NavLink } from "react-router-dom";
 
+<<<<<<< HEAD
+const SideNav = ({ user_id, isSuperUser }) => {
+=======
 const SideNav = ({ user_id }) => {
   const [sideBar, setSideBar] = useState(false);
   
@@ -16,6 +27,7 @@ const SideNav = ({ user_id }) => {
   };
 
 
+>>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f
   return (
     <nav className={classes.sideNav}>
       
@@ -42,11 +54,7 @@ const SideNav = ({ user_id }) => {
                 isActive ? classes.active : undefined
               }
             >
-              <img
-                src={approvalIcon3}
-                alt="approval-icon"
-                className={classes.icon}
-              />
+              <img src={approvalIcon3} alt="approval-icon" className={classes.icon} />
               Approval
             </NavLink>
           </div>
@@ -59,11 +67,7 @@ const SideNav = ({ user_id }) => {
                 isActive ? classes.active : undefined
               }
             >
-              <img
-                src={recordIcon5}
-                alt="records-icon"
-                className={classes.icon}
-              />
+              <img src={recordIcon5} alt="records-icon" className={classes.icon} />
               Record
             </NavLink>
           </div>
@@ -85,6 +89,23 @@ const SideNav = ({ user_id }) => {
             </NavLink>
           </div>
         </li>
+<<<<<<< HEAD
+        {isSuperUser && (
+          <li>
+            <div className={classes.link}>
+              <NavLink
+                to={`/home/${user_id}/superuser`}
+                className={({ isActive }) =>
+                  isActive ? classes.active : undefined
+                }
+              >
+                <img src={superUser2} alt="superuser-icon" className={classes.icon} />
+                SuperUser
+              </NavLink>
+            </div>
+          </li>
+        )}
+=======
         <li>
           <div className={classes.link}>
           <NavLink
@@ -111,6 +132,7 @@ const SideNav = ({ user_id }) => {
           </NavLink>
           </div>
         </li> */}
+>>>>>>> 3507940e206c224663fd4194abaeb873ad17ff5f
       </ul>
     </nav>
   );

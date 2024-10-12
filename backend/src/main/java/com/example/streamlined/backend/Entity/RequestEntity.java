@@ -13,9 +13,9 @@ import jakarta.persistence.Table;
 @Table(name="tblRequests")
 public class RequestEntity {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long request_id;
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private int requestId;
 	
 	@Column(name = "purpose")
     private String purpose;
@@ -57,11 +57,11 @@ public class RequestEntity {
 		super();
 	}
 
-	public RequestEntity(Long request_id, String purpose, Timestamp datetime, String status, String request_location,
+	public RequestEntity(int requestId, String purpose, Timestamp datetime, String status, String request_location,
 			String department, Long user_id, String user_firstname, String user_lastname, String technician,
 			String attachment, Long tech_id, String tech_name) {
 		super();
-		this.request_id = request_id;
+		this.requestId = requestId;
 		this.purpose = purpose;
 		this.datetime = datetime;
 		this.status = status;
@@ -76,12 +76,12 @@ public class RequestEntity {
 		this.tech_name = tech_name;
 	}
 
-	public Long getRequest_id() {
-		return request_id;
+	public int getRequest_id() {
+		return requestId;
 	}
 
-	public void setRequest_id(Long request_id) {
-		this.request_id = request_id;
+	public void setRequest_id(int requestId) {
+		this.requestId = requestId;
 	}
 
 	public String getPurpose() {

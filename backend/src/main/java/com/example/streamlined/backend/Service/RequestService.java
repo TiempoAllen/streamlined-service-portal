@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import org.springframework.data.domain.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +34,7 @@ public class RequestService {
             request.setDepartment(user.getDepartment());
             request.setUser_firstname(user.getFirstname());
             request.setUser_lastname(user.getLastname());
+
             
             
         } else {
@@ -51,31 +51,31 @@ public class RequestService {
 	}*/
 	
 	public List<RequestEntity> getAllRequests() {
-		return rrepo.findAll(Sort.by(Sort.Direction.DESC, "datetime"));
+		return rrepo.findAll();
 	}
 	
-	public Optional<RequestEntity> getRequestById(int request_id) {
-		return rrepo.findById(request_id);	
+	public Optional<RequestEntity> getRequestById(int requestId) {
+		return rrepo.findById(requestId);	
 	}
 	
 	@SuppressWarnings("finally")
-	public RequestEntity updateStatus(int request_id, RequestEntity newRequestStatus) {
+	public RequestEntity updateStatus(int requestId, RequestEntity newRequestStatus) {
 		RequestEntity request = new RequestEntity();
 		try {
-			request = rrepo.findById(request_id).get();
+			request = rrepo.findById(requestId).get();
 			
 			request.setStatus(newRequestStatus.getStatus());
 			//announcement.setStatus("Approved");
 		} catch(NoSuchElementException ex) {
-			throw new NoSuchElementException("Request " + request_id + " does not exist!");
+			throw new NoSuchElementException("Request " + requestId + " does not exist!");
 		} finally {
 			return rrepo.save(request);
 		}
 	}
 	
-	public RequestEntity assignTechnicianToRequest(Long request_id, Long tech_id) {
-        RequestEntity request = rrepo.findById(request_id.intValue())
-                .orElseThrow(() -> new NoSuchElementException("Request " + request_id + " does not exist!"));
+	public RequestEntity assignTechnicianToRequest(Long requestId, Long tech_id) {
+        RequestEntity request = rrepo.findById(requestId.intValue())
+                .orElseThrow(() -> new NoSuchElementException("Request " + requestId + " does not exist!"));
         
         TechnicianEntity technician = trepo.findById(tech_id.intValue())
                 .orElseThrow(() -> new NoSuchElementException("Technician " + tech_id + " does not exist!"));
@@ -85,16 +85,38 @@ public class RequestService {
         return rrepo.save(request);
     }
 	
-	public RequestEntity removeTechnicianFromRequest(Long request_id) {
-	    RequestEntity request = rrepo.findById(request_id.intValue())
-	            .orElseThrow(() -> new NoSuchElementException("Request " + request_id + " does not exist!"));
+	public RequestEntity removeTechnicianFromRequest(Long requestId) {
+	    RequestEntity request = rrepo.findById(requestId.intValue())
+	            .orElseThrow(() -> new NoSuchElementException("Request " + requestId + " does not exist!"));
 
 	    // Remove the technician from the request by setting fields to null
 	    request.setTech_id(null);
 	    request.setTech_name(null);
 
 	    return rrepo.save(request);
+
+		
 	}
+	/* public RequestEntity updateRequest(int requestId, RequestEntity newRequest) {
+        // Find the existing request
+       // Optional<RequestEntity> existingRequestOpt = rrepo.getRequestById(requestId);
+        
+        if (existingRequestOpt.isPresent()) {
+            RequestEntity existingRequest = existingRequestOpt.get();
+            // Update the existing request fields with the new request data
+            existingRequest.setTechnician(newRequest.getTechnician());
+            existingRequest.setRequest_location(newRequest.getRequest_location());
+            existingRequest.setDatetime(newRequest.getDatetime());
+            existingRequest.setPurpose(newRequest.getPurpose());
+            existingRequest.setUser_id(newRequest.getUser_id());
+            existingRequest.setAttachment(newRequest.getAttachment());
+
+            // Save and return the updated request
+            return rrepo.save(existingRequest);
+        } else {
+            throw new RuntimeException("Request with ID " + requestId + " not found.");
+        }
+    }  */
 
 	
 //	@SuppressWarnings("finally")
@@ -114,14 +136,14 @@ public class RequestService {
 //		}
 //	}
 	
-	public String deleteRequest (int request_id) {
+	public String deleteRequest (int requestId) {
 		String msg = "";
 		
-		if(rrepo.findById(request_id) != null) {
-			rrepo.deleteById(request_id);
-			msg = "Request " + request_id + " is successfully deleted!";
+		if(rrepo.findById(requestId) != null) {
+			rrepo.deleteById(requestId);
+			msg = "Request " + requestId + " is successfully deleted!";
 		} else {
-			msg = "Request " + request_id + " does not exist.";
+			msg = "Request " + requestId + " does not exist.";
 		}
 		return msg;
 	}

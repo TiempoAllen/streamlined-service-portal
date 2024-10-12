@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.streamlined.backend.Entity.UserEntity;
 import com.example.streamlined.backend.Service.UserService;
@@ -32,6 +34,8 @@ public class UserController {
 	public String printHello() {
 		return "Hello World!";
 	}
+    
+
 	
 
 	@PostMapping("/add")
@@ -55,10 +59,10 @@ public class UserController {
         return user;
     }
 	
-	/*@PutMapping("/updateUser")
+	@PutMapping("/updateUser")
 	public UserEntity updateUser(@RequestParam int uid, @RequestBody UserEntity newUserDetails) {
 		return userv.updateUser(uid, newUserDetails);
-	}*/
+	}
 	
 	@DeleteMapping("/{user_id}")
 	public String deleteUser (@PathVariable int user_id) {

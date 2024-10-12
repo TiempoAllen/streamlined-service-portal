@@ -32,6 +32,8 @@ export const checkAuthLoader = () => {
   return null;
 };
 
+
+
 export const submitRegistration = async (formData) => {
   const {
     firstname,
@@ -103,9 +105,14 @@ export const submitRegistration = async (formData) => {
     return { success: true };
   } catch (error) {
     console.error("Error: ", error.response?.data || error.message);
+    
     if (error.response && error.response.data === "Email already exists") {
       return { success: false, message: "Email already exists" };
     }
+    if (error.response && error.response.data === "Employee ID already exists") {
+      return { success: false, message: "Employee ID already exists" };
+    }
+    
     return { success: false, message: "Could not register user." };
   }
 };

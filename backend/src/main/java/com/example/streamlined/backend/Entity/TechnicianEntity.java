@@ -1,25 +1,32 @@
 package com.example.streamlined.backend.Entity;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="tblTechnician")
 public class TechnicianEntity {
-	
-	
+
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long tech_id;
-	
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long tech_id;
+
     private String tech_name;
-    
+
     private String tech_phone;
 
     private String tech_gender;
@@ -31,8 +38,10 @@ public class TechnicianEntity {
     @Column(nullable = false)
     private boolean isavailable = true;
 
-    private Long request_id;
-    
+    @OneToMany(mappedBy = "technician", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference  // Prevents infinite recursion
+    private List<RequestEntity> requests = new ArrayList<>();
+
     @Column(name = "request_purpose")
     private String purpose;
 
@@ -41,7 +50,7 @@ public class TechnicianEntity {
 	}
 
 	public TechnicianEntity(Long tech_id, String tech_name, String tech_phone, String tech_gender, String tech_status,
-			String tech_classification, boolean isavailable, Long request_id, String purpose) {
+			String tech_classification, boolean isavailable, List<RequestEntity> requests, String purpose) {
 		super();
 		this.tech_id = tech_id;
 		this.tech_name = tech_name;
@@ -50,7 +59,7 @@ public class TechnicianEntity {
 		this.tech_status = tech_status;
 		this.tech_classification = tech_classification;
 		this.isavailable = isavailable;
-		this.request_id = request_id;
+		this.requests = requests;
 		this.purpose = purpose;
 	}
 
@@ -110,13 +119,23 @@ public class TechnicianEntity {
 		this.isavailable = isavailable;
 	}
 
-	public Long getRequest_id() {
-		return request_id;
+	public List<RequestEntity> getRequests() {
+		return requests;
 	}
 
-	public void setRequest_id(Long request_id) {
-		this.request_id = request_id;
+	public void setRequests(List<RequestEntity> requests) {
+		this.requests = requests;
 	}
+
+	public void addRequest(RequestEntity request) {
+        requests.add(request);
+        request.setTechnician(this);  // Ensure both sides of the relationship are set
+    }
+
+    public void removeRequest(RequestEntity request) {
+        requests.remove(request);
+        request.setTechnician(null);
+    }
 
 	public String getPurpose() {
 		return purpose;
@@ -126,8 +145,6 @@ public class TechnicianEntity {
 		this.purpose = purpose;
 	}
 
-	
 
-	
-    
+
 }

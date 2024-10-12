@@ -71,7 +71,7 @@ const Approval = () => {
         `http://localhost:8080/request/updateStatus?request_id=${request_id}`,
         {
           status: "Denied",
-          denialReason: {denialReason}
+          denialReason: denialReason,
         }
       );
 

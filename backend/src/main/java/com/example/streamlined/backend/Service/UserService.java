@@ -18,7 +18,7 @@ import com.example.streamlined.backend.Repository.UserRepository;
 public class UserService {
 	@Autowired
 	UserRepository urepo;
-	
+
 	@Autowired
     JwtUtil jwtUtil;
 
@@ -43,7 +43,7 @@ public class UserService {
             return null;
         }
     }
-	
+
 	public UserEntity insertUser(UserEntity user) {
 		String email = user.getEmail();
 	    if (urepo.existsByEmail(email)) {
@@ -51,15 +51,15 @@ public class UserService {
 	    }
 	    return urepo.save(user);
 	}
-	
+
 	public List<UserEntity> getAllUsers() {
 		return urepo.findAll();
 	}
-	
+
 	public Optional<UserEntity> getUserById(int user_id) {
-		return urepo.findById(user_id);	
+		return urepo.findById(user_id);
 	}
-	
+
 	@SuppressWarnings("finally")
 public UserEntity updateUser(int user_id, UserEntity newUserDetails) {
     try {
@@ -86,7 +86,7 @@ public UserEntity updateUser(int user_id, UserEntity newUserDetails) {
         throw new NoSuchElementException("User " + user_id + " does not exist!");
     }
 }
-	
+
 public String deleteUser(int userId) {
 	// Assuming you have a UserRepository or similar
 	if (urepo.existsById(userId)) {

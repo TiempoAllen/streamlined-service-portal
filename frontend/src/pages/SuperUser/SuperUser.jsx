@@ -5,7 +5,7 @@ import RequestsTable from "../../components/UI/RequestsTable";
 import TechniciansTable from "../../components/UI/TechniciansTable"; // Import the TechniciansTable
 import classes from "./SuperUser.module.css";
 import { Link } from "react-router-dom";
-import RequestTableDialogPortal from "../../components/UI/RequestTableDialogPortal";
+// import RequestTableDialogPortal from "../../components/UI/RequestTableDialogPortal";
 import { useRouteLoaderData } from "react-router-dom";
 
 const SuperUser = () => {
@@ -17,7 +17,6 @@ const SuperUser = () => {
   const [isViewingTechnicians, setIsViewingTechnicians] = useState(false);
   const [isAddRequestMode, setIsAddRequestMode] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
-  
 
   const user = useRouteLoaderData("home");
   const user_id = user && user.user_id;
@@ -40,13 +39,21 @@ const SuperUser = () => {
     try {
       if (isViewingUsers) {
         await axios.delete(`http://localhost:8080/user/${id}`);
-        setUsers(prevUsers => prevUsers.filter(user => user.user_id !== id));
+        setUsers((prevUsers) =>
+          prevUsers.filter((user) => user.user_id !== id)
+        );
       } else if (isViewingRequests) {
         await axios.delete(`http://localhost:8080/request/${id}`);
-        setRequests(prevRequests => prevRequests.filter(request => request.request_id !== id));
+        setRequests((prevRequests) =>
+          prevRequests.filter((request) => request.request_id !== id)
+        );
       } else if (isViewingTechnicians) {
         await axios.delete(`http://localhost:8080/technician/${id}`);
-        setTechnicians(prevTechnicians => prevTechnicians.filter(technician => technician.technician_id !== id));
+        setTechnicians((prevTechnicians) =>
+          prevTechnicians.filter(
+            (technician) => technician.technician_id !== id
+          )
+        );
       }
       alert("Item deleted successfully.");
     } catch (error) {
@@ -59,12 +66,18 @@ const SuperUser = () => {
     try {
       let response;
       if (selectedRequest) {
-        response = await axios.put(`http://localhost:8080/request/${selectedRequest.request_id}`, newRequest);
+        response = await axios.put(
+          `http://localhost:8080/request/${selectedRequest.request_id}`,
+          newRequest
+        );
       } else {
-        response = await axios.post("http://localhost:8080/request/add", newRequest);
+        response = await axios.post(
+          "http://localhost:8080/request/add",
+          newRequest
+        );
       }
       if (response && response.status === 200) {
-        setRequests(prevRequests => [...prevRequests, response.data]);
+        setRequests((prevRequests) => [...prevRequests, response.data]);
         alert("Request saved successfully.");
       } else {
         throw new Error("Failed to save the request.");
@@ -77,8 +90,6 @@ const SuperUser = () => {
     }
   };
 
-  
-
   return (
     <div className={classes.supermain}>
       <div className={classes.header}>
@@ -86,7 +97,9 @@ const SuperUser = () => {
           <nav className={classes.nav}>
             <Link
               to="#"
-              className={`${classes.navLink} ${isViewingUsers ? classes.active : ""}`}
+              className={`${classes.navLink} ${
+                isViewingUsers ? classes.active : ""
+              }`}
               onClick={() => {
                 setIsViewingUsers(true);
                 setIsViewingRequests(false);
@@ -97,7 +110,9 @@ const SuperUser = () => {
             </Link>
             <Link
               to="#"
-              className={`${classes.navLink} ${isViewingRequests ? classes.active : ""}`}
+              className={`${classes.navLink} ${
+                isViewingRequests ? classes.active : ""
+              }`}
               onClick={() => {
                 setIsViewingUsers(false);
                 setIsViewingRequests(true);
@@ -108,7 +123,9 @@ const SuperUser = () => {
             </Link>
             <Link
               to="#"
-              className={`${classes.navLink} ${isViewingTechnicians ? classes.active : ""}`}
+              className={`${classes.navLink} ${
+                isViewingTechnicians ? classes.active : ""
+              }`}
               onClick={() => {
                 setIsViewingUsers(false);
                 setIsViewingRequests(false);
@@ -121,12 +138,7 @@ const SuperUser = () => {
         </div>
       </div>
       <div className={classes.tableContainer}>
-        {isViewingUsers && (
-          <UsersTable
-            users={users}
-            onDelete={handleDelete}
-          />
-        )}
+        {isViewingUsers && <UsersTable users={users} onDelete={handleDelete} />}
         {isViewingRequests && (
           <>
             <RequestsTable
@@ -135,20 +147,17 @@ const SuperUser = () => {
               onEdit={setSelectedRequest}
               onDelete={handleDelete}
             />
-            {isAddRequestMode && (
+            {/* {isAddRequestMode && (
               <RequestTableDialogPortal
                 onClose={() => setIsAddRequestMode(false)}
                 onAddRequest={handleAddRequest}
                 selectedRequest={selectedRequest}
               />
-            )}
+            )} */}
           </>
         )}
         {isViewingTechnicians && (
-          <TechniciansTable
-            technicians={technicians}
-            onDelete={handleDelete}
-          />
+          <TechniciansTable technicians={technicians} onDelete={handleDelete} />
         )}
       </div>
     </div>

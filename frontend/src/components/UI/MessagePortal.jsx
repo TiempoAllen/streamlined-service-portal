@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import classes from "./RequestDialogPortal.module.css";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
@@ -14,6 +14,12 @@ const MessagePortal = ({
   const isApproveMessage = messageType === "approve";
   const isDenyMessage = messageType === "deny";
   const isMarkAsDoneMessage = messageType === "markAsDone";
+  const [denyReason, setDenyReason] = useState("");
+
+  const handleDenyReasonChange = (e) => {
+    setDenyReason(e.target.value);
+  };
+
   return (
     <>
       <Dialog.Portal>
@@ -30,10 +36,20 @@ const MessagePortal = ({
                   : "A technician has not yet been assigned to this request. A technician must be assigned before the request can be approved."}
               </>
             )}
-            {isDenyMessage && "Are you sure you want to deny this request?"}
+            {isDenyMessage &&
+              "Are you sure you want to deny this request? If yes, then provide a reason: "}
             {isMarkAsDoneMessage &&
               "Are you sure you want to mark this request as done?"}
           </Dialog.Description>
+          {isDenyMessage && (
+            <div className={classes.denyMessage}>
+              <textarea
+                type="text"
+                value={denyReason}
+                onChange={handleDenyReasonChange}
+              />
+            </div>
+          )}
           <div
             style={{
               display: "flex",
@@ -56,9 +72,9 @@ const MessagePortal = ({
               <Dialog.Close asChild>
                 <button
                   className={classes.btnApprove}
-                  onClick={() => onDenyRequest(request_id)}
+                  onClick={() => onDenyRequest(request_id, denyReason)}
                 >
-                  Yes
+                  Proceed
                 </button>
               </Dialog.Close>
             )}

@@ -25,49 +25,38 @@ import com.example.streamlined.backend.Service.TechnicianService;
 public class TechnicianController {
 	@Autowired
 	TechnicianService tserv;
-	
+
 
 	@PostMapping("/addTechnician")
-	public TechnicianEntity addTechnician (@RequestBody TechnicianEntity technician) {
+    public TechnicianEntity addTechnician(@RequestBody TechnicianEntity technician) {
         return tserv.addTechnician(technician);
     }
-	
-	@GetMapping("/getAllTechnician")
-	public List<TechnicianEntity> getAllTechnician(){
-		return tserv.getAllTechnician();
-	}
-	
-	@GetMapping("/getTechnician/{tid}")
-    public Optional<TechnicianEntity> getTechnicianById(@PathVariable int tid) {
-        Optional<TechnicianEntity> technician = tserv.getTechnicianById(tid);
-        return technician;
-    }
-	
-//	@PutMapping("/updateStatus")
-//	public TechnicianEntity updateStatus(@RequestParam int tid, @RequestBody TechnicianEntity newTechnicianStatus) {
-//		return tserv.updateStatus(tid, newTechnicianStatus);
-//	}
-//	
-	@PutMapping("/updateTechnician")
-	public TechnicianEntity updateTechnician(@RequestParam int tid, @RequestBody TechnicianEntity newTechnicianDetails) {
-		return tserv.updateTechnician(tid, newTechnicianDetails);
-	}
-	
-	@PutMapping("/assignToRequest")
-	public TechnicianEntity assignTechnicianToRequest(
-	        @RequestParam int tid, 
-	        @RequestParam Long request_id, 
-	        @RequestParam String request_purpose) {
-	    return tserv.assignTechnicianToRequest(tid, request_id, request_purpose);
-	}
 
-//	@GetMapping("/currentRequest/{tech_id}")
-//    public RequestEntity getRequestByTechnician(@PathVariable Long tech_id) {
-//        return tserv.getRequestByTechnician(tech_id);
-//    }
-	
-	@DeleteMapping("/deleteTechnician/{tid}")
-	public String deleteTechnician (@PathVariable int tid) {
-		return tserv.deleteTechnician(tid);
-	}
+    @GetMapping("/getAllTechnician")
+    public List<TechnicianEntity> getAllTechnicians() {
+        return tserv.getAllTechnicians();
+    }
+
+    @GetMapping("/getTechnician/{tid}")
+    public Optional<TechnicianEntity> getTechnicianById(@PathVariable Long tid) {
+        return tserv.getTechnicianById(tid);
+    }
+
+    @PutMapping("/updateTechnician/{tid}")
+    public TechnicianEntity updateTechnician(@PathVariable Long tid, @RequestBody TechnicianEntity newTechnicianDetails) {
+        return tserv.updateTechnician(tid, newTechnicianDetails);
+    }
+
+    @PutMapping("/assignToRequest")
+    public TechnicianEntity assignTechnicianToRequest(
+            @RequestParam Long tid,
+            @RequestParam Long request_id,
+            @RequestParam String request_purpose) {
+        return tserv.assignTechnicianToRequest(tid, request_id, request_purpose);
+    }
+
+    @DeleteMapping("/deleteTechnician/{tid}")
+    public String deleteTechnician(@PathVariable Long tid) {
+        return tserv.deleteTechnician(tid);
+    }
 }

@@ -110,6 +110,12 @@ hr {
     line-height: 1.5;
 }
 
+.denyMessage textarea {
+    border: solid 1px #424242;
+    width: 100%;
+    height: 100%;
+}
+
 .Button {
     display: inline-flex;
     align-items: center;

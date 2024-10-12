@@ -11,6 +11,13 @@
     "@fullcalendar/list": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
     "@fullcalendar/timegrid": "^6.1.15",
+<<<<<<< HEAD
+=======
+    "@mui/icons-material": "^5.15.19",
+    "@mui/material": "^5.15.19",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+>>>>>>> master
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@radix-ui/react-dialog": "^1.1.1",

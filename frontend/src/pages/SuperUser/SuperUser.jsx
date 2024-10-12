@@ -32,9 +32,9 @@ const SuperUser = () => {
     fetchRequests();
   }, []);
 
- 
 
-  
+
+ 
 
   return (
     <div className={classes.supermain}>
@@ -43,7 +43,9 @@ const SuperUser = () => {
           <nav className={classes.nav}>
             <Link
               to="#"
-              className={`${classes.navLink} ${isViewingUsers ? classes.active : ""}`}
+              className={`${classes.navLink} ${
+                isViewingUsers ? classes.active : ""
+              }`}
               onClick={() => {
                 setIsViewingUsers(true);
                 setIsViewingRequests(false);
@@ -54,7 +56,9 @@ const SuperUser = () => {
             </Link>
             <Link
               to="#"
-              className={`${classes.navLink} ${isViewingRequests ? classes.active : ""}`}
+              className={`${classes.navLink} ${
+                isViewingRequests ? classes.active : ""
+              }`}
               onClick={() => {
                 setIsViewingUsers(false);
                 setIsViewingRequests(true);
@@ -65,7 +69,9 @@ const SuperUser = () => {
             </Link>
             <Link
               to="#"
-              className={`${classes.navLink} ${isViewingTechnicians ? classes.active : ""}`}
+              className={`${classes.navLink} ${
+                isViewingTechnicians ? classes.active : ""
+              }`}
               onClick={() => {
                 setIsViewingUsers(false);
                 setIsViewingRequests(false);
@@ -78,12 +84,7 @@ const SuperUser = () => {
         </div>
       </div>
       <div className={classes.tableContainer}>
-        {isViewingUsers && (
-          <UsersTable
-           // users={users}
-           
-          />
-        )}
+        {isViewingUsers && <UsersTable users={users} onDelete={handleDelete} />}
         {isViewingRequests && (
           <>
             <RequestsTable
@@ -91,12 +92,11 @@ const SuperUser = () => {
               user_id={user_id}
            
             />
+           
           </>
         )}
         {isViewingTechnicians && (
-          <TechniciansTable
-          //  technicians={technicians}
-          />
+          <TechniciansTable technicians={technicians} onDelete={handleDelete} />
         )}
       </div>
     </div>

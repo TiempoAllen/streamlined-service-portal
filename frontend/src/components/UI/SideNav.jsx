@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 import { NavLink } from "react-router-dom";
 import React, { useState } from "react";
 import classes from "./SideNav.module.css";
@@ -12,7 +15,7 @@ import technicianIcon from "../../assets/technician-icon.svg";
 
 const SideNav = ({ user_id, isSuperUser }) => {
   const [sideBar, setSideBar] = useState(false);
-  
+
   const toggleSideBar = () =>{
     setSideBar(!sideBar);
   };
@@ -20,7 +23,7 @@ const SideNav = ({ user_id, isSuperUser }) => {
 
   return (
     <nav className={classes.sideNav}>
-      
+
       <ul className={classes.list}>
         <li>
           <div className={classes.link}>

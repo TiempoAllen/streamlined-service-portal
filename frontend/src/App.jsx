@@ -71,15 +71,22 @@ const router = createBrowserRouter([
         element: <RecordDetails />,
       },
       {
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
         path: "superuser",
         id: "superuser"  ,
         element: <SuperUser />,
         loader: checkAuthLoader,
       },
+<<<<<<< HEAD
       { 
         path: "technician",
 
+=======
+      {
+>>>>>>> master
         path: "profile",
         element: <Profile />,
       },
@@ -87,7 +94,10 @@ const router = createBrowserRouter([
         path: "chat",
         element: <Chat />,
       },
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
       { path: "technician",
         id: "technician",
         element: <Technician />,

@@ -364,7 +364,8 @@
   
           setPreviewUrl(url);
           setPreviewOpen(true);
-          setPreviewFileType(contentType); // Set the file type
+          setPreviewFileType(contentType);
+           // Set the file type
       } catch (error) {
           console.error("Error opening the attachment preview:", error);
           setSnackbarSeverity("error");
@@ -619,7 +620,7 @@
                 <iframe
                     src={previewUrl}
                     width="800px"
-                    height="600px"
+                    height="900px"
                     title={`Preview of ${filename}`}
                 />
             ) : previewFileType?.startsWith('image/') ? ( // Use startsWith for image type check

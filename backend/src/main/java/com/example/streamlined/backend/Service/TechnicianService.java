@@ -30,7 +30,8 @@ public class TechnicianService {
     public Optional<TechnicianEntity> getTechnicianById(Long tid) {
         return trepo.findById(tid);
     }
-
+ 
+   
     public TechnicianEntity updateTechnician(Long tid, TechnicianEntity newTechnicianDetails) {
         TechnicianEntity technician = trepo.findById(tid).orElseThrow(() ->
             new NoSuchElementException("Technician " + tid + " does not exist!")

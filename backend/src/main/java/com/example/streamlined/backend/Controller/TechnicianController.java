@@ -42,8 +42,8 @@ public class TechnicianController {
         return tserv.getTechnicianById(tid);
     }
 
-    @PutMapping("/updateTechnician/{tid}")
-    public TechnicianEntity updateTechnician(@PathVariable Long tid, @RequestBody TechnicianEntity newTechnicianDetails) {
+    @PutMapping("/updateTechnician")
+    public TechnicianEntity updateTechnician(@RequestParam Long tid, @RequestBody TechnicianEntity newTechnicianDetails) {
         return tserv.updateTechnician(tid, newTechnicianDetails);
     }
 

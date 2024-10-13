@@ -54,6 +54,19 @@ public class RequestService {
 		return rrepo.findAll(Sort.by(Sort.Direction.DESC, "datetime"));
 	}
 	
+	public List<RequestEntity> findPendingRequests() {
+        return rrepo.findByStatus("Pending");
+    }
+
+    public List<RequestEntity> findApprovedRequests() {
+        return rrepo.findByStatus("Approved");
+    }
+
+    public List<RequestEntity> findRecentRequests() {
+        return rrepo.findTop4ByOrderByDatetimeDesc(); // Fetch recent requests, adjust as needed
+    }
+
+
 	public Optional<RequestEntity> getRequestById(int request_id) {
 		return rrepo.findById(request_id);	
 	}

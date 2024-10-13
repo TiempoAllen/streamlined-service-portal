@@ -98,6 +98,21 @@ public class RequestController {
 	public List<RequestEntity> getAllRequests(){
 		return rserv.getAllRequests();
 	}
+
+    @GetMapping("/pending")
+    public List<RequestEntity> getPendingRequests() {
+        return rserv.findPendingRequests();
+    }
+
+    @GetMapping("/approved")
+    public List<RequestEntity> getApprovedRequests() {
+        return rserv.findApprovedRequests();
+    }
+
+    @GetMapping("/recent")
+    public List<RequestEntity> getRecentRequests() {
+        return rserv.findRecentRequests();
+    }
 	
 	@GetMapping("/{request_id}")
     public Optional<RequestEntity> getRequestById(@PathVariable int request_id) {

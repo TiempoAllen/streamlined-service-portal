@@ -1,5 +1,7 @@
 package com.example.streamlined.backend.Config;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtParserBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -25,5 +27,13 @@ public class JwtUtil {
 
     public String generateToken(String email) {
         return createToken(email);
+    }
+
+    public Claims parseToken(String token){
+        return Jwts.parserBuilder()
+                .setSigningKey(SECRET_KEY)
+                .build()
+                .parseClaimsJwt(token)
+                .getBody();
     }
 }

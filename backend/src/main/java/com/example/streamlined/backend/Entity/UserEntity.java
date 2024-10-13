@@ -1,6 +1,8 @@
 package com.example.streamlined.backend.Entity;
 
 
+import java.sql.Blob;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,7 +16,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long user_id;
+    private Long userId;
 
     @Column(name = "username")
     private String username;
@@ -40,17 +42,17 @@ public class UserEntity {
     @Column(name = "isadmin")
     private Boolean isadmin = false;
 
-    // @Column(name = "profile_picture")
-    // private String profile_picture;
+    @Column(name = "profile_picture")
+    private byte[] profilePicture;
 
     public UserEntity() {
     }
 
 
     public UserEntity(Long user_id, String username, String firstname, String lastname, String password,
-			String employee_id, String email, String department, Boolean isadmin/*, String profile_picture*/) {
+			String employee_id, String email, String department, Boolean isadmin, byte[] profilePicture) {
 		super();
-		this.user_id = user_id;
+		this.userId = user_id;
 		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -59,12 +61,12 @@ public class UserEntity {
 		this.email = email;
 		this.department = department;
 		this.isadmin = isadmin;
-        // this.profile_picture = profile_picture;
+        this.profilePicture = profilePicture;
 	}
 
 
 	public Long getUser_id() {
-        return user_id;
+        return userId;
     }
 
     public String getUsername() {
@@ -95,12 +97,12 @@ public class UserEntity {
         return isadmin;
     }
 
-    // public String getProfile_picture(){
-    //     return profile_picture;
-    // }
+    public byte[] getProfilePicture(){
+        return profilePicture;
+    }
 
     public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+        this.userId = user_id;
     }
 
     public void setUsername(String username) {
@@ -131,9 +133,9 @@ public class UserEntity {
         this.isadmin = isadmin;
     }
 
-    // public void setProfile_picture(String profile_picture){
-    //     this.profile_picture = profile_picture;
-    // }
+    public void setProfilePicture(byte[] profilePicture){
+        this.profilePicture = profilePicture;
+    }
 
 
 	public String getDepartment() {

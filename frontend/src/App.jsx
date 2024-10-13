@@ -12,8 +12,9 @@ import Error from "./pages/Error/Error";
 import { action as logoutAction } from "./pages/Login/Logout";
 import { checkAuthLoader } from "./util/auth";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
-import Chat from "./pages/Chat/Chat";
-import Profile from "./pages/Profile/Profile";
+import Profile, { loader as profileLoader } from "./pages/Profile/Profile";
+import Chat, { loader as chatLoader } from "./pages/Chat/Chat";
+import ChatNotification, {loader as chatNotificationLoader } from "./components/UI/ChatNotification.jsx"
 import Record from "./pages/Record/Record";
 import Technician, {
   loader as technicianLoader,
@@ -70,16 +71,27 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
-        element: <Profile />
+        id: "profile",
+        element: <Profile />,
+        loader: profileLoader,
       },
       {
         path: "chat",
-        element: <Chat />
+        id: "chat",
+        element: <Chat />,
+        loader: chatLoader,
       },
-      { path: "technician",
+      { 
+        path: "technician",
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,
+      },
+      { 
+        path: "chatNotification",
+        id: "chatNotification",
+        element: <ChatNotification />,
+        loader: chatNotificationLoader,
       },
       {
         path: "logout",

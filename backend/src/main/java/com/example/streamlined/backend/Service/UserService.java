@@ -1,5 +1,7 @@
 package com.example.streamlined.backend.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,10 +10,13 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.streamlined.backend.Config.JwtUtil;
 import com.example.streamlined.backend.Entity.UserEntity;
 import com.example.streamlined.backend.Repository.UserRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 
 @Service
@@ -21,6 +26,8 @@ public class UserService {
 	
 	@Autowired
     JwtUtil jwtUtil;
+
+	private final String profilePicturesDir = "profile";
 
 	public Map<String, Object> loginUser(String email, String password) {
         // Find user by email
@@ -59,6 +66,33 @@ public class UserService {
 	public Optional<UserEntity> getUserById(int user_id) {
 		return urepo.findById(user_id);	
 	}
+
+	public String uploadProfilePicture(int userId, MultipartFile file) {
+        UserEntity user = urepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        try {
+            byte[] imageBytes = file.getBytes(); // Convert file to byte array
+            user.setProfilePicture(imageBytes); // Store byte array in user entity
+            urepo.save(user); // Save user entity to the database
+            return "Profile picture uploaded successfully";
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to upload profile picture: " + e.getMessage());
+        }
+    }
+
+	public byte[] getProfilePicture(int userId) {
+    Optional<UserEntity> userOpt = urepo.findById(userId); // Returns Optional<UserEntity>
+    
+    if (userOpt.isPresent()) {
+        UserEntity user = userOpt.get(); // Extract UserEntity from Optional
+        return user.getProfilePicture(); // Return the profile picture byte array
+    } else {
+        // Handle the case where the user is not found
+        throw new EntityNotFoundException("User with ID " + userId + " not found");
+    	}
+	}
+
 	
 	/*@SuppressWarnings("finally")
 	public UserEntity updateUser(int user_id, UserEntity newUserDetails) {

@@ -1,6 +1,5 @@
 package com.example.streamlined.backend.Entity;
 
-import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

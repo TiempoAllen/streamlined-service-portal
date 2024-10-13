@@ -1,7 +1,6 @@
 package com.example.streamlined.backend.Entity;
 
 
-import java.sql.Blob;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

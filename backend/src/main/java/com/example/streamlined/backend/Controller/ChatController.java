@@ -1,20 +1,15 @@
 package com.example.streamlined.backend.Controller;
 
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.List;
 import java.util.ArrayList;
 
-import org.aspectj.bridge.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import com.example.streamlined.backend.Entity.ChatEntity;
 import com.example.streamlined.backend.Entity.MessageEntity;
 import com.example.streamlined.backend.Entity.UserEntity;
-import com.example.streamlined.backend.Model.MessageStatus;
 import com.example.streamlined.backend.Repository.ChatRepository;
 import com.example.streamlined.backend.Repository.MessageRepository;
 import com.example.streamlined.backend.Repository.UserRepository;
@@ -53,7 +47,6 @@ public class ChatController {
     @Autowired
     private ChatService cserv;
 
-    private static final String UPLOAD_DIRECTORY = "uploads/";
 
     @MessageMapping("/chat/{to}")
     public void sendMessage(@DestinationVariable String to, MessageEntity message){

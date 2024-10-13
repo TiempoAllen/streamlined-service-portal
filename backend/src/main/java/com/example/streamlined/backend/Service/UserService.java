@@ -1,11 +1,9 @@
 package com.example.streamlined.backend.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,6 @@ public class UserService {
 	@Autowired
     JwtUtil jwtUtil;
 
-	private final String profilePicturesDir = "profile";
 
 	public Map<String, Object> loginUser(String email, String password) {
         // Find user by email

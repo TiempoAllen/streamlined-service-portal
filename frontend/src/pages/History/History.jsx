@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { json, useLoaderData, useNavigate } from "react-router-dom";
+import { json, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
@@ -20,12 +20,15 @@ const formatDateTime = (datetime) => {
 const History = () => {
   const requests = useLoaderData();
   const navigate = useNavigate();
+  const { user_id } = useParams();
+  console.log(requests);
 
   const sortedRequests = requests.sort(
     (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
   );
 
   const [colDefs] = useState([
+    { field: "RequestID", flex: 1 },
     { field: "Title", headerName: "Title" },
     { field: "Technician Requested", headerName: "Technician Requested" },
     { field: "Date Requested", headerName: "Date Requested" },
@@ -40,9 +43,7 @@ const History = () => {
         <p
           style={{ cursor: "pointer", color: "blue" }}
           onClick={() =>
-            navigate(
-              `/home/${params.data.user_id}/record/${params.data.RequestID}`
-            )
+            navigate(`/home/${user_id}/history/${params.data.RequestID}`)
           }
         >
           View
@@ -53,6 +54,7 @@ const History = () => {
 
   const transformedRequests = sortedRequests.map((request) => {
     return {
+      RequestID: request.request_id,
       Title: request.title,
       "Technician Requested": request.request_technician,
       "Date Requested": formatDateTime(request.datetime),

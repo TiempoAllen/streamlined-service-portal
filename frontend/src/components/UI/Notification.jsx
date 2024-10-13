@@ -1,4 +1,5 @@
 import { React, useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import bellIcon from "../../assets/bell.svg";
 import { formatDateTime } from "../../util/auth";
 import profileImg from "../../assets/profile.jpg";
@@ -31,6 +32,7 @@ const Notification = ({ user_id }) => {
   const [notificationCount, setNotificationCount] = useState(1);
   const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate(); // Use useNavigate for navigation
 
   const handleNotificationClick = () => {
     setShowNotification(!showNotification);
@@ -54,6 +56,12 @@ const Notification = ({ user_id }) => {
       setNotificationCount(unreadCount);
     } catch (error) {
       console.error("Error fetching notifications:", error);
+    }
+  };
+
+  const handleRowClick = (notification) => {
+    if (notification.recipientRole === "User") {
+      navigate(`/home/${user_id}/history`); // Navigate to user history
     }
   };
 
@@ -88,7 +96,11 @@ const Notification = ({ user_id }) => {
           {notifications.length > 0 ? (
             <ul className={classes.notificationItems}>
               {notifications.map((notification) => (
-                <li className={classes.notificationsRow}>
+                <li
+                  key={notification.id} // Add a key for each item
+                  className={classes.notificationsRow}
+                  onClick={() => handleRowClick(notification)} // Attach the click handler
+                >
                   <div className={classes.parentRow}>
                     <p>{notification.message}</p>
                     <div className={classes.childRow}>

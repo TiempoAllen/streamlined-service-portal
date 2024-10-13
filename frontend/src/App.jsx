@@ -22,6 +22,7 @@ import Technician, {
 import TechnicianSchedule from "./pages/Technician/TechnicianSchedule";
 import RecordDetails from "./pages/Record/RecordDetails";
 import History, { loader as historyLoader } from "./pages/History/History";
+import DetailsModal from "./components/UI/DetailsModal";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
         loader: historyLoader,
       },
       {
+        path: "history/:requestId",
+        element: <DetailsModal />,
+      },
+      {
         path: "approval",
         id: "approval",
         element: <Approval />,
@@ -72,7 +77,7 @@ const router = createBrowserRouter([
       },
       {
         path: "superuser",
-        id: "superuser"  ,
+        id: "superuser",
         element: <SuperUser />,
         loader: checkAuthLoader,
       },
@@ -84,7 +89,8 @@ const router = createBrowserRouter([
         path: "chat",
         element: <Chat />,
       },
-      { path: "technician",
+      {
+        path: "technician",
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,

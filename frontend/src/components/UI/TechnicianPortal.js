@@ -34,7 +34,7 @@ const TechnicianPortal = ({
           <Dialog.Title className={classes.DialogTitle}>
             Available Technicians
           </Dialog.Title>
-          <Table.Root variant="surface">
+          <Table.Root variant="surface" size="3">
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>

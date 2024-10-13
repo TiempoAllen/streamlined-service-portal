@@ -12,10 +12,10 @@ import Error from "./pages/Error/Error";
 import { action as logoutAction } from "./pages/Login/Logout";
 import { checkAuthLoader } from "./util/auth";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
-import Chat from "./pages/Chat/Chat";
-import Profile from "./pages/Profile/Profile";
-import Record, { loader as recordLoader } from "./pages/Record/Record";
-import SuperUser from "./pages/SuperUser/SuperUser";
+import Profile, { loader as profileLoader } from "./pages/Profile/Profile";
+import Chat, { loader as chatLoader } from "./pages/Chat/Chat";
+import ChatNotification, {loader as chatNotificationLoader } from "./components/UI/ChatNotification.jsx"
+import Record from "./pages/Record/Record";
 import Technician, {
   loader as technicianLoader,
 } from "./pages/Technician/Technician";
@@ -83,23 +83,27 @@ const router = createBrowserRouter([
       },
       {
         path: "profile",
+        id: "profile",
         element: <Profile />,
+        loader: profileLoader,
       },
       {
         path: "chat",
+        id: "chat",
         element: <Chat />,
+        loader: chatLoader,
       },
-      {
+      { 
         path: "technician",
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,
-        children: [
-          {
-            path: "schedule",
-            element: <TechnicianSchedule />,
-          },
-        ],
+      },
+      { 
+        path: "chatNotification",
+        id: "chatNotification",
+        element: <ChatNotification />,
+        loader: chatNotificationLoader,
       },
       {
         path: "logout",

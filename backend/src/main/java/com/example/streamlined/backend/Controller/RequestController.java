@@ -14,7 +14,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -83,7 +82,7 @@ public class RequestController {
             if (!Files.exists(uploadDir)) {
                 Files.createDirectories(uploadDir);
             }
-    
+
             Path path = uploadDir.resolve(attachment.getOriginalFilename());
             Files.write(path, bytes);
             request.setAttachment(path.toString());
@@ -152,6 +151,21 @@ public ResponseEntity<RequestEntity> updateRequest(
 		return rserv.getAllRequests();
 	}
 
+    @GetMapping("/pending")
+    public List<RequestEntity> getPendingRequests() {
+        return rserv.findPendingRequests();
+    }
+
+    @GetMapping("/approved")
+    public List<RequestEntity> getApprovedRequests() {
+        return rserv.findApprovedRequests();
+    }
+
+    @GetMapping("/recent")
+    public List<RequestEntity> getRecentRequests() {
+        return rserv.findRecentRequests();
+    }
+	
 	@GetMapping("/{request_id}")
     public Optional<RequestEntity> getRequestById(@PathVariable int request_id) {
         Optional<RequestEntity> request = rserv.getRequestById(request_id);

@@ -1,17 +1,20 @@
 package com.example.streamlined.backend.Service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.streamlined.backend.Config.JwtUtil;
 import com.example.streamlined.backend.Entity.UserEntity;
 import com.example.streamlined.backend.Repository.UserRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 
 @Service
@@ -21,6 +24,7 @@ public class UserService {
 
 	@Autowired
     JwtUtil jwtUtil;
+
 
 	public Map<String, Object> loginUser(String email, String password) {
         // Find user by email
@@ -60,40 +64,60 @@ public class UserService {
 		return urepo.findById(user_id);
 	}
 
-	@SuppressWarnings("finally")
-public UserEntity updateUser(int user_id, UserEntity newUserDetails) {
-    try {
-        // Find the existing user by ID
-        UserEntity existingUser = urepo.findById(user_id).orElseThrow(
-            () -> new NoSuchElementException("User " + user_id + " does not exist!")
-        );
+	public String uploadProfilePicture(int userId, MultipartFile file) {
+        UserEntity user = urepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Set all new user details
-        existingUser.setUsername(newUserDetails.getUsername());
-        existingUser.setFirstname(newUserDetails.getFirstname());
-        existingUser.setLastname(newUserDetails.getLastname());
-        existingUser.setEmail(newUserDetails.getEmail());
-        existingUser.setPassword(newUserDetails.getPassword());
-        existingUser.setEmployee_id(newUserDetails.getEmployee_id());
-        existingUser.setDepartment(newUserDetails.getDepartment());
-//existingUser.setIsadmin(newUserDetails.getIsadmin());
-  //      existingUser.setIsSuperUser(newUserDetails.getIsSuperUser());
-
-        // Save and return the updated user
-        return urepo.save(existingUser);
-
-    } catch (NoSuchElementException ex) {
-        throw new NoSuchElementException("User " + user_id + " does not exist!");
+        try {
+            byte[] imageBytes = file.getBytes(); // Convert file to byte array
+            user.setProfilePicture(imageBytes); // Store byte array in user entity
+            urepo.save(user); // Save user entity to the database
+            return "Profile picture uploaded successfully";
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to upload profile picture: " + e.getMessage());
+        }
     }
-}
 
-public String deleteUser(int userId) {
-	// Assuming you have a UserRepository or similar
-	if (urepo.existsById(userId)) {
-		urepo.deleteById(userId);
-		return "User deleted successfully";
-	} else {
-		return "User not found";
+	public byte[] getProfilePicture(int userId) {
+    Optional<UserEntity> userOpt = urepo.findById(userId); // Returns Optional<UserEntity>
+    
+    if (userOpt.isPresent()) {
+        UserEntity user = userOpt.get(); // Extract UserEntity from Optional
+        return user.getProfilePicture(); // Return the profile picture byte array
+    } else {
+        // Handle the case where the user is not found
+        throw new EntityNotFoundException("User with ID " + userId + " not found");
+    	}
+	}
+
+	
+	/*@SuppressWarnings("finally")
+	public UserEntity updateUser(int user_id, UserEntity newUserDetails) {
+		UserEntity user = new UserEntity();
+		try {
+			user = urepo.findById(user_id).get();
+			
+			user.setFname(newUserDetails.getFname());
+			user.setLname(newUserDetails.getLname());
+			user.setEmail(newUserDetails.getEmail());
+			user.setPassword(newUserDetails.getPassword());
+		} catch(NoSuchElementException ex) {
+			throw new NoSuchElementException("User " + uid + " does not exist!");
+		} finally {
+			return urepo.save(user);
+		}
+	}*/
+	
+	public String deleteUser (int user_id) {
+		String msg = "";
+		
+		if(urepo.findById(user_id) != null) {
+			urepo.deleteById(user_id);
+			msg = "User " + user_id + " is successfully deleted!";
+		} else {
+			msg = "User " + user_id + " does not exist.";
+		}
+		return msg;
 	}
 }
-}
+

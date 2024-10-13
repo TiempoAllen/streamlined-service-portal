@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import classes from "./Dashboard.module.css";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useRouteLoaderData } from "react-router-dom";
+import { useRouteLoaderData, useNavigate, json } from "react-router-dom";
 import { getAuthToken } from "../../util/auth";
 import axios from "axios";
 
@@ -12,27 +12,49 @@ const Dashboard = () => {
   const onChange = (newDate) => {
     setDate(newDate);
   };
-  const [request, setRequest] = useState([]);
+  const [totalRequests, setTotalRequests] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
+  const [approvedRequests, setApprovedRequests] = useState([]);
+  const [totalTechnicians, setTotalTechnicians] = useState(0);
+  const [recentRequests, setRecentRequests] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const user = useRouteLoaderData("home");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRequest = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/request/getAllRequest"
-        );
-        setRequest(response.data);
+        const totalResponse = await axios.get('http://localhost:8080/request/all');
+        setTotalRequests(totalResponse.data);
+
+        // Assuming your backend has separate endpoints for these data
+        const pendingResponse = await axios.get('http://localhost:8080/request/pending');
+        setPendingRequests(pendingResponse.data);
+
+        const approvedResponse = await axios.get('http://localhost:8080/request/approved');
+        setApprovedRequests(approvedResponse.data);
+
+        const techniciansResponse = await axios.get('http://localhost:8080/technician/getAllTechnician');
+        setTotalTechnicians(techniciansResponse.data); // Adjust based on your response structure
+
+        const recentResponse = await axios.get('http://localhost:8080/request/recent');
+        setRecentRequests(recentResponse.data);
+        
         setIsLoading(false);
       } catch (err) {
-        setError("Failed to load");
+        setError("Failed to load data");
         setIsLoading(false);
       }
     };
-    fetchRequest();
+    fetchDashboardData();
   }, []);
 
-  if (isLoading) {
+  const handleSeeAllClick = () => {
+    navigate(`/home/${user.user_id}/approval`); // Redirect to the specified URL
+  };
+
+  if(isLoading){
     return <p>{error}</p>;
   }
 
@@ -45,91 +67,79 @@ const Dashboard = () => {
       {/* 1st CardBox */}
       <section className={classes.cardBox}>
         {/* Total Requests */}
-        <div className={classes.card}>
-          <div>
-            <div className={classes.requestsNumber}>{request.length}</div>
-            <div className={classes.name}>Total Requests</div>
+          <div className={classes.card}>
+            <div>
+                <div className={classes.requestsNumber}>{totalRequests.length}</div>
+                <div className={classes.name}>Total Requests</div>
+            </div>
+            <div className={classes.icon}>
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+            </div>
           </div>
-          <div className={classes.icon}>
-            <ion-icon name="git-pull-request-outline"></ion-icon>
-          </div>
-        </div>
 
-        {/* Pending Requests */}
-        <div className={classes.card}>
-          <div>
-            <div className={classes.requestsNumber}>310</div>
-            <div className={classes.name}>Pending Requests</div>
+          {/* Pending Requests */}
+          <div className={classes.card}>
+            <div>
+                <div className={classes.requestsNumber}>{pendingRequests.length}</div>
+                <div className={classes.name}>Pending Requests</div>
+            </div>
+            <div className={classes.icon}>
+            <ion-icon name="refresh-circle-outline"></ion-icon>
+            </div>
           </div>
-          <div className={classes.icon}>
-            <ion-icon name="cube-outline"></ion-icon>
-          </div>
-        </div>
 
-        {/*  */}
-        <div className={classes.card}>
-          <div>
-            <div className={classes.requestsNumber}>82</div>
-            <div className={classes.name}>xxxx</div>
+          {/*  */}
+          <div className={classes.card}>
+            <div>
+                <div className={classes.requestsNumber}>{approvedRequests.length}</div>
+                <div className={classes.name}>Approved Requests</div>
+            </div>
+            <div className={classes.icon}>
+            <ion-icon name="checkmark-done-circle-outline"></ion-icon>
+            </div>
           </div>
-          <div className={classes.icon}>
-            <ion-icon name="bag-check-outline"></ion-icon>
-          </div>
-        </div>
 
-        {/*  */}
-        <div className={classes.card}>
-          <div>
-            <div className={classes.requestsNumber}>31</div>
-            <div className={classes.name}>xxx</div>
-          </div>
-          <div className={classes.icon}>
+          {/*  */}
+          <div className={classes.card}>
+            <div>
+                <div className={classes.requestsNumber}>{totalTechnicians.length}</div>
+                <div className={classes.name}>Total Technicians</div>
+            </div>
+            <div className={classes.icon}>
             <ion-icon name="people-outline"></ion-icon>
           </div>
         </div>
       </section>
 
-      {/*  */}
-      <section className={classes.details}>
-        <div className={classes.tableDashboard}>
-          <div className={classes.cardHeader}>
-            <h2>xxxxxxxx</h2>
-            <button className={classes.btn}>See All</button>
-          </div>
-          <table>
-            <thead>
-              <tr>
-                <td>??</td>
-                <td>???</td>
-                <td>????</td>
-                <td>????</td>
-              </tr>
-            </thead>
+         {/*  */}
+        <section className={classes.details}>
+            <div className={classes.tableDashboard}>
+              <div className={classes.cardHeader}>
+                <h2>Recent Requests</h2>
+                <button className={classes.btn} onClick={handleSeeAllClick}>See All</button>
+              </div>
+              <table>
+                  <thead>
+                      <tr>
+                        <td>Requestor</td>
+                        <td>Location</td>
+                        <td>Reason</td>
+                        <td>Department</td>
+                      </tr>
+                  </thead>
 
-            <tbody>
-              <tr>
-                <td>John Doe</td>
-                <td>30</td>
-                <td>12</td>
-                <td>xxxx</td>
-              </tr>
-
-              <tr>
-                <td>Jane Doe</td>
-                <td>21</td>
-                <td>15</td>
-                <td>XXXX</td>
-              </tr>
-
-              <tr>
-                <td>Umay Men</td>
-                <td>19</td>
-                <td>17</td>
-                <td>XXXX</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+                  <tbody>
+                  {recentRequests.map((request) => (
+                <tr key={request.id}>
+                  <td>{request.user_firstname}</td>
+                  <td>{request.request_location}</td>
+                  <td>{request.purpose}</td>
+                  <td>{request.department}</td>
+                </tr>
+              ))}
+                  </tbody>
+              </table>
+            </div>
         {/* Calendar */}
         <div className={classes.calendarContainer}>
           <div className={classes.cardHeader}>
@@ -143,3 +153,29 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
+export async function loader({ params }) {
+  const user_id = params.user_id; 
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    throw new Error("No token found");
+  }
+
+  try {
+    const response = await axios.get(`http://localhost:8080/user/${user_id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    });
+
+    const user = response.data;
+    if (!user) {
+      throw json({ message: "User not found" }, { status: 500 });
+    }
+
+    return user; 
+  } catch (error) {
+    throw new Error(`Error fetching user details: ${error.message}`);
+  }
+}

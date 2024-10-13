@@ -1,10 +1,5 @@
 package com.example.streamlined.backend.Entity;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

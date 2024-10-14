@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useRef } from "react";
-import profileImg from "../../assets/profile.jpg"; // Fallback image
-import classes from "./Profile.module.css";
-import { json, useRouteLoaderData } from "react-router-dom";
-import EditPasswordForm from "../../components/UI/EditPasswordForm";
 import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { json, useRouteLoaderData } from "react-router-dom";
+import profileImg from "../../assets/profile.jpg"; // Fallback image
+import EditPasswordForm from "../../components/UI/EditPasswordForm";
+import classes from "./Profile.module.css";
 
 const Profile = () => {
   const profile = useRouteLoaderData("profile"); // Get the profile data from the loader

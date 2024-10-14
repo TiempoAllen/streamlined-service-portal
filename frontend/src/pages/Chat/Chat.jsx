@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import SockJS from 'sockjs-client';
 import { Client } from '@stomp/stompjs';
-import classes from './Chat.module.css';
-import profilePic from '../../assets/profile.jpg';
-import attachmentImage from '../../assets/attachment.svg';
-import sendImage from '../../assets/send.svg';
+import axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
 import { json, useRouteLoaderData } from "react-router-dom";
+import SockJS from 'sockjs-client';
+import attachmentImage from '../../assets/attachment.svg';
+import profilePic from '../../assets/profile.jpg';
+import sendImage from '../../assets/send.svg';
+import classes from './Chat.module.css';
 
 
 const Chat = () => {

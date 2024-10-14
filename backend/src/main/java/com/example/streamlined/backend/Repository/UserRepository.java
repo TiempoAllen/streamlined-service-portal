@@ -15,6 +15,4 @@ public interface UserRepository extends JpaRepository <UserEntity, Integer>{
 	List<UserEntity> findByIsadmin(Boolean isadmin);
 
 	Optional<UserEntity> findByUsername(String username);
-	// List<UserEntity> findByUserIdIn(List<String> userIds);
-
 }

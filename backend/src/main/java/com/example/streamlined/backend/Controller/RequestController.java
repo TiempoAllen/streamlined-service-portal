@@ -4,10 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.streamlined.backend.Entity.RequestEntity;
-import com.example.streamlined.backend.Entity.TechnicianEntity;
 import com.example.streamlined.backend.Service.RequestService;
 import com.example.streamlined.backend.Service.TechnicianService;
 

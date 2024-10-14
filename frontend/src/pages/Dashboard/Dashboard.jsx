@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import classes from "./Dashboard.module.css";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { useRouteLoaderData, useNavigate, json } from "react-router-dom";
-import { getAuthToken } from "../../util/auth";
-import axios from "axios";
+import { json, useNavigate, useRouteLoaderData } from "react-router-dom";
+import classes from "./Dashboard.module.css";
 
 const Dashboard = () => {
   const [date, setDate] = useState(new Date());
@@ -25,7 +24,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const totalResponse = await axios.get('http://localhost:8080/request/all');
+        const totalResponse = await axios.get('http://localhost:8080/request/getAllRequest');
         setTotalRequests(totalResponse.data);
 
         // Assuming your backend has separate endpoints for these data
@@ -58,14 +57,15 @@ const Dashboard = () => {
     return <p>{error}</p>;
   }
 
-  if (error) {
+  if(error){
     return <p>{error}</p>;
   }
 
-  return (
-    <section className={classes.main}>
-      {/* 1st CardBox */}
-      <section className={classes.cardBox}>
+    return(
+        <section className={classes.main}>
+
+        {/* 1st CardBox */}
+        <section className={classes.cardBox}>
         {/* Total Requests */}
           <div className={classes.card}>
             <div>
@@ -107,9 +107,10 @@ const Dashboard = () => {
             </div>
             <div className={classes.icon}>
             <ion-icon name="people-outline"></ion-icon>
+            </div>
           </div>
-        </div>
-      </section>
+
+        </section>
 
          {/*  */}
         <section className={classes.details}>
@@ -133,7 +134,7 @@ const Dashboard = () => {
                 <tr key={request.id}>
                   <td>{request.user_firstname}</td>
                   <td>{request.request_location}</td>
-                  <td>{request.purpose}</td>
+                  <td>{request.description}</td>
                   <td>{request.department}</td>
                 </tr>
               ))}
@@ -142,14 +143,14 @@ const Dashboard = () => {
             </div>
         {/* Calendar */}
         <div className={classes.calendarContainer}>
-          <div className={classes.cardHeader}>
-            <h2>Calendar</h2>
+        <div className={classes.cardHeader}>
+          <h2>Calendar</h2>
           </div>
           <Calendar onChange={onChange} value={date} />
-        </div>
+          </div>
+        </section>
       </section>
-    </section>
-  );
+    );
 };
 
 export default Dashboard;

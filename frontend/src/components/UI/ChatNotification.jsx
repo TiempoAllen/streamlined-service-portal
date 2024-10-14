@@ -1,11 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
-import classes from "./ChatNotification.module.css";
-import profileImg from "../../assets/profile.jpg";
-import inboxImage from "../../assets/chat.svg";
-import { NavLink, json, useRouteLoaderData } from "react-router-dom";
-import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { NavLink, json, useRouteLoaderData } from "react-router-dom";
+import SockJS from "sockjs-client";
+import inboxImage from "../../assets/chat.svg";
+import profileImg from "../../assets/profile.jpg";
+import classes from "./ChatNotification.module.css";
 
 const ChatNotification = () => {
   const [showNotification, setShowNotification] = useState(false);

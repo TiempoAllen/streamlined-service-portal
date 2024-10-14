@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import profileImg from "../../assets/profile.jpg";
-import classes from "./Profile.module.css";
 import EditPasswordForm from "../../components/UI/EditPasswordForm";
-import axios from "axios";
+import classes from "./Profile.module.css";
 
 const Profile = () =>{
     const [profile, setProfile] = useState(null);

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { json, useNavigate, useRouteLoaderData } from "react-router-dom";
+import classes from "./Dashboard.module.css";
 
 const Dashboard = () => {
   const [date, setDate] = useState(new Date());
@@ -23,7 +24,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const totalResponse = await axios.get('http://localhost:8080/request/all');
+        const totalResponse = await axios.get('http://localhost:8080/request/getAllRequest');
         setTotalRequests(totalResponse.data);
 
         // Assuming your backend has separate endpoints for these data
@@ -133,7 +134,7 @@ const Dashboard = () => {
                 <tr key={request.id}>
                   <td>{request.user_firstname}</td>
                   <td>{request.request_location}</td>
-                  <td>{request.purpose}</td>
+                  <td>{request.description}</td>
                   <td>{request.department}</td>
                 </tr>
               ))}

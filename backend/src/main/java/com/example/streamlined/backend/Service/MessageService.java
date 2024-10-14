@@ -11,19 +11,28 @@ import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.streamlined.backend.Entity.MessageEntity;
+import com.example.streamlined.backend.Entity.UserEntity;
 import com.example.streamlined.backend.Model.MessageStatus;
 import com.example.streamlined.backend.Repository.MessageRepository;
+import com.example.streamlined.backend.Repository.UserRepository;
 
 @Service
 public class MessageService {
   
     @Autowired
     private MessageRepository mrepo;
+
+    @Autowired
+    private UserRepository urepo;
 
     public MessageEntity createMessage(MessageEntity message){
         return mrepo.save(message);
@@ -63,6 +72,20 @@ public class MessageService {
     public List<MessageEntity> getUnreadMessagesForUser(Long userId) {
         return mrepo.findByReceiverAndStatus(userId.toString(), MessageStatus.SENT);
     }
+
+    // public List<UserEntity> getRecentlyChattedUsers(Long userId) {
+    //     // Get the latest messages sent or received by the user
+    //     List<MessageEntity> recentMessages = mrepo.findRecentMessagesByUser(userId);
+
+    //     // Extract unique user IDs from the messages
+    //     Set<String> userIds = recentMessages.stream()
+    //         .flatMap(message -> Stream.of(message.getSender(), message.getReceiver()))
+    //         .filter(id -> !id.equals(userId)) // Exclude the current user
+    //         .collect(Collectors.toSet());
+
+    //     // Fetch user entities based on user IDs
+    //     return urepo.findByUserIdIn(new ArrayList<>(userIds));
+    // }
 
     public List<MessageEntity> getUnreadAndRecentMessagesForUser(Long userId) {
         String receiverId = userId.toString();

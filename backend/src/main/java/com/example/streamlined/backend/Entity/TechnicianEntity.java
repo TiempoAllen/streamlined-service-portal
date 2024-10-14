@@ -125,8 +125,5 @@ public class TechnicianEntity {
 		this.purpose = purpose;
 	}
 
-	
 
-	
-    
 }

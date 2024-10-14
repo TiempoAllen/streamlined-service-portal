@@ -29,6 +29,7 @@
     min-height: 100vh;
     width: calc(100% - 235px);
     overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .footerAdmin {

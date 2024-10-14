@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,22 +92,22 @@ public class UserService {
 	}
 
 	
-	/*@SuppressWarnings("finally")
+	@SuppressWarnings("finally")
 	public UserEntity updateUser(int user_id, UserEntity newUserDetails) {
 		UserEntity user = new UserEntity();
 		try {
 			user = urepo.findById(user_id).get();
 			
-			user.setFname(newUserDetails.getFname());
-			user.setLname(newUserDetails.getLname());
+			user.setFirstname(newUserDetails.getFirstname());
+			user.setLastname(newUserDetails.getLastname());
 			user.setEmail(newUserDetails.getEmail());
 			user.setPassword(newUserDetails.getPassword());
 		} catch(NoSuchElementException ex) {
-			throw new NoSuchElementException("User " + uid + " does not exist!");
+			throw new NoSuchElementException("User " + user_id + " does not exist!");
 		} finally {
 			return urepo.save(user);
 		}
-	}*/
+	}
 	
 	public String deleteUser (int user_id) {
 		String msg = "";
@@ -120,4 +121,3 @@ public class UserService {
 		return msg;
 	}
 }
-

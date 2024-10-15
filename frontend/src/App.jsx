@@ -1,27 +1,29 @@
 import React from "react";
-import Login, { action as loginAction } from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage, { loader as homeLoader } from "./pages/HomePage/HomePage";
-import LoginLayout from "./components/Layout/LoginLayout";
 import HomeLayout from "./components/Layout/HomeLayout";
+import LoginLayout from "./components/Layout/LoginLayout";
+import ChatNotification, { loader as chatNotificationLoader } from "./components/UI/ChatNotification.jsx";
+import DetailsModal from "./components/UI/DetailsModal";
+import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
+import Chat, { loader as chatLoader } from "./pages/Chat/Chat";
+import Error from "./pages/Error/Error";
+import History, { loader as historyLoader } from "./pages/History/History";
+import HomePage, { loader as homeLoader } from "./pages/HomePage/HomePage";
+import Login, { action as loginAction } from "./pages/Login/Login";
+import { action as logoutAction } from "./pages/Login/Logout";
+import Profile, { loader as profileLoader } from "./pages/Profile/Profile";
+import Record, { loader as recordLoader } from "./pages/Record/Record";
+import RecordDetails from "./pages/Record/RecordDetails";
+import Register from "./pages/Register/Register";
 import RequestPage, {
   action as requestAction,
 } from "./pages/RequestPage/RequestPage";
-import Error from "./pages/Error/Error";
-import { action as logoutAction } from "./pages/Login/Logout";
-import { checkAuthLoader } from "./util/auth";
-import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
-import Chat from "./pages/Chat/Chat";
-import Profile from "./pages/Profile/Profile";
-import Record, { loader as recordLoader } from "./pages/Record/Record";
 import SuperUser from "./pages/SuperUser/SuperUser";
 import Technician, {
   loader as technicianLoader,
 } from "./pages/Technician/Technician";
 import TechnicianSchedule from "./pages/Technician/TechnicianSchedule";
-import RecordDetails from "./pages/Record/RecordDetails";
-import History, { loader as historyLoader } from "./pages/History/History";
+import { checkAuthLoader } from "./util/auth";
 
 const router = createBrowserRouter([
   {
@@ -56,6 +58,10 @@ const router = createBrowserRouter([
         loader: historyLoader,
       },
       {
+        path: "history/:requestId",
+        element: <DetailsModal />,
+      },
+      {
         path: "approval",
         id: "approval",
         element: <Approval />,
@@ -72,19 +78,23 @@ const router = createBrowserRouter([
       },
       {
         path: "superuser",
-        id: "superuser"  ,
+        id: "superuser",
         element: <SuperUser />,
         loader: checkAuthLoader,
       },
       {
-        path: "profile",
+        id: "profile",
         element: <Profile />,
+        loader: profileLoader,
       },
       {
         path: "chat",
+        id: "chat",
         element: <Chat />,
+        loader: chatLoader,
       },
-      { path: "technician",
+      { 
+        path: "technician",
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,
@@ -94,6 +104,12 @@ const router = createBrowserRouter([
             element: <TechnicianSchedule />,
           },
         ],
+      },
+      { 
+        path: "chatNotification",
+        id: "chatNotification",
+        element: <ChatNotification />,
+        loader: chatNotificationLoader,
       },
       {
         path: "logout",

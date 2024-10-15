@@ -1,17 +1,18 @@
 package com.example.streamlined.backend.Service;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.streamlined.backend.Entity.RequestEntity;
 import com.example.streamlined.backend.Entity.TechnicianEntity;
 import com.example.streamlined.backend.Entity.UserEntity;
-import com.example.streamlined.backend.Repository.NotificationRepository;
 import com.example.streamlined.backend.Repository.RequestRepository;
 import com.example.streamlined.backend.Repository.TechnicianRepository;
 import com.example.streamlined.backend.Repository.UserRepository;
@@ -70,8 +71,21 @@ public class RequestService {
 	}*/
 
 	public List<RequestEntity> getAllRequests() {
-		return rrepo.findAll();
+		return rrepo.findAll(Sort.by(Sort.Direction.DESC, "datetime"));
 	}
+	
+	public List<RequestEntity> findPendingRequests() {
+        return rrepo.findByStatus("Pending");
+    }
+
+    public List<RequestEntity> findApprovedRequests() {
+        return rrepo.findByStatus("Approved");
+    }
+
+    public List<RequestEntity> findRecentRequests() {
+        return rrepo.findTop4ByOrderByDatetimeDesc(); // Fetch recent requests, adjust as needed
+    }
+
 
 	public Optional<RequestEntity> getRequestById(int request_id) {
 		return rrepo.findById(request_id);
@@ -86,10 +100,12 @@ public class RequestService {
 	        request.setStatus(newRequestStatus.getStatus());
 
 	        if ("Approved".equals(newRequestStatus.getStatus())) {
-	            nserv.addNotification("Your request has been approved.", request.getUser_id(), "User");
+	            nserv.addNotification("Your request (ID: " + request_id + ") has been approved.", request.getUser_id(), "User");
 	        } else if ("Denied".equals(newRequestStatus.getStatus())) {
 	            request.setDenialReason(newRequestStatus.getDenialReason());
-	            nserv.addNotification("Your request has been denied. Reason: " + newRequestStatus.getDenialReason(), request.getUser_id(), "User");
+	            nserv.addNotification("Your request (ID: " + request_id + ") has been denied. Reason: " + newRequestStatus.getDenialReason(), request.getUser_id(), "User");
+	        } else if ("Done".equals(newRequestStatus.getStatus())) {
+	            nserv.addNotification("Your request (ID: " + request_id + ") is done.", request.getUser_id(), "User");
 	        }
 	    } catch(NoSuchElementException ex) {
 	        throw new NoSuchElementException("Request " + request_id + " does not exist!");
@@ -97,6 +113,7 @@ public class RequestService {
 	        return rrepo.save(request);
 	    }
 	}
+
 
 
 	public RequestEntity assignTechnicianToRequest(Long request_id, Long tech_id, String startTime, String endTime) {
@@ -109,7 +126,7 @@ public class RequestService {
 	    // Check for time conflicts with existing requests for the technician
 	    for (RequestEntity existingRequest : technician.getRequests()) {
 	        if (startTime.compareTo(existingRequest.getEndTime()) < 0 && endTime.compareTo(existingRequest.getStartTime()) > 0) {
-	            throw new IllegalArgumentException("Technician is already assigned to another request during this time.");
+	        	throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Technician is already assigned to another request during this time.");
 	        }
 	    }
 

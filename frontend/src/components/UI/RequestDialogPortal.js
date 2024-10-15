@@ -31,6 +31,8 @@ const RequestDialogPortal = ({
 }) => {
   const requestor = `${request.user_firstname} ${request.user_lastname}`;
   const [techAssigned, setTechAssigned] = useState(null);
+  const [isTimeConflict, setIsTimeConflict] = useState(false);
+  const [timeConflictError, setTimeConflictError] = useState("");
 
   const fetchRequestById = async (id) => {
     try {
@@ -89,18 +91,11 @@ const RequestDialogPortal = ({
         setTechAssigned(updatedRequest.technicianId);
       }
     } catch (error) {
-      console.error("Failed to assign technician:", error);
-      // console.log(error.response.data.message);
-
-      if (
-        error.response.data.message ===
-        "Technician is already assigned to another request during this time."
-      ) {
-        alert(
-          "Technician is already assigned to another request during this time."
-        );
+      if (error.response && error.response.status === 400) {
+        setTimeConflictError(error.response.data.message);
+        setIsTimeConflict(true);
       } else {
-        alert("Failed to assign technician.");
+        console.error("Failed to assign technician:", error);
       }
     }
   };
@@ -250,6 +245,8 @@ const RequestDialogPortal = ({
                           />
                         </Dialog.Trigger>
                         <TechnicianPortal
+                          isTimeConflict={isTimeConflict}
+                          timeConflictError={timeConflictError}
                           technicians={technicians}
                           request={request}
                           onAssignTechnicianToRequest={(

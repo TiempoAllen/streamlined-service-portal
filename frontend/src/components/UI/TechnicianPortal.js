@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Cross2Icon } from "@radix-ui/react-icons";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Table } from "@radix-ui/themes";
@@ -8,16 +8,23 @@ const TechnicianPortal = ({
   technicians, // Default to an empty array
   request,
   onAssignTechnicianToRequest,
+  isTimeConflict,
+  timeConflictError,
 }) => {
-  console.log(request.request_id);
-  console.log("Technician Data: ", technicians);
-
-  // Check if technicians is an array before mapping
-  // const isTechniciansArray = Array.isArray(technicians);
-
+  const [showError, setShowError] = useState(false);
   const availableTechnicians = technicians.filter(
     (technician) => technician.isavailable === true
   );
+
+  useEffect(() => {
+    if (isTimeConflict) {
+      setShowError(true);
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 3000);
+      return () => clearTimeout(timer); // Cleanup the timer
+    }
+  }, [isTimeConflict]);
 
   return (
     <>
@@ -25,9 +32,9 @@ const TechnicianPortal = ({
         <Dialog.Overlay className={classes.DialogOverlay} />
         <Dialog.Content className={classes.TechnicianDialogContent}>
           <Dialog.Title className={classes.DialogTitle}>
-            Available Technicians, Request ID: {request.request_id}
+            Available Technicians
           </Dialog.Title>
-          <Table.Root variant="surface">
+          <Table.Root variant="surface" size="3">
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeaderCell>Full name</Table.ColumnHeaderCell>
@@ -72,6 +79,10 @@ const TechnicianPortal = ({
               ))}
             </Table.Body>
           </Table.Root>
+
+          {showError && (
+            <p className={classes.timeConflictError}>{timeConflictError}</p>
+          )}
           <div
             style={{
               display: "flex",

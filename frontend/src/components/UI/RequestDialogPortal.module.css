@@ -116,6 +116,10 @@ hr {
     height: 100%;
 }
 
+.timeConflictError {
+    color: #be000d;
+}
+
 .Button {
     display: inline-flex;
     align-items: center;
@@ -236,6 +240,7 @@ hr {
 .Input:focus {
     box-shadow: black;
 }
+
 
 @keyframes overlayShow {
     from {

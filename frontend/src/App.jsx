@@ -2,7 +2,9 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomeLayout from "./components/Layout/HomeLayout";
 import LoginLayout from "./components/Layout/LoginLayout";
-import ChatNotification, { loader as chatNotificationLoader } from "./components/UI/ChatNotification.jsx";
+import ChatNotification, {
+  loader as chatNotificationLoader,
+} from "./components/UI/ChatNotification.jsx";
 import DetailsModal from "./components/UI/DetailsModal";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
 import Chat, { loader as chatLoader } from "./pages/Chat/Chat";
@@ -15,9 +17,7 @@ import Profile, { loader as profileLoader } from "./pages/Profile/Profile";
 import Record, { loader as recordLoader } from "./pages/Record/Record";
 import RecordDetails from "./pages/Record/RecordDetails";
 import Register from "./pages/Register/Register";
-import RequestPage, {
-  action as requestAction,
-} from "./pages/RequestPage/RequestPage";
+import RequestPage from "./pages/RequestPage/RequestPage";
 import SuperUser from "./pages/SuperUser/SuperUser";
 import Technician, {
   loader as technicianLoader,
@@ -50,7 +50,6 @@ const router = createBrowserRouter([
         path: "request",
         element: <RequestPage />,
         loader: checkAuthLoader,
-        action: requestAction,
       },
       {
         path: "history",
@@ -93,7 +92,7 @@ const router = createBrowserRouter([
         element: <Chat />,
         loader: chatLoader,
       },
-      { 
+      {
         path: "technician",
         id: "technician",
         element: <Technician />,
@@ -105,7 +104,7 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { 
+      {
         path: "chatNotification",
         id: "chatNotification",
         element: <ChatNotification />,

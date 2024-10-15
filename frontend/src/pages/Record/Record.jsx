@@ -13,6 +13,8 @@ const Record = () => {
   const { user_id } = useParams();
   const navigate = useNavigate();
 
+  const [filterType, setFilterType] = useState("All"); // Default filter is "All"
+
   const [colDefs, setColDefs] = useState([
     { field: "RequestID", flex: 1 },
     { field: "Requestor", flex: 1 },
@@ -38,7 +40,37 @@ const Record = () => {
     },
   ]);
 
-  const transformedRequests = doneRequests.map((request) => {
+  // Function to filter requests based on the selected time range
+  const filterRequestsByDate = (requests, filterType) => {
+    const now = new Date();
+
+    return requests.filter((request) => {
+      const requestDate = new Date(request.datetime);
+      switch (filterType) {
+        case "Today":
+          return requestDate.toDateString() === now.toDateString();
+        case "Week":
+          const startOfWeek = new Date(
+            now.setDate(now.getDate() - now.getDay())
+          );
+          return requestDate >= startOfWeek;
+        case "Month":
+          return (
+            requestDate.getMonth() === now.getMonth() &&
+            requestDate.getFullYear() === now.getFullYear()
+          );
+        case "Year":
+          return requestDate.getFullYear() === now.getFullYear();
+        case "All":
+        default:
+          return true;
+      }
+    });
+  };
+
+  const filteredRequests = filterRequestsByDate(doneRequests, filterType);
+
+  const transformedRequests = filteredRequests.map((request) => {
     return {
       RequestID: request.request_id,
       Requestor: `${request.user_firstname} ${request.user_lastname}`,
@@ -79,7 +111,19 @@ const Record = () => {
     <section className={classes.record}>
       <div className={classes.recordHeader}>
         <SelectArea header="Records" isRecords={true} />
-        <button onClick={exportToCSV}>Export</button> {/* Trigger CSV export */}
+        <div className={classes.exportArea}>
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+          >
+            <option value="All">All</option>
+            <option value="Today">Today</option>
+            <option value="Week">This Week</option>
+            <option value="Month">This Month</option>
+            <option value="Year">This Year</option>
+          </select>
+          <button onClick={exportToCSV}>Export</button>
+        </div>
       </div>
       <div
         className="ag-theme-quartz"

@@ -150,6 +150,28 @@ textarea {
     width: auto;
 }
 
-.submitBtn:hover{
+.request .error {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    width: 50%;
+    border: solid 1px #89343B;
+    background-color: #fa8f98;
+    border-radius: 5px;
+}
+
+.request .error p {}
+
+.request .error p span {
+    font-weight: bold;
+}
+
+.request .error img {
+    cursor: pointer;
+    height: 1.5rem;
+    width: auto;
+}
+
+.submitBtn:hover {
     background-color: rgb(183, 45, 45);
 }

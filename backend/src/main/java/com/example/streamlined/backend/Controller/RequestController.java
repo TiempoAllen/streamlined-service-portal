@@ -88,50 +88,52 @@ public class RequestController {
 
 
     @PutMapping("/update/{request_id}")
-public ResponseEntity<RequestEntity> updateRequest(
-        @PathVariable int request_id,
-        @RequestParam(value = "request_technician", required = false) String request_technician,
-        @RequestParam(value = "request_location", required = false) String request_location,
-        @RequestParam(value = "datetime", required = false) String datetime,  // Keep as String
-        @RequestParam(value = "description", required = false) String description,
-        @RequestParam(value = "user_id", required = false) Long user_id,
-        @RequestParam(value = "attachment", required = false) MultipartFile attachment) throws IOException {
-
-    // Fetch the existing request
-    Optional<RequestEntity> optionalRequest = rserv.getRequestById(request_id);
-    if (!optionalRequest.isPresent()) {
-        return ResponseEntity.notFound().build();
-    }
-
-    RequestEntity existingRequest = optionalRequest.get();
-
-    // Update fields if provided
-    if (request_technician != null) existingRequest.setRequest_technician(request_technician);
-    if (request_location != null) existingRequest.setRequest_location(request_location);
-    if (datetime != null) existingRequest.setDatetime(datetime);  // Directly set the String datetime
-    if (description != null) existingRequest.setDescription(description);
-    if (user_id != null) existingRequest.setUser_id(user_id);
-
-    // Check if the attachment is provided and save the file if present
-    if (attachment != null && !attachment.isEmpty()) {
-        byte[] bytes = attachment.getBytes();
-        Path uploadDir = Paths.get("uploads");
-
-        // Check if the directory exists, if not create it
-        if (!Files.exists(uploadDir)) {
-            Files.createDirectories(uploadDir);
+    public ResponseEntity<RequestEntity> updateRequest(
+            @PathVariable int request_id,
+            @RequestParam(value = "title", required = false) String title, // Include title as a parameter
+            @RequestParam(value = "request_technician", required = false) String request_technician,
+            @RequestParam(value = "request_location", required = false) String request_location,
+            @RequestParam(value = "datetime", required = false) String datetime,  // Keep as String
+            @RequestParam(value = "description", required = false) String description,
+            @RequestParam(value = "user_id", required = false) Long user_id,
+            @RequestParam(value = "attachment", required = false) MultipartFile attachment) throws IOException {
+    
+        // Fetch the existing request
+        Optional<RequestEntity> optionalRequest = rserv.getRequestById(request_id);
+        if (!optionalRequest.isPresent()) {
+            return ResponseEntity.notFound().build();
         }
-
-        Path path = uploadDir.resolve(attachment.getOriginalFilename());
-        Files.write(path, bytes);
-        existingRequest.setAttachment(path.toString());
+    
+        RequestEntity existingRequest = optionalRequest.get();
+    
+        // Update fields if provided
+        if (title != null) existingRequest.setTitle(title); // Update title if provided
+        if (request_technician != null) existingRequest.setRequest_technician(request_technician);
+        if (request_location != null) existingRequest.setRequest_location(request_location);
+        if (datetime != null) existingRequest.setDatetime(datetime);  // Directly set the String datetime
+        if (description != null) existingRequest.setDescription(description);
+        if (user_id != null) existingRequest.setUser_id(user_id);
+    
+        // Check if the attachment is provided and save the file if present
+        if (attachment != null && !attachment.isEmpty()) {
+            byte[] bytes = attachment.getBytes();
+            Path uploadDir = Paths.get("uploads");
+    
+            // Check if the directory exists, if not create it
+            if (!Files.exists(uploadDir)) {
+                Files.createDirectories(uploadDir);
+            }
+    
+            Path path = uploadDir.resolve(attachment.getOriginalFilename());
+            Files.write(path, bytes);
+            existingRequest.setAttachment(path.toString());
+        }
+    
+        // Save the updated request (ensure you handle your update logic in the service layer)
+        RequestEntity updatedRequest = rserv.addRequest(existingRequest);
+        return ResponseEntity.ok(updatedRequest);
     }
     
-
-    // Save the updated request (ensure you handle your update logic in the service layer)
-    RequestEntity updatedRequest = rserv.addRequest(existingRequest);
-    return ResponseEntity.ok(updatedRequest);
-        }
 
 
 

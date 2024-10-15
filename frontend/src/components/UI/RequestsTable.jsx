@@ -269,7 +269,7 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   
 
   const handleEditRequest = async () => {
-    console.log("Form Data before Edit:", formData); // Debugging log
+  
     
     // Check for required fields
     if (!formData.title || !formData.description || !formData.datetime || !formData.request_location || !formData.request_technician) {
@@ -416,8 +416,7 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
         <thead>
           <tr>
             <th>Request ID</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
+            <th>User</th>
             <th>Title</th>
             <th>Purpose</th>
             <th>Date & Time</th>
@@ -433,8 +432,7 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
           {sortedRequests.map((request) => (
             <tr key={request.request_id}>
               <td>{request.request_id}</td>
-              <td>{request.user_firstname} </td>
-              <td>{request.user_lastname}</td>
+              <td>{request.user_firstname} {request.user_lastname} </td>
               <td>{request.title}</td>
               <td>{request.description|| "N/A"}</td>
               <td>{formatDateTime(request.datetime)}</td>

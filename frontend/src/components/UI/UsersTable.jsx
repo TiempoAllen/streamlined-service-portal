@@ -101,7 +101,7 @@ const UsersTable = () => {
       const employeeIdExists = users.some((user) => user.employee_id === newUser.employee_id);
       if (employeeIdExists) {
         setSnackbarSeverity("error");
-        setSnackbarMessage("Employee ID already exists.");
+        setSnackbarMessage("Error at Employee ID: Employee ID already exists.");
         setSnackbarOpen(true);
         return;
       }
@@ -109,35 +109,35 @@ const UsersTable = () => {
 
     if (newUser.password.length < 8) {
       setSnackbarSeverity("error");
-     setSnackbarMessage("Password must be at least 8 characters long.");
+     setSnackbarMessage("Error at Password: Password must be at least 8 characters long.");
      setSnackbarOpen(true);
      return;
    }
  
    if (!/[A-Z]/.test(newUser.password)) {
      setSnackbarSeverity("error");
-     setSnackbarMessage("Password must include at least one uppercase letter.");
+     setSnackbarMessage("Error at Password: Password must include at least one uppercase letter.");
      setSnackbarOpen(true);
      return;
    }
  
    if (!/[a-z]/.test(newUser.password)) {
      setSnackbarSeverity("error");
-     setSnackbarMessage("Password must include at least one lowercase letter.");
+     setSnackbarMessage("Error at Password: Password must include at least one lowercase letter.");
      setSnackbarOpen(true);
      return;
    }
  
    if (!/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password)) {
      setSnackbarSeverity("error");
-     setSnackbarMessage("Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
+     setSnackbarMessage("Error at Password: Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
      setSnackbarOpen(true);
      return;
    }
  
    if (!newUser.email.endsWith("@cit.edu")) {
      setSnackbarSeverity("error");
-     setSnackbarMessage("Email must end with '@cit.edu'.");
+     setSnackbarMessage("Error at Email: Email must end with '@cit.edu'.");
      setSnackbarOpen(true);
      return;
    }
@@ -172,7 +172,7 @@ const UsersTable = () => {
       const employeeIdExists = users.some((user) => user.employee_id === newUser.employee_id);
       if (employeeIdExists) {
         setSnackbarSeverity("error");
-        setSnackbarMessage("Employee ID already exists.");
+        setSnackbarMessage("Error at Employee ID: Employee ID already exists.");
         setSnackbarOpen(true);
         return;
       }
@@ -181,35 +181,35 @@ const UsersTable = () => {
 
     if (newUser.password.length < 8) {
        setSnackbarSeverity("error");
-      setSnackbarMessage("Password must be at least 8 characters long.");
+      setSnackbarMessage("Error at Password: Password must be at least 8 characters long.");
       setSnackbarOpen(true);
       return;
     }
   
     if (!/[A-Z]/.test(newUser.password)) {
       setSnackbarSeverity("error");
-      setSnackbarMessage("Password must include at least one uppercase letter.");
+      setSnackbarMessage("Error at Password: Password must include at least one uppercase letter.");
       setSnackbarOpen(true);
       return;
     }
   
     if (!/[a-z]/.test(newUser.password)) {
       setSnackbarSeverity("error");
-      setSnackbarMessage("Password must include at least one lowercase letter.");
+      setSnackbarMessage("Error at Password:Password must include at least one lowercase letter.");
       setSnackbarOpen(true);
       return;
     }
   
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password)) {
       setSnackbarSeverity("error");
-      setSnackbarMessage("Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
+      setSnackbarMessage("Error at Password: Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
       setSnackbarOpen(true);
       return;
     }
   
     if (!newUser.email.endsWith("@cit.edu")) {
       setSnackbarSeverity("error");
-      setSnackbarMessage("Email must end with '@cit.edu'.");
+      setSnackbarMessage("Error at Email: Email must end with '@cit.edu'.");
       setSnackbarOpen(true);
       return;
     }

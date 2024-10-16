@@ -14,10 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 
 @Entity
 @Table(name="tblTechnician")
@@ -147,6 +143,7 @@ public class TechnicianEntity {
 	public void setPurpose(String purpose) {
 		this.purpose = purpose;
 	}
+
 
 
 }

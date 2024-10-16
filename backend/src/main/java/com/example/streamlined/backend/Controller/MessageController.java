@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.streamlined.backend.Entity.MessageEntity;
-import com.example.streamlined.backend.Entity.UserEntity;
 import com.example.streamlined.backend.Service.MessageService;
 
 
@@ -61,12 +60,6 @@ public class MessageController {
         return ResponseEntity.ok(messages);
     }
 
-    //  @GetMapping("/recentlyChatted/{userId}")
-    // public ResponseEntity<List<UserEntity>> getRecentlyChattedUsers(@PathVariable Long userId) {
-    //     List<UserEntity> recentlyChattedUsers = mserv.getRecentlyChattedUsers(userId);
-    //     return ResponseEntity.ok(recentlyChattedUsers);
- 
-    // }
 //    @GetMapping("/recent/{userId}/{senderId}")
 //    public ResponseEntity<List<MessageEntity>> getRecentMessages(@PathVariable Long userId, @PathVariable String sender) {
 //        List<MessageEntity> recentMessages = mserv.getRecentMessagesForUser(userId, sender);

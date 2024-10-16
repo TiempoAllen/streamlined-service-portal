@@ -2,7 +2,7 @@ import { React, useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import bellIcon from "../../assets/bell.svg";
 import { formatDateTime } from "../../util/auth";
-import profileImg from "../../assets/profile.jpg";
+import profileImg from "../../assets/profile.svg";
 import classes from "./Notification.module.css";
 import axios from "axios";
 

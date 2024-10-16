@@ -21,9 +21,5 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long>{
     @Query("SELECT m FROM MessageEntity m WHERE m.receiver = :receiverId AND m.timestamp >= :timestamp")
     List<MessageEntity> findRecentMessagesForUser(@Param("receiverId") String receiver, @Param("timestamp") String timestamp);
 
-    // @Query("SELECT m FROM MessageEntity m WHERE m.sender = :userId OR m.receiver = :userId ORDER BY m.timestamp DESC")
-    // List<MessageEntity> findRecentMessagesByUser(@Param("userId") Long userId);
-    
-
 
 }

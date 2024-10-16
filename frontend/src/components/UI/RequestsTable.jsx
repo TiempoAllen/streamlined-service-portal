@@ -50,8 +50,12 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   const [formData, setFormData] = useState({
     title:"",
     description: "",
+<<<<<<< HEAD
     startTime: "", 
     endTime: "",   
+=======
+    datetime: "",
+>>>>>>> Justine
     status: "Pending",
     user_firstname: user_firstname, 
     user_lastname: user_lastname,
@@ -84,8 +88,11 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   const [previewFileType, setPreviewFileType] = useState('');
   const [filename, setFilename] = useState(''); // Add this line
 
+<<<<<<< HEAD
   const [searchQuery, setSearchQuery] = useState(""); 
 
+=======
+>>>>>>> Justine
   const fetchRequests = async () => {
     try {
       const response = await axios.get("http://localhost:8080/request/getAllRequest");
@@ -107,16 +114,25 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
     setDialogMode(mode);
 
     if (mode === "edit" || mode === "view") {
+<<<<<<< HEAD
       const existingStartTime = new Date(request.startTime);
       const existingEndTime = new Date(request.endTime);
       const formattedStartTime = existingStartTime.toISOString().slice(0, 16);
       const formattedEndTime = existingEndTime.toISOString().slice(0, 16);
+=======
+      const existingDateTime = new Date(request.datetime);
+      const formattedDateTime = existingDateTime.toISOString().slice(0, 16);
+>>>>>>> Justine
 
       setFormData({
         title: request.title,
         description: request.description,
+<<<<<<< HEAD
         startTime: formattedStartTime,
         endTime: formattedEndTime,
+=======
+        datetime: formattedDateTime,
+>>>>>>> Justine
         status: request.status,
         request_location: request.request_location,
         department: request.department,
@@ -130,8 +146,12 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
       setFormData({
         title:"",
         description: "",
+<<<<<<< HEAD
         startTime: "",
         endTime: "",
+=======
+        datetime: "",
+>>>>>>> Justine
         status: "Pending",
         request_location: "",
         department: user_department || "",
@@ -162,12 +182,18 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   };
 
   const handleAddRequest = async () => {
+<<<<<<< HEAD
     if (!formData.title || !formData.description || !formData.startTime || !formData.endTime || !formData.request_location || !formData.request_technician) {
+=======
+    // Check for required fields
+    if (!formData.title || !formData.description || !formData.datetime || !formData.request_location || !formData.request_technician) {
+>>>>>>> Justine
       setSnackbarSeverity("error");
       setSnackbarMessage("Please fill in all required fields.");
       setSnackbarOpen(true);
       return;
     }
+<<<<<<< HEAD
 
     const selectedStartTime = new Date(formData.startTime);
     const selectedEndTime = new Date(formData.endTime);
@@ -188,27 +214,60 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
     const formattedStartTime = selectedStartTime.toISOString().slice(0, 19);
     const formattedEndTime = selectedEndTime.toISOString().slice(0, 19);
 
+=======
+  
+    const selectedDate = new Date(formData.datetime);
+    if (isNaN(selectedDate.getTime())) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Please enter a valid date and time.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    const formattedDateTime = selectedDate.toISOString().slice(0, 19);
+  
+  
+    
+  
+>>>>>>> Justine
     try {
       const requestBody = new FormData();
       requestBody.append("title", formData.title);
       requestBody.append("description", formData.description);
+<<<<<<< HEAD
       requestBody.append("startTime", formattedStartTime);
       requestBody.append("endTime", formattedEndTime);
+=======
+      requestBody.append("datetime", formattedDateTime);
+>>>>>>> Justine
       requestBody.append("request_location", formData.request_location);
       requestBody.append("department", formData.department);
       requestBody.append("request_technician", formData.request_technician);
       requestBody.append("user_id", formData.user_id);
+<<<<<<< HEAD
 
       if (formData.attachment) {
         requestBody.append("attachment", formData.attachment);
       }
 
+=======
+  
+      // If the attachment is provided, append it to the form data
+      if (formData.attachment) {
+        requestBody.append("attachment", formData.attachment);
+      }
+  
+>>>>>>> Justine
       const response = await axios.post("http://localhost:8080/request/add", requestBody, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> Justine
       if (response.data) {
         setSnackbarSeverity("success");
         setSnackbarMessage("Request added successfully!");
@@ -218,8 +277,12 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
         setFormData({
           title: "",
           description: "",
+<<<<<<< HEAD
           startTime: "",
           endTime: "",
+=======
+          datetime: "",
+>>>>>>> Justine
           request_location: "",
           department: "",
           request_technician: "",
@@ -237,7 +300,10 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
       setSnackbarOpen(true);
     }
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> Justine
   
   
   const handleClosePreview = () => {
@@ -283,12 +349,20 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   
 
   const handleEditRequest = async () => {
+<<<<<<< HEAD
     if (!formData.title || !formData.description || !formData.startTime || !formData.endTime || !formData.request_location || !formData.request_technician) {
+=======
+  
+    
+    // Check for required fields
+    if (!formData.title || !formData.description || !formData.datetime || !formData.request_location || !formData.request_technician) {
+>>>>>>> Justine
       setSnackbarSeverity("error");
       setSnackbarMessage("Please fill in all required fields.");
       setSnackbarOpen(true);
       return;
     }
+<<<<<<< HEAD
 
     const selectedStartTime = new Date(formData.startTime);
     const selectedEndTime = new Date(formData.endTime);
@@ -309,21 +383,46 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
     const formattedStartTime = selectedStartTime.toISOString().slice(0, 19);
     const formattedEndTime = selectedEndTime.toISOString().slice(0, 19);
 
+=======
+  
+    const selectedDate = new Date(formData.datetime);
+    if (isNaN(selectedDate.getTime())) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Please enter a valid date and time.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    const formattedDateTime = selectedDate.toISOString().slice(0, 19);
+  
+>>>>>>> Justine
     try {
       const requestBody = new FormData();
       requestBody.append("title", formData.title);
       requestBody.append("description", formData.description);
+<<<<<<< HEAD
       requestBody.append("startTime", formattedStartTime);
       requestBody.append("endTime", formattedEndTime);
+=======
+      requestBody.append("datetime", formattedDateTime);
+>>>>>>> Justine
       requestBody.append("request_location", formData.request_location);
       requestBody.append("department", formData.department);
       requestBody.append("request_technician", formData.request_technician);
       requestBody.append("user_id", formData.user_id);
+<<<<<<< HEAD
 
       if (formData.attachment) {
         requestBody.append("attachment", formData.attachment);
       }
 
+=======
+  
+      if (formData.attachment) {
+        requestBody.append("attachment", formData.attachment);
+      }
+  
+>>>>>>> Justine
       const response = await axios.put(
         `http://localhost:8080/request/update/${selectedRequest.request_id}`,
         requestBody,
@@ -333,12 +432,22 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
           },
         }
       );
+<<<<<<< HEAD
 
+=======
+  
+      console.log("Response from Edit Request:", response.data); // Debugging log
+  
+>>>>>>> Justine
       if (response.data) {
         setSnackbarSeverity("success");
         setSnackbarMessage("Request updated successfully!");
         setSnackbarOpen(true);
+<<<<<<< HEAD
         fetchRequests();
+=======
+        fetchRequests(); // Fetch the updated requests
+>>>>>>> Justine
         handleCloseDialog();
       } else {
         setSnackbarSeverity("error");
@@ -346,7 +455,11 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
         setSnackbarOpen(true);
       }
     } catch (error) {
+<<<<<<< HEAD
       console.error("Error updating request:", error);
+=======
+      console.error("Error editing request:", error);
+>>>>>>> Justine
       setSnackbarSeverity("error");
       setSnackbarMessage("An error occurred while updating the request. Please try again.");
       setSnackbarOpen(true);
@@ -354,7 +467,10 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   };
   
   
+<<<<<<< HEAD
   
+=======
+>>>>>>> Justine
   const handleFormSubmit = () => {
     if (dialogMode === "add") {
       handleAddRequest();
@@ -409,6 +525,7 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
 };
 
 
+<<<<<<< HEAD
 
 
 const sortedRequests = (requests || []).sort((a, b) => a.request_id - b.request_id);
@@ -441,6 +558,10 @@ const filteredRequests = sortedRequests.filter(request => {
 });
 
 
+=======
+  const sortedRequests = requests.sort((a, b) => a.request_id - b.request_id);
+
+>>>>>>> Justine
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -461,6 +582,7 @@ const filteredRequests = sortedRequests.filter(request => {
           </IconButton>
         </Tooltip>
       </div>
+<<<<<<< HEAD
       <TextField
         label="Search Bar"
         variant="outlined"
@@ -501,6 +623,38 @@ const filteredRequests = sortedRequests.filter(request => {
             <td>{request.department || "N/A"}</td>
             <td>{request.request_technician || "N/A"}</td>
             <td>
+=======
+
+      <table className={classes.requestsTable}>
+        <thead>
+          <tr>
+            <th>Request ID</th>
+            <th>User</th>
+            <th>Title</th>
+            <th>Purpose</th>
+            <th>Date & Time</th>
+            <th>Status</th>
+            <th>Location</th>
+            <th>Department</th>
+            <th>Technician</th>
+            <th>Attachment</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedRequests.map((request) => (
+            <tr key={request.request_id}>
+              <td>{request.request_id}</td>
+              <td>{request.user_firstname} {request.user_lastname} </td>
+              <td>{request.title}</td>
+              <td>{request.description|| "N/A"}</td>
+              <td>{formatDateTime(request.datetime)}</td>
+              <td>{request.status || "N/A"}</td>
+              <td>{request.request_location || "N/A"}</td>
+              <td>{request.department || "N/A"}</td>
+              <td>{request.request_technician || "N/A"}</td>
+              <td>
+>>>>>>> Justine
               {request.attachment ? (
                 <div>
                   <Button onClick={() => openPreview(request.attachment)}>Preview</Button>
@@ -616,6 +770,7 @@ const filteredRequests = sortedRequests.filter(request => {
     readOnly: dialogMode === "view",
   }}
 />
+<<<<<<< HEAD
 <TextField
           label="Start Time"
           name="startTime"
@@ -648,6 +803,24 @@ const filteredRequests = sortedRequests.filter(request => {
             readOnly: dialogMode === "view",
           }}
         />
+=======
+    <TextField
+      label="Date & Time"
+      name="datetime"
+      type="datetime-local"
+      value={formData.datetime}
+      onChange={handleFormChange}
+      fullWidth
+      required
+      margin="normal"
+      InputLabelProps={{
+        shrink: true,
+      }}
+      InputProps={{
+        readOnly: dialogMode === "view",
+      }}
+    />
+>>>>>>> Justine
     <TextField
       label="Location"
       name="request_location"

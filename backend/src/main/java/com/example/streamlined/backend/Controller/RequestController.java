@@ -77,7 +77,7 @@ public class RequestController {
             if (!Files.exists(uploadDir)) {
                 Files.createDirectories(uploadDir);
             }
-
+    
             Path path = uploadDir.resolve(attachment.getOriginalFilename());
             Files.write(path, bytes);
             request.setAttachment(path.toString());
@@ -90,12 +90,19 @@ public class RequestController {
     @PutMapping("/update/{request_id}")
     public ResponseEntity<RequestEntity> updateRequest(
             @PathVariable int request_id,
+<<<<<<< HEAD
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "request_technician", required = false) String request_technician,
             @RequestParam(value = "request_location", required = false) String request_location,
             @RequestParam(value = "datetime", required = false) String datetime,
             @RequestParam(value = "startTime", required = false) String startTime, // New startTime parameter
             @RequestParam(value = "endTime", required = false) String endTime,     // New endTime parameter
+=======
+            @RequestParam(value = "title", required = false) String title, // Include title as a parameter
+            @RequestParam(value = "request_technician", required = false) String request_technician,
+            @RequestParam(value = "request_location", required = false) String request_location,
+            @RequestParam(value = "datetime", required = false) String datetime,  // Keep as String
+>>>>>>> Justine
             @RequestParam(value = "description", required = false) String description,
             @RequestParam(value = "user_id", required = false) Long user_id,
             @RequestParam(value = "attachment", required = false) MultipartFile attachment) throws IOException {
@@ -109,12 +116,19 @@ public class RequestController {
         RequestEntity existingRequest = optionalRequest.get();
     
         // Update fields if provided
+<<<<<<< HEAD
         if (title != null) existingRequest.setTitle(title); 
         if (request_technician != null) existingRequest.setRequest_technician(request_technician);
         if (request_location != null) existingRequest.setRequest_location(request_location);
         if (datetime != null) existingRequest.setDatetime(datetime);  // Keep datetime
         if (startTime != null) existingRequest.setStartTime(startTime);  // Set startTime if provided
         if (endTime != null) existingRequest.setEndTime(endTime);        // Set endTime if provided
+=======
+        if (title != null) existingRequest.setTitle(title); // Update title if provided
+        if (request_technician != null) existingRequest.setRequest_technician(request_technician);
+        if (request_location != null) existingRequest.setRequest_location(request_location);
+        if (datetime != null) existingRequest.setDatetime(datetime);  // Directly set the String datetime
+>>>>>>> Justine
         if (description != null) existingRequest.setDescription(description);
         if (user_id != null) existingRequest.setUser_id(user_id);
     
@@ -133,12 +147,19 @@ public class RequestController {
             existingRequest.setAttachment(path.toString());
         }
     
+<<<<<<< HEAD
         // Save the updated request
+=======
+        // Save the updated request (ensure you handle your update logic in the service layer)
+>>>>>>> Justine
         RequestEntity updatedRequest = rserv.addRequest(existingRequest);
         return ResponseEntity.ok(updatedRequest);
     }
     
+<<<<<<< HEAD
     
+=======
+>>>>>>> Justine
 
 
 

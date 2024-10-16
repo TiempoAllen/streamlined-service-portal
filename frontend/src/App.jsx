@@ -17,17 +17,7 @@ import Profile, { loader as profileLoader } from "./pages/Profile/Profile";
 import Record, { loader as recordLoader } from "./pages/Record/Record";
 import RecordDetails from "./pages/Record/RecordDetails";
 import Register from "./pages/Register/Register";
-import RequestPage, {
-  action as requestAction,
-} from "./pages/RequestPage/RequestPage";
-import Error from "./pages/Error/Error";
-import { action as logoutAction } from "./pages/Login/Logout";
-import { checkAuthLoader } from "./util/auth";
-import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
-import Profile, { loader as profileLoader } from "./pages/Profile/Profile";
-import Chat, { loader as chatLoader } from "./pages/Chat/Chat";
-import ChatNotification, {loader as chatNotificationLoader } from "./components/UI/ChatNotification.jsx"
-import Record from "./pages/Record/Record";
+import RequestPage from "./pages/RequestPage/RequestPage";
 import SuperUser from "./pages/SuperUser/SuperUser";
 import Technician, {
   loader as technicianLoader,
@@ -108,6 +98,12 @@ const router = createBrowserRouter([
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,
+        children: [
+          {
+            path: "schedule",
+            element: <TechnicianSchedule />,
+          },
+        ],
       },
       {
         path: "chatNotification",

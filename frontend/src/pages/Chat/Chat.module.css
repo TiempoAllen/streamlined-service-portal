@@ -86,6 +86,7 @@
     display: flex;
     flex-direction: row;
     box-sizing: border-box;
+    transition: background-color 0.3s ease, border-radius 0.3s ease;
 }
 
 .chatContainer:hover{
@@ -172,7 +173,7 @@
     padding: 0.5rem;
     border-radius: 20px;
     background-color: #f1f1f1;
-    width: 100%;
+    width: 95%;
 }
 
 
@@ -187,7 +188,22 @@
 .attachmentImage, .sendImage{
     width: 25px;
     height: 25px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
+
+.attachmentImage:hover, .sendImage:hover {
+    transform: scale(1.2); /* Slight zoom on hover */
+}
+
+.activeUser {
+    background-color: #f0f0f0; /* Change to the desired active background color */
+    border-left: 4px solid #F0953B; /* Highlight active user */
+    border-radius: 6px;
+    transition: background-color 0.3s ease, border-left 0.1s ease; /* Smooth transition */
+}
+
+
 
 .messages::-webkit-scrollbar {
     width: 8px;

@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import classes from "./Record.module.css";
 import SelectArea from "../../components/UI/SelectArea";
 import { formatDateTime, loadRequestsAndTechnicians } from "../../util/auth";
@@ -14,6 +16,10 @@ const Record = () => {
   const navigate = useNavigate();
 
   const [filterType, setFilterType] = useState("All"); // Default filter is "All"
+<<<<<<< HEAD
+=======
+  const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar
+>>>>>>> Justine
 
   const [colDefs, setColDefs] = useState([
     { field: "RequestID", flex: 1 },
@@ -87,6 +93,11 @@ const Record = () => {
   });
 
   const exportToCSV = () => {
+    if (transformedRequests.length === 0) {
+      setOpenSnackbar(true); // Show snackbar if no records to export
+      return;
+    }
+
     const headers = Object.keys(transformedRequests[0]);
     const csvRows = [
       headers.join(","), // CSV Header
@@ -105,6 +116,10 @@ const Record = () => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -131,6 +146,18 @@ const Record = () => {
       >
         <AgGridReact rowData={transformedRequests} columnDefs={colDefs} />
       </div>
+
+      {/* Snackbar component */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2500}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: '100%' }}>
+          No records available to export.
+        </Alert>
+      </Snackbar>
     </section>
   );
 };

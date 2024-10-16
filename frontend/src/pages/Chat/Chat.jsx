@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { json, useRouteLoaderData } from "react-router-dom";
 import SockJS from 'sockjs-client';
 import attachmentImage from '../../assets/attachment.svg';
-import profilePic from '../../assets/profile.jpg';
+import profilePic from '../../assets/profile.svg';
 import sendImage from '../../assets/send.svg';
 import classes from './Chat.module.css';
 
@@ -21,6 +21,9 @@ const Chat = () => {
     const [isConnected, setIsConnected] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const [lastMessages, setLastMessages] = useState({});
+    const [activeUserId, setActiveUserId] = useState(null); 
+    const [currentSubscription, setCurrentSubscription] = useState(null);
+
 
 
     const userId = useRouteLoaderData("chat");
@@ -120,36 +123,47 @@ const Chat = () => {
         ));
     };
 
+
     const handleUserClick = async (user) => {
         if (selectedUser && selectedUser.user_id === user.user_id) {
             console.log("User is already selected, ignoring click.");
             return; // Exit early if the user is already selected
         }
     
+        // Unsubscribe from the current channel if there is a subscription
+        if (currentSubscription) {
+            console.log(`Unsubscribing from current channel: ${currentSubscription.id}`);
+            currentSubscription.unsubscribe();
+            setCurrentSubscription(null);
+        }
+    
         setSelectedUser(user);
+        setActiveUserId(user.user_id);
         const channelName = getChannelName(userId.user_id, user.user_id);
         scrollToBottom();
-        
+    
         try {
             const response = await axios.post('http://localhost:8080/chat/getMessages', channelName, {
                 headers: {
                     'Content-Type': 'text/plain',
                 },
             });
-            
+    
             // Mark messages as READ
-            await markMessagesAsRead(response.data.map(msg => msg.messageId)); // Assume `messageId` is the field you use for identifying messages
-           
+            await markMessagesAsRead(response.data.map(msg => msg.messageId)); // Assuming `messageId` identifies messages
+            
             setMessages(response.data);
             scrollToBottom();
-            
+    
             if (client && isConnected) {
                 console.log(`Subscribing to channel: ${channelName}`);
-                client.subscribe(`/topic/messages/${channelName}`, (message) => {
+    
+                const subscription = client.subscribe(`/topic/messages/${channelName}`, (message) => {
                     if (message.body) {
                         const newMessage = JSON.parse(message.body);
                         console.log('Received message:', newMessage);
                         setMessages((prevMessages) => [...prevMessages, newMessage]);
+    
                         // Update last message state
                         setLastMessages(prev => ({
                             ...prev,
@@ -157,6 +171,10 @@ const Chat = () => {
                         }));
                     }
                 });
+    
+                // Save the current subscription so we can unsubscribe later
+                setCurrentSubscription(subscription);
+    
             } else {
                 console.warn('Client not connected. Cannot subscribe.');
             }
@@ -164,6 +182,8 @@ const Chat = () => {
             console.error('Error fetching messages:', error);
         }
     };
+    
+
 
     
     
@@ -299,7 +319,7 @@ const Chat = () => {
                     {Array.isArray(filteredUsers) && filteredUsers.map(user => (
                         <div
                             key={user.user_id}
-                            className={classes.chatContainer}
+                            className={`${classes.chatContainer} ${activeUserId === user.user_id ? classes.activeUser : ''}`}
                             onClick={() => handleUserClick(user)}
                         >
                             <img src={profilePic} className={classes.profilePic} alt="Profile" />

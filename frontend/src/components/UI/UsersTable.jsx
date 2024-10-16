@@ -152,6 +152,7 @@ const UsersTable = () => {
 
   const handleEditUser = async () => {
 
+<<<<<<< HEAD
     if (!validateFields()) {
       setSnackbarSeverity("error");
       setSnackbarMessage("Please fix the errors in the form.");
@@ -159,6 +160,52 @@ const UsersTable = () => {
       return;
     }
 
+=======
+    if (newUser.employee_id !== selectedUser.employee_id) {
+      const employeeIdExists = users.some((user) => user.employee_id === newUser.employee_id);
+      if (employeeIdExists) {
+        setSnackbarSeverity("error");
+        setSnackbarMessage("Error at Employee ID: Employee ID already exists.");
+        setSnackbarOpen(true);
+        return;
+      }
+    }
+
+    if (newUser.password.length < 8) {
+      setSnackbarSeverity("error");
+     setSnackbarMessage("Error at Password: Password must be at least 8 characters long.");
+     setSnackbarOpen(true);
+     return;
+   }
+ 
+   if (!/[A-Z]/.test(newUser.password)) {
+     setSnackbarSeverity("error");
+     setSnackbarMessage("Error at Password: Password must include at least one uppercase letter.");
+     setSnackbarOpen(true);
+     return;
+   }
+ 
+   if (!/[a-z]/.test(newUser.password)) {
+     setSnackbarSeverity("error");
+     setSnackbarMessage("Error at Password: Password must include at least one lowercase letter.");
+     setSnackbarOpen(true);
+     return;
+   }
+ 
+   if (!/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password)) {
+     setSnackbarSeverity("error");
+     setSnackbarMessage("Error at Password: Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
+     setSnackbarOpen(true);
+     return;
+   }
+ 
+   if (!newUser.email.endsWith("@cit.edu")) {
+     setSnackbarSeverity("error");
+     setSnackbarMessage("Error at Email: Email must end with '@cit.edu'.");
+     setSnackbarOpen(true);
+     return;
+   }
+>>>>>>> Justine
 
     try {
       await axios.put(`http://localhost:8080/user/updateUser?uid=${selectedUser.user_id}`, newUser);
@@ -192,7 +239,56 @@ const UsersTable = () => {
       setSnackbarOpen(true);
       return;
     }
+<<<<<<< HEAD
     
+=======
+
+    if (newUser.employee_id !== selectedUser.employee_id) {
+      const employeeIdExists = users.some((user) => user.employee_id === newUser.employee_id);
+      if (employeeIdExists) {
+        setSnackbarSeverity("error");
+        setSnackbarMessage("Error at Employee ID: Employee ID already exists.");
+        setSnackbarOpen(true);
+        return;
+      }
+    }
+  
+
+    if (newUser.password.length < 8) {
+       setSnackbarSeverity("error");
+      setSnackbarMessage("Error at Password: Password must be at least 8 characters long.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    if (!/[A-Z]/.test(newUser.password)) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Error at Password: Password must include at least one uppercase letter.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    if (!/[a-z]/.test(newUser.password)) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Error at Password:Password must include at least one lowercase letter.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password)) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Error at Password: Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    if (!newUser.email.endsWith("@cit.edu")) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Error at Email: Email must end with '@cit.edu'.");
+      setSnackbarOpen(true);
+      return;
+    }
+>>>>>>> Justine
   
     try {
       // Proceed with adding the user if all validations pass

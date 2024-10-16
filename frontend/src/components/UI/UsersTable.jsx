@@ -152,15 +152,6 @@ const UsersTable = () => {
 
   const handleEditUser = async () => {
 
-<<<<<<< HEAD
-    if (!validateFields()) {
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Please fix the errors in the form.");
-      setSnackbarOpen(true);
-      return;
-    }
-
-=======
     if (newUser.employee_id !== selectedUser.employee_id) {
       const employeeIdExists = users.some((user) => user.employee_id === newUser.employee_id);
       if (employeeIdExists) {
@@ -239,9 +230,6 @@ const UsersTable = () => {
       setSnackbarOpen(true);
       return;
     }
-<<<<<<< HEAD
-    
-=======
 
     if (newUser.employee_id !== selectedUser.employee_id) {
       const employeeIdExists = users.some((user) => user.employee_id === newUser.employee_id);
@@ -288,7 +276,6 @@ const UsersTable = () => {
       setSnackbarOpen(true);
       return;
     }
->>>>>>> Justine
   
     try {
       // Proceed with adding the user if all validations pass

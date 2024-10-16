@@ -16,10 +16,7 @@ const Record = () => {
   const navigate = useNavigate();
 
   const [filterType, setFilterType] = useState("All"); // Default filter is "All"
-<<<<<<< HEAD
-=======
   const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar
->>>>>>> Justine
 
   const [colDefs, setColDefs] = useState([
     { field: "RequestID", flex: 1 },

@@ -50,12 +50,7 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   const [formData, setFormData] = useState({
     title:"",
     description: "",
-<<<<<<< HEAD
-    startTime: "", 
-    endTime: "",   
-=======
     datetime: "",
->>>>>>> Justine
     status: "Pending",
     user_firstname: user_firstname, 
     user_lastname: user_lastname,
@@ -88,11 +83,6 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   const [previewFileType, setPreviewFileType] = useState('');
   const [filename, setFilename] = useState(''); // Add this line
 
-<<<<<<< HEAD
-  const [searchQuery, setSearchQuery] = useState(""); 
-
-=======
->>>>>>> Justine
   const fetchRequests = async () => {
     try {
       const response = await axios.get("http://localhost:8080/request/getAllRequest");
@@ -114,25 +104,13 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
     setDialogMode(mode);
 
     if (mode === "edit" || mode === "view") {
-<<<<<<< HEAD
-      const existingStartTime = new Date(request.startTime);
-      const existingEndTime = new Date(request.endTime);
-      const formattedStartTime = existingStartTime.toISOString().slice(0, 16);
-      const formattedEndTime = existingEndTime.toISOString().slice(0, 16);
-=======
       const existingDateTime = new Date(request.datetime);
       const formattedDateTime = existingDateTime.toISOString().slice(0, 16);
->>>>>>> Justine
 
       setFormData({
         title: request.title,
         description: request.description,
-<<<<<<< HEAD
-        startTime: formattedStartTime,
-        endTime: formattedEndTime,
-=======
         datetime: formattedDateTime,
->>>>>>> Justine
         status: request.status,
         request_location: request.request_location,
         department: request.department,
@@ -146,12 +124,7 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
       setFormData({
         title:"",
         description: "",
-<<<<<<< HEAD
-        startTime: "",
-        endTime: "",
-=======
         datetime: "",
->>>>>>> Justine
         status: "Pending",
         request_location: "",
         department: user_department || "",

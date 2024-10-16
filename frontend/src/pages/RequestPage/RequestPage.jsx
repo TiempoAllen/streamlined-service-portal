@@ -1,16 +1,35 @@
 import React, { useRef, useState } from "react";
 import classes from "./RequestPage.module.css";
-import { Form, json, redirect, useRouteLoaderData } from "react-router-dom";
+import { submitRequest } from "../../util/auth";
 import uploadIcon from "../../assets/upload-icon.svg";
 import deleteIcon from "../../assets/delete-button.svg";
-import axios from "axios";
 import * as Dialog from "@radix-ui/react-dialog";
 import FileModal from "../../components/UI/FileModal";
+import { useRouteLoaderData } from "react-router-dom";
+import closeIcon from "../../assets/close.svg";
 
 const RequestPage = () => {
   const user = useRouteLoaderData("home");
   const [file, setFile] = useState(null);
   const fileInputRef = useRef();
+  const [formData, setFormData] = useState({
+    request_location: "",
+    startTime: "",
+    endTime: "",
+    title: "",
+    description: "",
+    request_technician: "",
+    attachment: "",
+  });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleDeleteFile = () => {
     setFile("");
@@ -24,17 +43,34 @@ const RequestPage = () => {
   const handleImageClick = () => {
     fileInputRef.current.click();
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const result = await submitRequest(formData, user.user_id);
+
+    if (result.success) {
+      window.location.href = result.redirectUrl;
+    } else {
+      setErrorMessage(result.message);
+    }
+  };
+
   return (
     <section className={classes.request}>
       <div className={classes.main}>
         <h1>Request</h1>
-        <Form method="post" encType="multipart/form-data">
+        <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className={classes.inputs}>
             <div className={classes.firstHalf}>
               <div>
                 <span>
                   <label id="technicianLabel">Technician</label>
-                  <select name="request_technician" required>
+                  <select
+                    name="request_technician"
+                    value={formData.request_technician}
+                    onChange={handleChange}
+                    required
+                  >
                     <option value="Janitor">Janitor</option>
                     <option value="Electrician">Electrician</option>
                     <option value="Plumber">Plumber</option>
@@ -49,6 +85,8 @@ const RequestPage = () => {
                     type="text"
                     name="request_location"
                     placeholder="e.g. CCS Faculty Room"
+                    value={formData.request_location}
+                    onChange={handleChange}
                     required
                   />
                 </span>
@@ -62,9 +100,21 @@ const RequestPage = () => {
                   required
                 />
                 <label id="datetimeLabel">Start Date and Time</label>
-                <input type="datetime-local" name="startTime" required />
+                <input
+                  type="datetime-local"
+                  name="startTime"
+                  value={formData.startTime}
+                  onChange={handleChange}
+                  required
+                />
                 <label id="datetimeLabel">End Date and Time</label>
-                <input type="datetime-local" name="endTime" required />
+                <input
+                  type="datetime-local"
+                  name="endTime"
+                  value={formData.endTime}
+                  onChange={handleChange}
+                  required
+                />
               </div>
             </div>
             <div className={classes.secondHalf}>
@@ -74,6 +124,8 @@ const RequestPage = () => {
                   type="text"
                   name="title"
                   placeholder="e.g. Fix something."
+                  value={formData.title}
+                  onChange={handleChange}
                   required
                 />
               </span>
@@ -83,6 +135,8 @@ const RequestPage = () => {
                   type="text"
                   name="description"
                   placeholder="e.g. Clean the room."
+                  value={formData.description}
+                  onChange={handleChange}
                   required
                 ></textarea>
               </span>
@@ -113,6 +167,7 @@ const RequestPage = () => {
                       type="file"
                       id="fileInput"
                       name="attachment"
+                      value={formData.attachment}
                       onChange={handleFileChange}
                       ref={fileInputRef}
                     />
@@ -129,63 +184,26 @@ const RequestPage = () => {
               </span>
             </div>
           </div>
+          {errorMessage && (
+            <div className={classes.error}>
+              <p>
+                <span>Failed!</span> {errorMessage}
+              </p>
+              <img
+                src={closeIcon}
+                className={classes.closeIcon}
+                alt="close-icon"
+                onClick={() => setErrorMessage("")}
+              />
+            </div>
+          )}
           <button type="submit" id="submitButton" className={classes.submitBtn}>
             Submit Record
           </button>
-        </Form>
+        </form>
       </div>
     </section>
   );
 };
 
 export default RequestPage;
-
-export const action = async ({ request, params }) => {
-  const user_id = params.user_id;
-  const data = await request.formData();
-
-  const rawStartTime = data.get("startTime");
-  const formattedStartTime = new Date(rawStartTime).toISOString();
-  const rawEndTime = data.get("endTime");
-  const formattedEndTime = new Date(rawEndTime).toISOString();
-
-  const currentDateTime = new Date().toISOString();
-
-  const requestData = new FormData();
-  requestData.append("request_location", data.get("request_location"));
-  requestData.append("datetime", currentDateTime);
-  requestData.append("startTime", formattedStartTime);
-  requestData.append("endTime", formattedEndTime);
-  requestData.append("title", data.get("title"));
-  requestData.append("description", data.get("description"));
-  requestData.append("user_id", user_id);
-  requestData.append("request_technician", data.get("request_technician"));
-  requestData.append("attachment", data.get("attachment"));
-
-  for (let [key, value] of requestData.entries()) {
-    console.log(`${key}: ${value}`);
-  }
-
-  try {
-    const response = await axios.post(
-      "http://localhost:8080/request/add",
-      requestData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-
-    if (response.status !== 200) {
-      throw json({ message: "Could not create request." }, { status: 500 });
-    }
-
-    const resData = response.data;
-    console.log(resData);
-
-    return redirect(`/home/${user_id}`);
-  } catch (error) {
-    console.error(error.response);
-  }
-};

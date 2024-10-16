@@ -50,7 +50,8 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   const [formData, setFormData] = useState({
     title:"",
     description: "",
-    datetime: "",
+    startTime: "", 
+    endTime: "",   
     status: "Pending",
     user_firstname: user_firstname, 
     user_lastname: user_lastname,
@@ -104,13 +105,16 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
     setDialogMode(mode);
 
     if (mode === "edit" || mode === "view") {
-      const existingDateTime = new Date(request.datetime);
-      const formattedDateTime = existingDateTime.toISOString().slice(0, 16);
+      const existingStartTime = new Date(request.startTime);
+      const existingEndTime = new Date(request.endTime);
+      const formattedStartTime = existingStartTime.toISOString().slice(0, 16);
+      const formattedEndTime = existingEndTime.toISOString().slice(0, 16);
 
       setFormData({
         title: request.title,
         description: request.description,
-        datetime: formattedDateTime,
+        startTime: formattedStartTime,
+        endTime: formattedEndTime,
         status: request.status,
         request_location: request.request_location,
         department: request.department,
@@ -124,7 +128,8 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
       setFormData({
         title:"",
         description: "",
-        datetime: "",
+        startTime: "",
+        endTime: "",
         status: "Pending",
         request_location: "",
         department: user_department || "",
@@ -155,48 +160,53 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   };
 
   const handleAddRequest = async () => {
-    // Check for required fields
-    if (!formData.title || !formData.description || !formData.datetime || !formData.request_location || !formData.request_technician) {
+    if (!formData.title || !formData.description || !formData.startTime || !formData.endTime || !formData.request_location || !formData.request_technician) {
       setSnackbarSeverity("error");
       setSnackbarMessage("Please fill in all required fields.");
       setSnackbarOpen(true);
       return;
     }
-  
-    const selectedDate = new Date(formData.datetime);
-    if (isNaN(selectedDate.getTime())) {
+
+    const selectedStartTime = new Date(formData.startTime);
+    const selectedEndTime = new Date(formData.endTime);
+    if (isNaN(selectedStartTime.getTime()) || isNaN(selectedEndTime.getTime())) {
       setSnackbarSeverity("error");
-      setSnackbarMessage("Please enter a valid date and time.");
+      setSnackbarMessage("Please enter valid start and end times.");
       setSnackbarOpen(true);
       return;
     }
-  
-    const formattedDateTime = selectedDate.toISOString().slice(0, 19);
-  
-  
-    
-  
+
+    if (selectedStartTime >= selectedEndTime) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Start Time cannot be later than End Time.");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    const formattedStartTime = selectedStartTime.toISOString().slice(0, 19);
+    const formattedEndTime = selectedEndTime.toISOString().slice(0, 19);
+
     try {
       const requestBody = new FormData();
       requestBody.append("title", formData.title);
       requestBody.append("description", formData.description);
-      requestBody.append("datetime", formattedDateTime);
+      requestBody.append("startTime", formattedStartTime);
+      requestBody.append("endTime", formattedEndTime);
       requestBody.append("request_location", formData.request_location);
       requestBody.append("department", formData.department);
       requestBody.append("request_technician", formData.request_technician);
       requestBody.append("user_id", formData.user_id);
-  
-      // If the attachment is provided, append it to the form data
+
       if (formData.attachment) {
         requestBody.append("attachment", formData.attachment);
       }
-  
+
       const response = await axios.post("http://localhost:8080/request/add", requestBody, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
-  
+
       if (response.data) {
         setSnackbarSeverity("success");
         setSnackbarMessage("Request added successfully!");
@@ -206,7 +216,8 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
         setFormData({
           title: "",
           description: "",
-          datetime: "",
+          startTime: "",
+          endTime: "",
           request_location: "",
           department: "",
           request_technician: "",
@@ -224,6 +235,7 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
       setSnackbarOpen(true);
     }
   };
+
   
   
   const handleClosePreview = () => {
@@ -269,40 +281,47 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   
 
   const handleEditRequest = async () => {
-  
-    
-    // Check for required fields
-    if (!formData.title || !formData.description || !formData.datetime || !formData.request_location || !formData.request_technician) {
+    if (!formData.title || !formData.description || !formData.startTime || !formData.endTime || !formData.request_location || !formData.request_technician) {
       setSnackbarSeverity("error");
       setSnackbarMessage("Please fill in all required fields.");
       setSnackbarOpen(true);
       return;
     }
-  
-    const selectedDate = new Date(formData.datetime);
-    if (isNaN(selectedDate.getTime())) {
+
+    const selectedStartTime = new Date(formData.startTime);
+    const selectedEndTime = new Date(formData.endTime);
+    if (isNaN(selectedStartTime.getTime()) || isNaN(selectedEndTime.getTime())) {
       setSnackbarSeverity("error");
-      setSnackbarMessage("Please enter a valid date and time.");
+      setSnackbarMessage("Please enter valid start and end times.");
       setSnackbarOpen(true);
       return;
     }
-  
-    const formattedDateTime = selectedDate.toISOString().slice(0, 19);
-  
+
+    if (selectedStartTime >= selectedEndTime) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Start Time cannot be later than End Time.");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    const formattedStartTime = selectedStartTime.toISOString().slice(0, 19);
+    const formattedEndTime = selectedEndTime.toISOString().slice(0, 19);
+
     try {
       const requestBody = new FormData();
       requestBody.append("title", formData.title);
       requestBody.append("description", formData.description);
-      requestBody.append("datetime", formattedDateTime);
+      requestBody.append("startTime", formattedStartTime);
+      requestBody.append("endTime", formattedEndTime);
       requestBody.append("request_location", formData.request_location);
       requestBody.append("department", formData.department);
       requestBody.append("request_technician", formData.request_technician);
       requestBody.append("user_id", formData.user_id);
-  
+
       if (formData.attachment) {
         requestBody.append("attachment", formData.attachment);
       }
-  
+
       const response = await axios.put(
         `http://localhost:8080/request/update/${selectedRequest.request_id}`,
         requestBody,
@@ -312,14 +331,12 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
           },
         }
       );
-  
-      console.log("Response from Edit Request:", response.data); // Debugging log
-  
+
       if (response.data) {
         setSnackbarSeverity("success");
         setSnackbarMessage("Request updated successfully!");
         setSnackbarOpen(true);
-        fetchRequests(); // Fetch the updated requests
+        fetchRequests();
         handleCloseDialog();
       } else {
         setSnackbarSeverity("error");
@@ -327,12 +344,13 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
         setSnackbarOpen(true);
       }
     } catch (error) {
-      console.error("Error editing request:", error);
+      console.error("Error updating request:", error);
       setSnackbarSeverity("error");
       setSnackbarMessage("An error occurred while updating the request. Please try again.");
       setSnackbarOpen(true);
     }
   };
+  
   
   
   const handleFormSubmit = () => {
@@ -413,34 +431,36 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
       </div>
 
       <table className={classes.requestsTable}>
-        <thead>
-          <tr>
-            <th>Request ID</th>
-            <th>User</th>
-            <th>Title</th>
-            <th>Purpose</th>
-            <th>Date & Time</th>
-            <th>Status</th>
-            <th>Location</th>
-            <th>Department</th>
-            <th>Technician</th>
-            <th>Attachment</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedRequests.map((request) => (
-            <tr key={request.request_id}>
-              <td>{request.request_id}</td>
-              <td>{request.user_firstname} {request.user_lastname} </td>
-              <td>{request.title}</td>
-              <td>{request.description|| "N/A"}</td>
-              <td>{formatDateTime(request.datetime)}</td>
-              <td>{request.status || "N/A"}</td>
-              <td>{request.request_location || "N/A"}</td>
-              <td>{request.department || "N/A"}</td>
-              <td>{request.request_technician || "N/A"}</td>
-              <td>
+      <thead>
+        <tr>
+          <th>Request ID</th>
+          <th>User</th>
+          <th>Title</th>
+          <th>Purpose</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Status</th>
+          <th>Location</th>
+          <th>Department</th>
+          <th>Technician</th>
+          <th>Attachment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {sortedRequests.map((request) => (
+          <tr key={request.request_id}>
+            <td>{request.request_id}</td>
+            <td>{request.user_firstname} {request.user_lastname}</td>
+            <td>{request.title}</td>
+            <td>{request.description || "N/A"}</td>
+            <td>{formatDateTime(request.startTime)}</td>
+            <td>{formatDateTime(request.endTime)}</td>
+            <td>{request.status || "N/A"}</td>
+            <td>{request.request_location || "N/A"}</td>
+            <td>{request.department || "N/A"}</td>
+            <td>{request.request_technician || "N/A"}</td>
+            <td>
               {request.attachment ? (
                 <div>
                   <Button onClick={() => openPreview(request.attachment)}>Preview</Button>
@@ -556,22 +576,38 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
     readOnly: dialogMode === "view",
   }}
 />
-    <TextField
-      label="Date & Time"
-      name="datetime"
-      type="datetime-local"
-      value={formData.datetime}
-      onChange={handleFormChange}
-      fullWidth
-      required
-      margin="normal"
-      InputLabelProps={{
-        shrink: true,
-      }}
-      InputProps={{
-        readOnly: dialogMode === "view",
-      }}
-    />
+<TextField
+          label="Start Time"
+          name="startTime"
+          type="datetime-local"
+          value={formData.startTime}
+          onChange={handleFormChange}
+          fullWidth
+          required
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          InputProps={{
+            readOnly: dialogMode === "view",
+          }}
+        />
+        <TextField
+          label="End Time"
+          name="endTime"
+          type="datetime-local"
+          value={formData.endTime}
+          onChange={handleFormChange}
+          fullWidth
+          required
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+          InputProps={{
+            readOnly: dialogMode === "view",
+          }}
+        />
     <TextField
       label="Location"
       name="request_location"

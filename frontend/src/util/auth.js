@@ -32,7 +32,88 @@ export const checkAuthLoader = () => {
   return null;
 };
 
+export const submitRequest = async (formData, user_id) => {
+  const {
+    request_location,
+    startTime,
+    endTime,
+    title,
+    description,
+    request_technician,
+    attachment,
+  } = formData;
 
+  const rawStartTime = new Date(startTime);
+  const rawEndTime = new Date(endTime);
+  const currentDateTime = new Date();
+
+  if (rawStartTime < currentDateTime) {
+    return {
+      success: false,
+      message: "Start time cannot be in the past.",
+    };
+  }
+
+  if (rawEndTime < currentDateTime) {
+    return {
+      success: false,
+      message: "End time cannot be in the past.",
+    };
+  }
+
+  if (rawStartTime >= rawEndTime) {
+    return {
+      success: false,
+      message: "Start time should be earlier than end time.",
+    };
+  }
+
+  const formattedStartTime = rawStartTime.toISOString();
+  const formattedEndTime = rawEndTime.toISOString();
+  const datetime = currentDateTime.toISOString();
+
+  const requestData = {
+    request_location,
+    datetime,
+    formattedStartTime,
+    formattedEndTime,
+    title,
+    description,
+    user_id,
+    request_technician,
+    attachment,
+  };
+
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/request/add",
+      requestData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    if (response.status === 200) {
+      return {
+        success: true,
+        redirectUrl: `/home/${user_id}`,
+      };
+    } else {
+      return {
+        success: false,
+        message: "Could not create request.",
+      };
+    }
+  } catch (error) {
+    console.error(error.response);
+    return {
+      success: false,
+      message: error.response?.data || "An error occurred while submitting.",
+    };
+  }
+};
 
 export const submitRegistration = async (formData) => {
   const {
@@ -105,14 +186,17 @@ export const submitRegistration = async (formData) => {
     return { success: true };
   } catch (error) {
     console.error("Error: ", error.response?.data || error.message);
-    
+
     if (error.response && error.response.data === "Email already exists") {
       return { success: false, message: "Email already exists" };
     }
-    if (error.response && error.response.data === "Employee ID already exists") {
+    if (
+      error.response &&
+      error.response.data === "Employee ID already exists"
+    ) {
       return { success: false, message: "Employee ID already exists" };
     }
-    
+
     return { success: false, message: "Could not register user." };
   }
 };

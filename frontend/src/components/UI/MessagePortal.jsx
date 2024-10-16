@@ -5,7 +5,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 
 const MessagePortal = ({
   messageType,
-  isTechnicianAssigned,
   request_id,
   onApproveRequest,
   onRequestDone,
@@ -29,13 +28,8 @@ const MessagePortal = ({
             Notice
           </Dialog.Title>
           <Dialog.Description className={classes.DialogDescription}>
-            {isApproveMessage && (
-              <>
-                {isTechnicianAssigned
-                  ? "Are you sure you want to approve this request?"
-                  : "A technician has not yet been assigned to this request. A technician must be assigned before the request can be approved."}
-              </>
-            )}
+            {isApproveMessage &&
+              "Are you sure you want to approve this request?"}
             {isDenyMessage &&
               "Are you sure you want to deny this request? If yes, then provide a reason: "}
             {isMarkAsDoneMessage &&
@@ -58,7 +52,7 @@ const MessagePortal = ({
               gap: "1rem",
             }}
           >
-            {isTechnicianAssigned && (
+            {isApproveMessage && (
               <Dialog.Close asChild>
                 <button
                   className={classes.btnApprove}

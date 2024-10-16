@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { NavLink, json, useRouteLoaderData } from "react-router-dom";
 import SockJS from "sockjs-client";
 import inboxImage from "../../assets/chat.svg";
-import profileImg from "../../assets/profile.jpg";
+import profileImg from "../../assets/profile.svg";
 import classes from "./ChatNotification.module.css";
 
 const ChatNotification = () => {
@@ -29,6 +29,29 @@ const ChatNotification = () => {
   
     fetchUsers();
   }, []);
+
+  const getSenderDetails = (userId) => {
+    const sender = users.find(user => String(user.user_id) === String(userId));
+  
+    if (sender) {
+      console.log("Found Sender:", sender); // Log the entire sender object
+      console.log("Profile Pic:", sender.profilePicture); // Use correct property name
+      return {
+        name: `${sender.firstname} ${sender.lastname}`,
+        profilePic: sender.profilePicture, // Use correct property name
+      };
+    } else {
+      console.log("No sender found for userId:", userId); // Log if no sender is found
+      console.log("Default Profile Picture:", profileImg); // Log the default profile picture
+      return { 
+        name: userId, 
+        profilePic: profileImg 
+      };
+    }
+  };
+  
+  
+
 
   const getSenderName = (userId) => {
     const sender = users.find(user => String(user.user_id) === String(userId));
@@ -254,7 +277,7 @@ const ChatNotification = () => {
                   <img src={profileImg} className={classes.profileImg} alt="Profile" />
                   <div className={classes.parentRow}>
                     <div className={classes.childRow}>
-                    <p>{getSenderName(notification.sender)}</p>
+                    <p>{getSenderDetails(notification.sender).name}</p>
                     {notification.status !== 'READ' && (
                       <span className={classes.unreadIndicator}></span>
                     )}

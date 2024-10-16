@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 import classes from "./Record.module.css";
 import SelectArea from "../../components/UI/SelectArea";
 import { formatDateTime, loadRequestsAndTechnicians } from "../../util/auth";
@@ -12,6 +14,9 @@ const Record = () => {
   const doneRequests = requests.filter((request) => request.status === "Done");
   const { user_id } = useParams();
   const navigate = useNavigate();
+
+  const [filterType, setFilterType] = useState("All"); // Default filter is "All"
+  const [openSnackbar, setOpenSnackbar] = useState(false); // State for Snackbar
 
   const [colDefs, setColDefs] = useState([
     { field: "RequestID", flex: 1 },
@@ -38,7 +43,37 @@ const Record = () => {
     },
   ]);
 
-  const transformedRequests = doneRequests.map((request) => {
+  // Function to filter requests based on the selected time range
+  const filterRequestsByDate = (requests, filterType) => {
+    const now = new Date();
+
+    return requests.filter((request) => {
+      const requestDate = new Date(request.datetime);
+      switch (filterType) {
+        case "Today":
+          return requestDate.toDateString() === now.toDateString();
+        case "Week":
+          const startOfWeek = new Date(
+            now.setDate(now.getDate() - now.getDay())
+          );
+          return requestDate >= startOfWeek;
+        case "Month":
+          return (
+            requestDate.getMonth() === now.getMonth() &&
+            requestDate.getFullYear() === now.getFullYear()
+          );
+        case "Year":
+          return requestDate.getFullYear() === now.getFullYear();
+        case "All":
+        default:
+          return true;
+      }
+    });
+  };
+
+  const filteredRequests = filterRequestsByDate(doneRequests, filterType);
+
+  const transformedRequests = filteredRequests.map((request) => {
     return {
       RequestID: request.request_id,
       Requestor: `${request.user_firstname} ${request.user_lastname}`,
@@ -55,6 +90,11 @@ const Record = () => {
   });
 
   const exportToCSV = () => {
+    if (transformedRequests.length === 0) {
+      setOpenSnackbar(true); // Show snackbar if no records to export
+      return;
+    }
+
     const headers = Object.keys(transformedRequests[0]);
     const csvRows = [
       headers.join(","), // CSV Header
@@ -75,11 +115,27 @@ const Record = () => {
     document.body.removeChild(link);
   };
 
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
   return (
     <section className={classes.record}>
       <div className={classes.recordHeader}>
         <SelectArea header="Records" isRecords={true} />
-        <button onClick={exportToCSV}>Export</button> {/* Trigger CSV export */}
+        <div className={classes.exportArea}>
+          <select
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+          >
+            <option value="All">All</option>
+            <option value="Today">Today</option>
+            <option value="Week">This Week</option>
+            <option value="Month">This Month</option>
+            <option value="Year">This Year</option>
+          </select>
+          <button onClick={exportToCSV}>Export</button>
+        </div>
       </div>
       <div
         className="ag-theme-quartz"
@@ -87,6 +143,18 @@ const Record = () => {
       >
         <AgGridReact rowData={transformedRequests} columnDefs={colDefs} />
       </div>
+
+      {/* Snackbar component */}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2500}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: '100%' }}>
+          No records available to export.
+        </Alert>
+      </Snackbar>
     </section>
   );
 };

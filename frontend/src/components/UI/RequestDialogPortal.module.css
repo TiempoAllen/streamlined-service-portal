@@ -241,6 +241,10 @@ hr {
     box-shadow: black;
 }
 
+.InputError {
+    border: 2px solid red;
+}
+
 
 @keyframes overlayShow {
     from {

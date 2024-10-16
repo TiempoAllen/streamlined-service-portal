@@ -73,7 +73,7 @@ const TechniciansTable = () => {
 
 
         if (!isValidPhoneNumber(newTechnician.tech_phone)) {
-            alert("Please enter a valid Philippine phone number.");
+            alert("Error at Phone: Please enter a valid Philippine phone number.");
             return;
         }
     
@@ -99,7 +99,7 @@ const TechniciansTable = () => {
 
         if (!isValidPhoneNumber(newTechnician.tech_phone)) {
             setSnackbarSeverity("error");
-            setSnackbarMessage("Please enter a valid Philippine phone number.");
+            setSnackbarMessage("Error at Phone: Please enter a valid Philippine phone number.");
             setOpenSnackbar(true); 
             return;
         }

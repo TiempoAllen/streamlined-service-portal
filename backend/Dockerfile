@@ -11,8 +11,8 @@ RUN mvn dependency:go-offline
 # Copy the rest of the application code
 COPY src ./src
 
-# Package the application
-RUN mvn clean package
+# Package the application and skip tests
+RUN mvn clean package -DskipTests
 
 # Use a lightweight image to run the application
 FROM openjdk:17-jdk-slim
@@ -23,4 +23,5 @@ COPY --from=build /app/target/backend-0.0.1-SNAPSHOT.jar app.jar
 # Run the application
 ENTRYPOINT ["java", "-jar", "/app.jar"]
 
+# Expose port 8080
 EXPOSE 8080

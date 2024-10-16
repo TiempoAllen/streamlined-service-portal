@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from "react";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import {
-  IconButton,
-  Tooltip,
+  Alert,
   Button,
   Dialog,
-  DialogTitle,
-  DialogContent,
   DialogActions,
-  TextField,
-  Typography,
-  Snackbar,
-  Select,
-  MenuItem,
+  DialogContent,
+  DialogTitle,
   FormControl,
-  Alert,
+  IconButton,
   InputLabel,
+  MenuItem,
+  Select,
+  Snackbar,
+  TextField,
+  Tooltip,
+  Typography,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import axios from "axios";
-import classes from "./UsersTable.module.css"; 
+import React, { useEffect, useState } from "react";
 import { DEPT_DATA } from "../../pages/Register/department-data";
+import classes from "./UsersTable.module.css";
 
 
 const UsersTable = () => {
@@ -124,10 +124,10 @@ const UsersTable = () => {
       department: !newUser.department,
     };
   
-   
+
     setErrors(newErrors);
   
-   
+
     Object.values(newErrors).forEach((error) => {
       if (error) isValid = false;
     });
@@ -162,41 +162,40 @@ const UsersTable = () => {
       }
     }
 
-    if (newUser.password.length < 8) {
+      if (newUser.password.length < 8) {
+        setSnackbarSeverity("error");
+      setSnackbarMessage("Error at Password: Password must be at least 8 characters long.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    if (!/[A-Z]/.test(newUser.password)) {
       setSnackbarSeverity("error");
-     setSnackbarMessage("Error at Password: Password must be at least 8 characters long.");
-     setSnackbarOpen(true);
-     return;
-   }
- 
-   if (!/[A-Z]/.test(newUser.password)) {
-     setSnackbarSeverity("error");
-     setSnackbarMessage("Error at Password: Password must include at least one uppercase letter.");
-     setSnackbarOpen(true);
-     return;
-   }
- 
-   if (!/[a-z]/.test(newUser.password)) {
-     setSnackbarSeverity("error");
-     setSnackbarMessage("Error at Password: Password must include at least one lowercase letter.");
-     setSnackbarOpen(true);
-     return;
-   }
- 
-   if (!/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password)) {
-     setSnackbarSeverity("error");
-     setSnackbarMessage("Error at Password: Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
-     setSnackbarOpen(true);
-     return;
-   }
- 
-   if (!newUser.email.endsWith("@cit.edu")) {
-     setSnackbarSeverity("error");
-     setSnackbarMessage("Error at Email: Email must end with '@cit.edu'.");
-     setSnackbarOpen(true);
-     return;
-   }
->>>>>>> Justine
+      setSnackbarMessage("Error at Password: Password must include at least one uppercase letter.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    if (!/[a-z]/.test(newUser.password)) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Error at Password: Password must include at least one lowercase letter.");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password)) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Error at Password: Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
+      setSnackbarOpen(true);
+      return;
+    }
+  
+    if (!newUser.email.endsWith("@cit.edu")) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Error at Email: Email must end with '@cit.edu'.");
+      setSnackbarOpen(true);
+      return;
+    }
 
     try {
       await axios.put(`http://localhost:8080/user/updateUser?uid=${selectedUser.user_id}`, newUser);
@@ -243,7 +242,7 @@ const UsersTable = () => {
   
 
     if (newUser.password.length < 8) {
-       setSnackbarSeverity("error");
+      setSnackbarSeverity("error");
       setSnackbarMessage("Error at Password: Password must be at least 8 characters long.");
       setSnackbarOpen(true);
       return;

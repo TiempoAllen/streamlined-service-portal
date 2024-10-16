@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import classes from "./Record.module.css";
-import SelectArea from "../../components/UI/SelectArea";
-import { formatDateTime, loadRequestsAndTechnicians } from "../../util/auth";
-import { useLoaderData, useNavigate, useParams } from "react-router-dom";
-import { AgGridReact } from "ag-grid-react";
+import Snackbar from "@mui/material/Snackbar";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
+import { AgGridReact } from "ag-grid-react";
+import React, { useState } from "react";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import SelectArea from "../../components/UI/SelectArea";
+import { formatDateTime, loadRequestsAndTechnicians } from "../../util/auth";
+import classes from "./Record.module.css";
 
 const Record = () => {
   const { requests, technicians } = useLoaderData();

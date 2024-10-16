@@ -2,7 +2,9 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import HomeLayout from "./components/Layout/HomeLayout";
 import LoginLayout from "./components/Layout/LoginLayout";
-import ChatNotification, { loader as chatNotificationLoader } from "./components/UI/ChatNotification.jsx";
+import ChatNotification, {
+  loader as chatNotificationLoader,
+} from "./components/UI/ChatNotification.jsx";
 import DetailsModal from "./components/UI/DetailsModal";
 import Approval, { loader as approvalLoader } from "./pages/Approval/Approval";
 import Chat, { loader as chatLoader } from "./pages/Chat/Chat";
@@ -58,7 +60,6 @@ const router = createBrowserRouter([
         path: "request",
         element: <RequestPage />,
         loader: checkAuthLoader,
-        action: requestAction,
       },
       {
         path: "history",
@@ -102,13 +103,13 @@ const router = createBrowserRouter([
         element: <Chat />,
         loader: chatLoader,
       },
-      { 
+      {
         path: "technician",
         id: "technician",
         element: <Technician />,
         loader: technicianLoader,
       },
-      { 
+      {
         path: "chatNotification",
         id: "chatNotification",
         element: <ChatNotification />,

@@ -189,96 +189,94 @@ const RequestDialogPortal = ({
                 />
               </fieldset>
               <fieldset className={classes.Fieldset}>
-                <label className={classes.Label} htmlFor="name">
-                  Technician Assigned
-                </label>
-                <div className={classes.techAssignedInput}>
-                  {techAssigned ? (
-                    <>
-                      {technicians && technicians.length > 0 ? (
-                        <>
-                          <input
-                            className={classes.Input}
-                            id="techAssigned"
-                            value={
-                              technicians.find(
-                                (tech) => tech.tech_id === techAssigned
-                              )?.tech_name || "Unknown Technician"
-                            }
-                            disabled
-                          />
-                          <span
-                            onClick={() => removeTechnician(request.request_id)}
-                          >
-                            <DeleteIcon
-                              sx={{
-                                padding: "0.50rem",
-                                border: "solid 1px #631c21",
-                                color: "#ffffff",
-                                backgroundColor: "#631c21",
-                                cursor: "pointer",
-                              }}
-                            />
-                          </span>
-                        </>
-                      ) : (
-                        <input
-                          className={classes.Input}
-                          id="techAssigned"
-                          value="Technician Not Found"
-                          disabled
-                        />
-                      )}
-                    </>
-                  ) : (
-                    <>
-                      <Dialog.Root>
-                        <Dialog.Trigger asChild>
-                          <AddIcon
-                            sx={{
-                              padding: "0.50rem",
-                              border: "solid 1px #631c21",
-                              color: "#ffffff",
-                              backgroundColor: "#631c21",
-                              cursor: "pointer",
-                            }}
-                          />
-                        </Dialog.Trigger>
-                        <TechnicianPortal
-                          isTimeConflict={isTimeConflict}
-                          timeConflictError={timeConflictError}
-                          technicians={technicians}
-                          request={request}
-                          onAssignTechnicianToRequest={(
-                            request_id,
-                            tech_id,
-                            startTime,
-                            endTime
-                          ) => {
-                            handleAssignTechnicianToRequest(
-                              request_id,
-                              tech_id,
-                              startTime,
-                              endTime,
-                              () => {
-                                document
-                                  .querySelector('button[aria-label="Close"]')
-                                  .click();
-                              }
-                            );
-                          }}
-                        />
-                      </Dialog.Root>
-                      <input
-                        className={classes.Input}
-                        id="techAssigned"
-                        value="None"
-                        disabled
-                      />
-                    </>
-                  )}
-                </div>
-              </fieldset>
+  <label className={classes.Label} htmlFor="name">
+    Technician Assigned
+  </label>
+  <div className={classes.techAssignedInput}>
+    {techAssigned ? (
+      <>
+        {technicians && technicians.length > 0 ? (
+          <>
+            <input
+              className={`${classes.Input} ${techAssigned ? "" : classes.InputError}`}
+              id="techAssigned"
+              value={
+                technicians.find((tech) => tech.tech_id === techAssigned)
+                  ?.tech_name || "Unknown Technician"
+              }
+              disabled
+            />
+            <span onClick={() => removeTechnician(request.request_id)}>
+              <DeleteIcon
+                sx={{
+                  padding: "0.50rem",
+                  border: "solid 1px #631c21",
+                  color: "#ffffff",
+                  backgroundColor: "#631c21",
+                  cursor: "pointer",
+                }}
+              />
+            </span>
+          </>
+        ) : (
+          <input
+            className={`${classes.Input} ${techAssigned ? "" : classes.InputError}`}
+            id="techAssigned"
+            value="Technician Not Found"
+            disabled
+          />
+        )}
+      </>
+    ) : (
+      <>
+        <Dialog.Root>
+          <Dialog.Trigger asChild>
+            <AddIcon
+              sx={{
+                padding: "0.50rem",
+                border: "solid 1px #631c21",
+                color: "#ffffff",
+                backgroundColor: "#631c21",
+                cursor: "pointer",
+              }}
+            />
+          </Dialog.Trigger>
+          <TechnicianPortal
+            isTimeConflict={isTimeConflict}
+            timeConflictError={timeConflictError}
+            technicians={technicians}
+            request={request}
+            onAssignTechnicianToRequest={(
+              request_id,
+              tech_id,
+              startTime,
+              endTime
+            ) => {
+              handleAssignTechnicianToRequest(
+                request_id,
+                tech_id,
+                startTime,
+                endTime,
+                () => {
+                  document
+                    .querySelector('button[aria-label="Close"]')
+                    .click();
+                }
+              );
+            }}
+          />
+        </Dialog.Root>
+        <input
+          className={`${classes.Input} ${!techAssigned ? classes.InputError : ""}`}
+          id="techAssigned"
+          value="None"
+          disabled
+        />
+      </>
+    )}
+  </div>
+</fieldset>
+
               <fieldset className={classes.Fieldset}>
                 <label className={classes.Label} htmlFor="name">
                   Date and Time Requested

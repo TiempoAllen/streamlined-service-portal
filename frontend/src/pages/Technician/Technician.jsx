@@ -60,7 +60,7 @@ const Technician = () => {
 
   return (
     <section className={classes.technician}>
-      <SelectArea header="Technicians" />
+      <SelectArea header="Technicians" isRecords={true} />
       <div className={classes.mainContent}>
         <div
           className="ag-theme-quartz"

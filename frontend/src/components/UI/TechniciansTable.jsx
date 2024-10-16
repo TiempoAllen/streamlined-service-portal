@@ -15,6 +15,7 @@ const TechniciansTable = () => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [openSnackbar, setOpenSnackbar] = useState(false); 
     const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+    const [searchQuery, setSearchQuery] = useState(""); 
     const [newTechnician, setNewTechnician] = useState({
         tech_name: '',
         tech_phone: '',
@@ -73,7 +74,7 @@ const TechniciansTable = () => {
 
 
         if (!isValidPhoneNumber(newTechnician.tech_phone)) {
-            alert("Please enter a valid Philippine phone number.");
+            alert("Error at Phone: Please enter a valid Philippine phone number.");
             return;
         }
     
@@ -99,7 +100,7 @@ const TechniciansTable = () => {
 
         if (!isValidPhoneNumber(newTechnician.tech_phone)) {
             setSnackbarSeverity("error");
-            setSnackbarMessage("Please enter a valid Philippine phone number.");
+            setSnackbarMessage("Error at Phone: Please enter a valid Philippine phone number.");
             setOpenSnackbar(true); 
             return;
         }
@@ -129,7 +130,25 @@ const TechniciansTable = () => {
         }
     };
 
-    const sortedTech = technicians.sort((a, b) => a.tech_id - b.tech_id);
+    const sortedTech = (technicians || []).sort((a, b) => a.tech_id - b.tech_id);
+
+    const filteredTech = sortedTech.filter(technician => {
+
+      const name = technician.tech_name || ''; 
+      const phone = technician.tech_phone || '';
+      const classification = technician.tech_classification || '';
+      const gender = technician.tech_gender || '';
+    
+      const lowerSearchQuery = searchQuery.toLowerCase();
+    
+      return (
+        name.toLowerCase().includes(lowerSearchQuery) ||
+        phone.toLowerCase().includes(lowerSearchQuery) ||
+        classification.toLowerCase().includes(lowerSearchQuery) ||
+        gender.toLowerCase().includes(lowerSearchQuery)
+      );
+    });
+    
 
     return (
         <div>
@@ -151,6 +170,14 @@ const TechniciansTable = () => {
                     </IconButton>
                 </Tooltip>
             </div>
+            <TextField
+        label="Search Bar"
+        variant="outlined"
+        size="small"
+        onChange={(e) => setSearchQuery(e.target.value)}
+        value={searchQuery}
+        style={{ marginBottom: '1rem', width:"300px", backgroundColor:"white",border:"1px solid blue" }}
+      />
             <table className={classes.technicianstable}>
                 <thead>
                     <tr>
@@ -163,7 +190,7 @@ const TechniciansTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {sortedTech.map((technician) => (
+                    {filteredTech.map((technician) => (
                         <tr key={technician.tech_id}>
                             <td>{technician.tech_id}</td>
                             <td>{technician.tech_name}</td>

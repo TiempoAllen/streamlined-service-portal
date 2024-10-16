@@ -49,6 +49,10 @@ input {
     inset: 0;
     animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
 }
+.InputError {
+    border: 1px solid red;
+  }
+  
 
 .TechnicianDialogContent {
     background-color: white;
@@ -239,6 +243,10 @@ hr {
 
 .Input:focus {
     box-shadow: black;
+}
+
+.InputError {
+    border: 2px solid red;
 }
 
 

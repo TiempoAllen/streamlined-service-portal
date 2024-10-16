@@ -31,7 +31,17 @@ const UsersTable = () => {
   const [openForm, setOpenForm] = useState(false);
   const [newUser, setNewUser] = useState({});
   const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); 
 
+  const [errors, setErrors] = useState({
+    username: false,
+    password: false,
+    firstname: false,
+    lastname: false,
+    employee_id: false,
+    email: false,
+    department: false,
+  });
   
   // Snackbar state
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -66,10 +76,27 @@ const UsersTable = () => {
         department: user.department,
       });
     } else if (mode === "view") {
-      setNewUser(user);  
+      setNewUser(user);
     } else {
-      setNewUser({ username: '', password: '', firstname: '', lastname: '', employee_id: '', email: '', department: '' });
+      setNewUser({
+        username: "",
+        password: "",
+        firstname: "",
+        lastname: "",
+        employee_id: "",
+        email: "",
+        department: "",
+      });
     }
+    setErrors({
+      username: false,
+      password: false,
+      firstname: false,
+      lastname: false,
+      employee_id: false,
+      email: false,
+      department: false,
+    });
     setOpenForm(true);
   };
 
@@ -78,7 +105,35 @@ const UsersTable = () => {
     setOpenForm(false);
   };
 
-
+  const validateFields = () => {
+    let isValid = true;
+  
+    const newErrors = {
+      username: !newUser.username,
+      password:
+        !newUser.password ||
+        newUser.password.length < 8 ||
+        !/[A-Z]/.test(newUser.password) ||
+        !/[a-z]/.test(newUser.password) ||
+        !/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password),
+      firstname: !newUser.firstname,
+      lastname: !newUser.lastname,
+      employee_id: !newUser.employee_id || users.some((user) => user.employee_id === newUser.employee_id),
+      email:
+        !newUser.email.endsWith("@cit.edu"),
+      department: !newUser.department,
+    };
+  
+   
+    setErrors(newErrors);
+  
+   
+    Object.values(newErrors).forEach((error) => {
+      if (error) isValid = false;
+    });
+  
+    return isValid;
+  };
 
   const handleDeleteUser = async () => {
     try {
@@ -97,50 +152,13 @@ const UsersTable = () => {
 
   const handleEditUser = async () => {
 
-    if (newUser.employee_id !== selectedUser.employee_id) {
-      const employeeIdExists = users.some((user) => user.employee_id === newUser.employee_id);
-      if (employeeIdExists) {
-        setSnackbarSeverity("error");
-        setSnackbarMessage("Employee ID already exists.");
-        setSnackbarOpen(true);
-        return;
-      }
+    if (!validateFields()) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Please fix the errors in the form.");
+      setSnackbarOpen(true);
+      return;
     }
 
-    if (newUser.password.length < 8) {
-      setSnackbarSeverity("error");
-     setSnackbarMessage("Password must be at least 8 characters long.");
-     setSnackbarOpen(true);
-     return;
-   }
- 
-   if (!/[A-Z]/.test(newUser.password)) {
-     setSnackbarSeverity("error");
-     setSnackbarMessage("Password must include at least one uppercase letter.");
-     setSnackbarOpen(true);
-     return;
-   }
- 
-   if (!/[a-z]/.test(newUser.password)) {
-     setSnackbarSeverity("error");
-     setSnackbarMessage("Password must include at least one lowercase letter.");
-     setSnackbarOpen(true);
-     return;
-   }
- 
-   if (!/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password)) {
-     setSnackbarSeverity("error");
-     setSnackbarMessage("Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
-     setSnackbarOpen(true);
-     return;
-   }
- 
-   if (!newUser.email.endsWith("@cit.edu")) {
-     setSnackbarSeverity("error");
-     setSnackbarMessage("Email must end with '@cit.edu'.");
-     setSnackbarOpen(true);
-     return;
-   }
 
     try {
       await axios.put(`http://localhost:8080/user/updateUser?uid=${selectedUser.user_id}`, newUser);
@@ -160,6 +178,13 @@ const UsersTable = () => {
   };
 
   const handleAddUser = async () => {
+
+    if (!validateFields()) {
+      setSnackbarSeverity("error");
+      setSnackbarMessage("Please fix the errors in the form.");
+      setSnackbarOpen(true);
+      return;
+    }
     
     if (!newUser.username || !newUser.password || !newUser.firstname || !newUser.lastname || !newUser.employee_id || !newUser.email || !newUser.department) {
       setSnackbarSeverity("error");
@@ -167,52 +192,7 @@ const UsersTable = () => {
       setSnackbarOpen(true);
       return;
     }
-
-    if (newUser.employee_id !== selectedUser.employee_id) {
-      const employeeIdExists = users.some((user) => user.employee_id === newUser.employee_id);
-      if (employeeIdExists) {
-        setSnackbarSeverity("error");
-        setSnackbarMessage("Employee ID already exists.");
-        setSnackbarOpen(true);
-        return;
-      }
-    }
-  
-
-    if (newUser.password.length < 8) {
-       setSnackbarSeverity("error");
-      setSnackbarMessage("Password must be at least 8 characters long.");
-      setSnackbarOpen(true);
-      return;
-    }
-  
-    if (!/[A-Z]/.test(newUser.password)) {
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Password must include at least one uppercase letter.");
-      setSnackbarOpen(true);
-      return;
-    }
-  
-    if (!/[a-z]/.test(newUser.password)) {
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Password must include at least one lowercase letter.");
-      setSnackbarOpen(true);
-      return;
-    }
-  
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password)) {
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
-      setSnackbarOpen(true);
-      return;
-    }
-  
-    if (!newUser.email.endsWith("@cit.edu")) {
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Email must end with '@cit.edu'.");
-      setSnackbarOpen(true);
-      return;
-    }
+    
   
     try {
       // Proceed with adding the user if all validations pass
@@ -239,6 +219,15 @@ const UsersTable = () => {
 
   const sortedUsers = users.sort((a, b) => a.user_id - b.user_id);
 
+  const filteredUsers = sortedUsers.filter(user =>
+    user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.lastname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())||
+    user.employee_id.toLowerCase().includes(searchQuery.toLowerCase())||
+    user.department.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -257,7 +246,16 @@ const UsersTable = () => {
             <AddCircleIcon />
           </IconButton>
         </Tooltip>
+        
       </div>
+      <TextField
+        label="Search Bar"
+        variant="outlined"
+        size="small"
+        onChange={(e) => setSearchQuery(e.target.value)}
+        value={searchQuery}
+        style={{ marginBottom: '1rem', width:"300px", backgroundColor:"white",border:"1px solid blue" }}
+      />
       <table className={classes.userstable}>
         <thead>
           <tr>
@@ -273,7 +271,7 @@ const UsersTable = () => {
           </tr>
         </thead>
         <tbody>
-          {sortedUsers.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user.user_id}>
               <td>{user.user_id}</td>
               <td>{user.username}</td>
@@ -353,13 +351,15 @@ const UsersTable = () => {
             </div>
         ) :  dialogMode !== "delete" ? (
             <>
-              <TextField
+                    <TextField
                 label="Username"
                 fullWidth
                 value={newUser.username || ""}
                 onChange={(e) => setNewUser({ ...newUser, username: e.target.value })}
                 margin="normal"
                 disabled={dialogMode === "view"}
+                error={errors.username}
+                helperText={errors.username ? "Username is required" : ""}
               />
               <TextField
                 label="Password"
@@ -369,6 +369,12 @@ const UsersTable = () => {
                 margin="normal"
                 type="password"
                 disabled={dialogMode === "view"}
+                error={errors.password}
+                helperText={
+                  errors.password
+                    ? "Password must be at least 8 characters, include uppercase, lowercase, and a special character."
+                    : ""
+                }
               />
               <TextField
                 label="First Name"
@@ -377,6 +383,8 @@ const UsersTable = () => {
                 onChange={(e) => setNewUser({ ...newUser, firstname: e.target.value })}
                 margin="normal"
                 disabled={dialogMode === "view"}
+                error={errors.firstname}
+                helperText={errors.firstname ? "First name is required" : ""}
               />
               <TextField
                 label="Last Name"
@@ -385,6 +393,8 @@ const UsersTable = () => {
                 onChange={(e) => setNewUser({ ...newUser, lastname: e.target.value })}
                 margin="normal"
                 disabled={dialogMode === "view"}
+                error={errors.lastname}
+                helperText={errors.lastname ? "Last name is required" : ""}
               />
               <TextField
                 label="Employee ID"
@@ -393,6 +403,8 @@ const UsersTable = () => {
                 onChange={(e) => setNewUser({ ...newUser, employee_id: e.target.value })}
                 margin="normal"
                 disabled={dialogMode === "view"}
+                error={errors.employee_id}
+                helperText={errors.employee_id ? "Employee ID is required or already exists" : ""}
               />
               <TextField
                 label="Email"
@@ -401,8 +413,10 @@ const UsersTable = () => {
                 onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
                 margin="normal"
                 disabled={dialogMode === "view"}
+                error={errors.email}
+                helperText={errors.email ? "Email must end with '@cit.edu'" : ""}
               />
-              <FormControl fullWidth margin="normal" disabled={dialogMode === "view"}>
+              <FormControl fullWidth margin="normal" disabled={dialogMode === "view"} error={errors.department}>
                 <InputLabel id="department-label">Department</InputLabel>
                 <Select
                   labelId="department-label"
@@ -410,11 +424,16 @@ const UsersTable = () => {
                   onChange={(e) => setNewUser({ ...newUser, department: e.target.value })}
                 >
                   {DEPT_DATA.map((dept) => (
-                    <MenuItem key={dept.id} value={dept.name}>
+                    <MenuItem key={dept.code} value={dept.name}>
                       {dept.name}
                     </MenuItem>
                   ))}
                 </Select>
+                {errors.department && (
+                  <Typography variant="caption" color="error">
+                    Department is required.
+                  </Typography>
+                )}
               </FormControl>
             </>
           ) : (

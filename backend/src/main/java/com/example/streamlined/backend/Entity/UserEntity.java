@@ -41,6 +41,10 @@ public class UserEntity {
     @Column(name = "isadmin")
     private Boolean isadmin = false;
 
+    @Column(name = "isSuperUser") 
+    private Boolean isSuperUser = false;
+
+
     @Column(name = "profile_picture")
     private byte[] profilePicture;
 
@@ -48,7 +52,7 @@ public class UserEntity {
     }
 
     public UserEntity(Long user_id, String username, String firstname, String lastname, String password,
-			String employee_id, String email, String department, Boolean isadmin, byte[] profilePicture) {
+			String employee_id, String email, String department, Boolean isadmin, byte[] profilePicture,  Boolean isSuperUser) {
 		super();
 		this.userId = user_id;
 		this.username = username;
@@ -60,6 +64,7 @@ public class UserEntity {
 		this.department = department;
 		this.isadmin = isadmin;
         this.profilePicture = profilePicture;
+        this.isSuperUser = isSuperUser;
 	}
 
 	public Long getUser_id() {
@@ -97,6 +102,10 @@ public class UserEntity {
     public Boolean getIsadmin() {
         return isadmin;
     }
+    public Boolean getIsSuperUser() { 
+        return isSuperUser;
+    }
+
 
     public byte[] getProfilePicture(){
         return profilePicture;
@@ -136,7 +145,13 @@ public class UserEntity {
 
     public void setIsadmin(Boolean isadmin) {
         this.isadmin = isadmin;
+    
     }
+
+    public void setIsSuperUser(Boolean isSuperUser) {
+        this.isSuperUser = isSuperUser;
+    }
+
 
     public void setProfilePicture(byte[] profilePicture){
         this.profilePicture = profilePicture;

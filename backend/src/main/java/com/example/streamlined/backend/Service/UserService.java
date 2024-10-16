@@ -108,6 +108,24 @@ public class UserService {
 			return urepo.save(user);
 		}
 	}
+
+	public boolean updatePassword(int userId, String oldPassword, String newPassword) {
+        // Fetch the user by userId
+        UserEntity user = urepo.findById(userId).orElse(null);
+        if (user == null) {
+            return false; // User not found
+        }
+
+        // Check if the old password matches
+        if (!user.getPassword().equals(oldPassword)) {
+            return false; // Old password does not match
+        }
+
+        // Update the password
+        user.setPassword(newPassword);
+        urepo.save(user);
+        return true; // Password updated successfully
+    }
 	
 	public String deleteUser (int user_id) {
 		String msg = "";

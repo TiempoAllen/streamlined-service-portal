@@ -100,6 +100,25 @@ public class UserController {
         }
     }
 
+    @PutMapping("/updatePassword/{userId}")
+    public ResponseEntity<String> updatePassword(
+            @PathVariable int userId,
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword) {
+        
+        System.out.println("User ID: " + userId);
+        System.out.println("Old Password: " + oldPassword);
+        System.out.println("New Password: " + newPassword);
+    
+        boolean isUpdated = userv.updatePassword(userId, oldPassword, newPassword);
+        if (isUpdated) {
+            return ResponseEntity.ok("Password updated successfully.");
+        } else {
+            return ResponseEntity.badRequest().body("Failed to update password. Please check your old password.");
+        }
+    }
+    
+
     @PostMapping("/uploadProfilePicture/{userId}")
     public ResponseEntity<String> uploadProfilePicture(@PathVariable int userId, @RequestParam("file") MultipartFile file) {
         UserEntity user = urepo.findById(userId)

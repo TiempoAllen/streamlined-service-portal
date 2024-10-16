@@ -84,6 +84,8 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
   const [previewFileType, setPreviewFileType] = useState('');
   const [filename, setFilename] = useState(''); // Add this line
 
+  const [searchQuery, setSearchQuery] = useState(""); 
+
   const fetchRequests = async () => {
     try {
       const response = await axios.get("http://localhost:8080/request/getAllRequest");
@@ -407,7 +409,37 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
 };
 
 
-  const sortedRequests = requests.sort((a, b) => a.request_id - b.request_id);
+
+
+const sortedRequests = (requests || []).sort((a, b) => a.request_id - b.request_id);
+
+const filteredRequests = sortedRequests.filter(request => {
+ 
+  const firstname = request.user_firstname || ''; 
+  const lastname = request.user_lastname || '';
+  const title = request.title || '';
+  const description = request.description || '';
+  const location = request.request_location || '';
+  const startTime = request.startTime || '';
+  const endTime = request.endTime || '';
+  const technician = request.request_technician || '';
+  const status = request.status || '';
+
+  const lowerSearchQuery = searchQuery.toLowerCase();
+
+  return (
+    firstname.toLowerCase().includes(lowerSearchQuery) ||
+    lastname.toLowerCase().includes(lowerSearchQuery) ||
+    title.toLowerCase().includes(lowerSearchQuery) ||
+    description.toLowerCase().includes(lowerSearchQuery) ||
+    location.toLowerCase().includes(lowerSearchQuery) ||
+    startTime.toLowerCase().includes(lowerSearchQuery) ||
+    endTime.toLowerCase().includes(lowerSearchQuery) ||
+    status.toLowerCase().includes(lowerSearchQuery) ||
+    technician.toLowerCase().includes(lowerSearchQuery)
+  );
+});
+
 
   return (
     <div>
@@ -429,6 +461,14 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
           </IconButton>
         </Tooltip>
       </div>
+      <TextField
+        label="Search Bar"
+        variant="outlined"
+        size="small"
+        onChange={(e) => setSearchQuery(e.target.value)}
+        value={searchQuery}
+        style={{ marginBottom: '1rem', width:"300px", backgroundColor:"white",border:"1px solid blue" }}
+      />
 
       <table className={classes.requestsTable}>
       <thead>
@@ -448,7 +488,7 @@ const RequestsTable = ({ user_id , user_department, user_firstname, user_lastnam
         </tr>
       </thead>
       <tbody>
-        {sortedRequests.map((request) => (
+        {filteredRequests.map((request) => (
           <tr key={request.request_id}>
             <td>{request.request_id}</td>
             <td>{request.user_firstname} {request.user_lastname}</td>

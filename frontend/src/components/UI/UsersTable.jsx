@@ -31,6 +31,7 @@ const UsersTable = () => {
   const [openForm, setOpenForm] = useState(false);
   const [newUser, setNewUser] = useState({});
   const [users, setUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); 
 
   const [errors, setErrors] = useState({
     username: false,
@@ -191,52 +192,7 @@ const UsersTable = () => {
       setSnackbarOpen(true);
       return;
     }
-
-    if (newUser.employee_id !== selectedUser.employee_id) {
-      const employeeIdExists = users.some((user) => user.employee_id === newUser.employee_id);
-      if (employeeIdExists) {
-        setSnackbarSeverity("error");
-        setSnackbarMessage("Error at Employee ID: Employee ID already exists.");
-        setSnackbarOpen(true);
-        return;
-      }
-    }
-  
-
-    if (newUser.password.length < 8) {
-       setSnackbarSeverity("error");
-      setSnackbarMessage("Error at Password: Password must be at least 8 characters long.");
-      setSnackbarOpen(true);
-      return;
-    }
-  
-    if (!/[A-Z]/.test(newUser.password)) {
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Error at Password: Password must include at least one uppercase letter.");
-      setSnackbarOpen(true);
-      return;
-    }
-  
-    if (!/[a-z]/.test(newUser.password)) {
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Error at Password:Password must include at least one lowercase letter.");
-      setSnackbarOpen(true);
-      return;
-    }
-  
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(newUser.password)) {
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Error at Password: Password must include at least one special character (e.g., !, @, #, $, %, ^, &, *).");
-      setSnackbarOpen(true);
-      return;
-    }
-  
-    if (!newUser.email.endsWith("@cit.edu")) {
-      setSnackbarSeverity("error");
-      setSnackbarMessage("Error at Email: Email must end with '@cit.edu'.");
-      setSnackbarOpen(true);
-      return;
-    }
+    
   
     try {
       // Proceed with adding the user if all validations pass
@@ -263,6 +219,15 @@ const UsersTable = () => {
 
   const sortedUsers = users.sort((a, b) => a.user_id - b.user_id);
 
+  const filteredUsers = sortedUsers.filter(user =>
+    user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.firstname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.lastname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchQuery.toLowerCase())||
+    user.employee_id.toLowerCase().includes(searchQuery.toLowerCase())||
+    user.department.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -281,7 +246,16 @@ const UsersTable = () => {
             <AddCircleIcon />
           </IconButton>
         </Tooltip>
+        
       </div>
+      <TextField
+        label="Search Bar"
+        variant="outlined"
+        size="small"
+        onChange={(e) => setSearchQuery(e.target.value)}
+        value={searchQuery}
+        style={{ marginBottom: '1rem', width:"300px", backgroundColor:"white",border:"1px solid blue" }}
+      />
       <table className={classes.userstable}>
         <thead>
           <tr>
@@ -297,7 +271,7 @@ const UsersTable = () => {
           </tr>
         </thead>
         <tbody>
-          {sortedUsers.map((user) => (
+          {filteredUsers.map((user) => (
             <tr key={user.user_id}>
               <td>{user.user_id}</td>
               <td>{user.username}</td>
